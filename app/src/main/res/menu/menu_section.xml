@@ -5,12 +5,14 @@
         android:title="My Profile"
         android:onClick="openProfile"/>
 
+
     <item android:id="@+id/home"
         android:title="Find Run"
         android:onClick="openHome"/>
 
+
     <item android:id="@+id/about"
         android:title="About PaceX"
-        android:onClick="openAbout" />
+        android:onClick="openAbout"/>
 
 </menu>
