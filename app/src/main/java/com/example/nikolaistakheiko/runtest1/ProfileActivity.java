@@ -23,15 +23,14 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void openProfile(MenuItem item){
-        Toast.makeText(this, "test1", Toast.LENGTH_SHORT).show();
+        mDrawerLayout2.closeDrawer(Gravity.LEFT);
     }
 
     public void openHome(MenuItem item) {
-        Toast.makeText(this, "test2", Toast.LENGTH_SHORT).show();
         finish();
     }
+
     public void openAbout(MenuItem item){
-        mDrawerLayout2.closeDrawer(Gravity.LEFT);
     }
 
     private void buttonSetUp() {

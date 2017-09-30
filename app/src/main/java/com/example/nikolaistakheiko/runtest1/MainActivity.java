@@ -1,6 +1,7 @@
 package com.example.nikolaistakheiko.runtest1;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,14 @@ public class MainActivity extends AppCompatActivity {
     public void openProfile(MenuItem item){
         Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivity(profileIntent);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        }, 1000);
     }
 
     public void openHome(MenuItem item) {
@@ -34,6 +43,14 @@ public class MainActivity extends AppCompatActivity {
     public void openAbout(MenuItem item){
         Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
         startActivity(aboutIntent);
+        final Handler handler2 = new Handler();
+        handler2.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        }, 1000);
     }
 
     private void setUpButton() {
