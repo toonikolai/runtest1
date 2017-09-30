@@ -2,12 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/profile"
-        android:title="My Profile" />
+        android:title="My Profile"
+        android:onClick="openProfile"/>
 
     <item android:id="@+id/home"
-        android:title="Find Run" />
+        android:title="Find Run"
+        android:onClick="openHome"/>
 
     <item android:id="@+id/about"
-        android:title="About PaceX" />
+        android:title="About PaceX"
+        android:onClick="openAbout" />
 
 </menu>
