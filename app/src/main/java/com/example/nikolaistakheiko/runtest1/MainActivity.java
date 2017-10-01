@@ -126,17 +126,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onCameraMoveCanceled() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.boxOverMap);
         layout.setVisibility(View.VISIBLE);
+        Button run = (Button) findViewById(R.id.runButton);
+        run.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onCameraMoveStarted(int i) {
         LinearLayout layout = (LinearLayout) findViewById(R.id.boxOverMap);
         layout.setVisibility(View.INVISIBLE);
+        Button run = (Button) findViewById(R.id.runButton);
+        run.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onCameraIdle() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.boxOverMap);
         layout.setVisibility(View.VISIBLE);
+        Button run = (Button) findViewById(R.id.runButton);
+        run.setVisibility(View.VISIBLE);
     }
 }
