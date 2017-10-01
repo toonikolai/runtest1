@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -21,10 +22,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener {
 
     private DrawerLayout mDrawerLayout;
-    GoogleMap mGoogleMap;
+    private GoogleMap mGoogleMap;
 
 
 
@@ -111,5 +112,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 monotone
         );
         mGoogleMap.setMapStyle(style);
+        mGoogleMap.setOnCameraMoveListener(this);
+        mGoogleMap.setOnCameraMoveCanceledListener(this);
+        mGoogleMap.setOnCameraMoveStartedListener(this);
+        mGoogleMap.setOnCameraIdleListener(this);
+    }
+
+    @Override
+    public void onCameraMove() {
+    }
+
+    @Override
+    public void onCameraMoveCanceled() {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.boxOverMap);
+        layout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onCameraMoveStarted(int i) {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.boxOverMap);
+        layout.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onCameraIdle() {
+        LinearLayout layout = (LinearLayout) findViewById(R.id.boxOverMap);
+        layout.setVisibility(View.VISIBLE);
     }
 }
