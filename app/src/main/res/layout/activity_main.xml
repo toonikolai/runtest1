@@ -11,6 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <fragment
+            android:id="@+id/mapFragment"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/runButton"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/mainMenuButton" />
+
         <Button
             android:id="@+id/mainMenuButton"
             style="@style/Widget.AppCompat.Button.Borderless"
@@ -42,7 +52,8 @@
             android:layout_marginRight="10dp"
             android:layout_below="@+id/mainMenuButton"
             android:background="@drawable/background_with_shadow"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:id="@+id/linearLayout">
 
             <TextView
                 android:id="@+id/mainLabel3"
@@ -81,6 +92,7 @@
                 android:layout_marginBottom="4dp"/>
 
         </LinearLayout>
+
 
     </RelativeLayout>
     

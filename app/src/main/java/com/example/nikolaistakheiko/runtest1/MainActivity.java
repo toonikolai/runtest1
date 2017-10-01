@@ -1,5 +1,6 @@
 package com.example.nikolaistakheiko.runtest1;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
@@ -11,17 +12,50 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private DrawerLayout mDrawerLayout;
+    GoogleMap mGoogleMap;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        setUpButton();
+        if(googleServicesAvailable()) {
+            Toast.makeText(this, "Connected to play services", Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.activity_main);
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            setUpButton();
+            initMap();
+        } else {
+            Toast.makeText(this, "No G-maps layout", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void initMap() {
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment);
+        mapFragment.getMapAsync(this);
+    }
+
+    public boolean googleServicesAvailable() {
+        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
+        int isAvailable = api.isGooglePlayServicesAvailable(this);
+        if(isAvailable == ConnectionResult.SUCCESS) {
+            return true;
+        } else if (api.isUserResolvableError(isAvailable)){
+            Dialog dialog = api.getErrorDialog(this, isAvailable, 0);
+            dialog.show();
+        } else {
+            Toast.makeText(this, "Cant connect to play services", Toast.LENGTH_SHORT).show();
+        }
+        return false;
     }
 
     public void openProfile(MenuItem item){
@@ -62,5 +96,10 @@ public class MainActivity extends AppCompatActivity {
             mDrawerLayout.openDrawer(Gravity.LEFT);
         }
     });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
     }
 }
