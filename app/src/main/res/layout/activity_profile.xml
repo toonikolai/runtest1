@@ -24,7 +24,6 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/menu_symbol" />
 
-        </FrameLayout>
         <!--<ImageView-->
             <!--android:id="@+id/imageView"-->
             <!--android:layout_width="match_parent"-->
@@ -42,7 +41,7 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/circle_crop">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/LayoutName"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
@@ -67,6 +66,7 @@
                     android:id="@+id/frame"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
+                    android:layout_below="@+id/ProfileTitle"
                     android:layout_alignTop="@+id/pic"
                     android:layout_centerHorizontal="true">
 
@@ -75,7 +75,7 @@
                         android:layout_width="150dp"
                         android:layout_height="150dp"
                         android:layout_alignStart="@+id/frame"
-                        android:layout_below="@+id/profilebutton2"
+                        android:layout_below="@+id/ProfileTitle"
                         android:layout_weight="0.33"
                         android:src="@drawable/landscape" />
 
@@ -92,6 +92,7 @@
                     android:id="@+id/NameLabel"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    android:layout_below="@+id/frame"
                     android:text="Name"
                     android:textSize="24sp" />
 
@@ -99,6 +100,7 @@
                     android:id="@+id/Name"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_below="@+id/NameLabel"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:selectAllOnFocus="false"
@@ -109,6 +111,7 @@
                     android:id="@+id/AgeLabel"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    android:layout_below="@+id/Name"
                     android:text="Age"
                     android:textSize="24sp" />
 
@@ -116,6 +119,7 @@
                     android:id="@+id/Age"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_below="@+id/AgeLabel"
                     android:ems="10"
                     android:inputType="number"
                     android:textSize="20sp" />
@@ -124,92 +128,109 @@
                     android:id="@+id/GenderLabel"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    android:layout_below="@+id/Age"
                     android:text="Gender"
                     android:textSize="24sp" />
 
                 <Spinner
                     android:id="@+id/Gender"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/GenderLabel"/>
 
                 <TextView
                     android:id="@+id/RunPartnerLabel"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    android:layout_below="@+id/Gender"
                     android:text="Who Do You Want To Run With?"
                     android:textSize="24sp" />
 
                 <Spinner
                     android:id="@+id/RunPartner"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/RunPartnerLabel"/>
 
                 <TextView
                     android:id="@+id/TerrainLabel"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_below="@+id/RunPartner"
                     android:text="Terrain"
                     android:textSize="24sp" />
 
                 <Spinner
                     android:id="@+id/Terrain"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/TerrainLabel"/>
 
                 <TextView
                     android:id="@+id/DistanceLabel"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    android:layout_below="@+id/Terrain"
                     android:text="Distance"
                     android:textSize="24sp" />
 
                 <SeekBar
                     android:id="@+id/Distance"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/DistanceLabel"/>
 
                 <TextView
                     android:id="@+id/TimeLabel"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_below="@+id/Distance"
                     android:text="Time"
                     android:textSize="24sp" />
 
                 <SeekBar
                     android:id="@+id/Time"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/TimeLabel"/>
 
                 <TextView
                     android:id="@+id/PaceLabel"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_below="@+id/Time"
                     android:text="Pace"
                     android:textSize="24sp" />
 
                 <SeekBar
                     android:id="@+id/Pace"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/PaceLabel"/>
 
                 <TextView
                     android:id="@+id/GroupSizeLabel"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_below="@+id/Pace"
                     android:text="Group Size"
                     android:textSize="24sp" />
 
                 <SeekBar
                     android:id="@+id/GroupSize"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/GroupSizeLabel" />
 
                 <Space
                     android:id="@+id/space1"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" />
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/GroupSize"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
         </ScrollView>
