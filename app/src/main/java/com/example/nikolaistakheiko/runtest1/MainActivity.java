@@ -14,9 +14,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -101,5 +104,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
+        LatLng startplace = new LatLng(-33.8688, 151.2093);
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 15));
+        MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.maps_layout1);
+        mGoogleMap.setMapStyle(style);
     }
 }
