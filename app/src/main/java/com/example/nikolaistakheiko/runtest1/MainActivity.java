@@ -106,7 +106,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGoogleMap = googleMap;
         LatLng startplace = new LatLng(-33.8688, 151.2093);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 15));
-        MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.maps_layout1);
+        MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+                //Choose map style (from res->raw folder):
+                monotone
+        );
         mGoogleMap.setMapStyle(style);
     }
 }
