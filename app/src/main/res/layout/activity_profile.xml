@@ -13,17 +13,6 @@
         android:layout_height="match_parent"
         android:weightSum="2">
 
-        <Button
-            android:id="@+id/profilebutton2"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/menu_symbol" />
-
         <!--<ImageView-->
             <!--android:id="@+id/imageView"-->
             <!--android:layout_width="match_parent"-->
@@ -34,11 +23,14 @@
             <!--android:layout_weight="3.26"-->
             <!--app:srcCompat="@drawable/borat_1" />-->
 
+
         <ScrollView
             android:id="@+id/ProfileScroll"
             android:layout_width="match_parent"
             android:layout_height="2000dp"
-            android:layout_alignParentEnd="true">
+            android:layout_alignParentEnd="true"
+            android:padding="8dp">
+
 
             <RelativeLayout
                 android:id="@+id/LayoutName"
@@ -232,6 +224,19 @@
 
 
         </ScrollView>
+
+        <Button
+            android:id="@+id/profilebutton2"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/menu_symbol" />
+
+
 
     </RelativeLayout>
 
