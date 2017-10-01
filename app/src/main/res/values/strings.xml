@@ -8,6 +8,13 @@
         <item>Freak</item>
     </string-array>
 
+    <string-array name="partner_array">
+        <item>Select</item>
+        <item>Only Men</item>
+        <item>Only Women</item>
+        <item>Doesn't Matter</item>
+    </string-array>
+
     <string-array name="terrain_array">
         <item>Select</item>
         <item>Trails</item>

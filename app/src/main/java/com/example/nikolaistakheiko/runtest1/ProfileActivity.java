@@ -29,8 +29,8 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         mDrawerLayout2 = (DrawerLayout) findViewById(R.id.drawer_layout2);
         buttonSetUp();
-        spinnerSetUp();
-        spinnerSetUp2();
+        genderSetUp();
+        partnerSetUp();
         terrainSetUp();
 
 //        ImageView imageView = (ImageView) findViewById(R.id.imageView);
@@ -41,7 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
 //        imageView.setImageDrawable(roundedBitmapDrawable);
     }
 
-    private void spinnerSetUp() {
+    private void genderSetUp() {
         Spinner spinner = (Spinner) findViewById(R.id.Gender);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -52,10 +52,10 @@ public class ProfileActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
-    private void spinnerSetUp2() {
+    private void partnerSetUp() {
         Spinner spinner = (Spinner) findViewById(R.id.RunPartner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.gender_array, android.R.layout.simple_spinner_item);
+                R.array.partner_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }

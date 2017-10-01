@@ -38,8 +38,7 @@
             android:id="@+id/ProfileScroll"
             android:layout_width="match_parent"
             android:layout_height="2000dp"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/circle_crop">
+            android:layout_alignParentEnd="true">
 
             <RelativeLayout
                 android:id="@+id/LayoutName"
@@ -67,7 +66,6 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_below="@+id/ProfileTitle"
-                    android:layout_alignTop="@+id/pic"
                     android:layout_centerHorizontal="true">
 
                     <ImageView
