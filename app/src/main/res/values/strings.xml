@@ -12,7 +12,7 @@
         <item>Select</item>
         <item>Only Men</item>
         <item>Only Women</item>
-        <item>Doesn't Matter</item>
+        <item>Does not Matter</item>
     </string-array>
 
     <string-array name="terrain_array">
