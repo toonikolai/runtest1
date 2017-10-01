@@ -1,8 +1,19 @@
 <resources>
     <string name="app_name">Run Test</string>
+
     <string-array name="gender_array">
+        <item>Select</item>
         <item>Male</item>
         <item>Female</item>
         <item>Freak</item>
     </string-array>
+
+    <string-array name="terrain_array">
+        <item>Select</item>
+        <item>Trails</item>
+        <item>Roads</item>
+        <item>Parks</item>
+        <item>By The Water</item>
+    </string-array>
+
 </resources>
