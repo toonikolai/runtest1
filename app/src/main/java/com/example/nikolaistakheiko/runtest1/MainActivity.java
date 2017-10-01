@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpButton() {
-        Button button = (Button) findViewById(R.id.button2);
+        Button button = (Button) findViewById(R.id.mainMenuButton);
         button.setOnClickListener(new View.OnClickListener() {
 
         @Override
