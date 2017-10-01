@@ -11,7 +11,8 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:background="@color/color1">
 
         <!--<ImageView-->
             <!--android:id="@+id/imageView"-->
@@ -29,7 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="2000dp"
             android:layout_alignParentEnd="true"
-            android:padding="8dp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
 
             <RelativeLayout
@@ -122,45 +124,137 @@
                     android:text="Gender"
                     android:textSize="24sp" />
 
-                <Spinner
-                    android:id="@+id/Gender"
+                <RelativeLayout
+                    android:id="@+id/GenderLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_below="@+id/GenderLabel"/>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/GenderLabel"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight=".28"
+                    android:background="@drawable/spinner_background"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/Gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:spinnerMode="dropdown" />
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/dropdown_arrow" />
+
+                </RelativeLayout>
+
+                <!--<Spinner-->
+                    <!--android:id="@+id/Gender"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_below="@+id/GenderLabel"/>-->
 
                 <TextView
                     android:id="@+id/RunPartnerLabel"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/Gender"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/GenderLayout"
                     android:text="Who Do You Want To Run With?"
                     android:textSize="24sp" />
 
-                <Spinner
-                    android:id="@+id/RunPartner"
+                <RelativeLayout
+                    android:id="@+id/RunPartnerLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_below="@+id/RunPartnerLabel"/>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/RunPartnerLabel"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight=".28"
+                    android:background="@drawable/spinner_background"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/RunPartner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:spinnerMode="dropdown" />
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/dropdown_arrow" />
+
+                </RelativeLayout>
+
+                <!--<Spinner-->
+                    <!--android:id="@+id/RunPartner"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_below="@+id/RunPartnerLabel"/>-->
 
                 <TextView
                     android:id="@+id/TerrainLabel"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/RunPartner"
+                    android:layout_below="@+id/RunPartnerLayout"
                     android:text="Terrain"
                     android:textSize="24sp" />
 
-                <Spinner
-                    android:id="@+id/Terrain"
+                <RelativeLayout
+                    android:id="@+id/TerrainLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_below="@+id/TerrainLabel"/>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/TerrainLabel"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight=".28"
+                    android:background="@drawable/spinner_background"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/Terrain"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:spinnerMode="dropdown" />
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/dropdown_arrow" />
+
+                </RelativeLayout>
+                <!--<Spinner-->
+                    <!--android:id="@+id/Terrain"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_below="@+id/TerrainLabel"/>-->
 
                 <TextView
                     android:id="@+id/DistanceLabel"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:layout_below="@+id/Terrain"
+                    android:layout_below="@+id/TerrainLayout"
                     android:text="Distance"
                     android:textSize="24sp" />
 
