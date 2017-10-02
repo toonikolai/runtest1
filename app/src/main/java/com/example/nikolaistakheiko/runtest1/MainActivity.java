@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
+        mGoogleMap.setPadding(0,0,0,155);
         LatLng startplace = new LatLng(-33.8688, 151.2093);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 15));
         MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
