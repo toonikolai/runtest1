@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">Run Test</string>
+    <string name="please_turn_on_gps">Please turn on GPS</string>
+    <string name="title_location_permission">Allow app to access device\'s location?</string>
+    <string name="text_location_permission">Enable location to activate app features.</string>
+    <string name="ok">Allow</string>
 
     <string-array name="gender_array">
         <item>Select</item>
         <item>Male</item>
         <item>Female</item>
-        <item>Freak</item>
+        <item>Other</item>
     </string-array>
 
     <string-array name="partner_array">
