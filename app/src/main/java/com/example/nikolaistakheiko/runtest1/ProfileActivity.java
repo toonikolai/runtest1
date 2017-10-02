@@ -76,6 +76,9 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
     }
     public void openAbout(MenuItem item){
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("Menu_Option", "about");
+        setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }
 

@@ -1,5 +1,6 @@
 package com.example.nikolaistakheiko.runtest1;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Handler;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void openProfile(MenuItem item){
         Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
-        startActivity(profileIntent);
+        startActivityForResult(profileIntent, 0);
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -103,6 +104,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (0) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    String newText = data.getStringExtra("Menu_Option");
+                    if (newText.contentEquals("about")) {
+                        Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                        startActivity(aboutIntent);
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         LatLng startplace = new LatLng(-33.8688, 151.2093);
@@ -124,25 +142,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onCameraMoveCanceled() {
-        LinearLayout layout = (LinearLayout) findViewById(R.id.boxOverMap);
-        layout.setVisibility(View.VISIBLE);
-        Button run = (Button) findViewById(R.id.runButton);
-        run.setVisibility(View.VISIBLE);
+//        LinearLayout layout = (LinearLayout) findViewById(R.id.boxOverMap);
+//        layout.setVisibility(View.VISIBLE);
+//        Button run = (Button) findViewById(R.id.runButton);
+//        run.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onCameraMoveStarted(int i) {
         LinearLayout layout = (LinearLayout) findViewById(R.id.boxOverMap);
-        layout.setVisibility(View.INVISIBLE);
+//        layout.setVisibility(View.INVISIBLE);
+        layout.animate()
+                .alpha(0.0f)
+                .setDuration(400)
+                .translationY(-10);
         Button run = (Button) findViewById(R.id.runButton);
-        run.setVisibility(View.INVISIBLE);
+//        run.setVisibility(View.INVISIBLE);
+        run.animate()
+                .alpha(0.0f)
+                .setDuration(400)
+                .translationY(+5);
     }
 
     @Override
     public void onCameraIdle() {
         LinearLayout layout = (LinearLayout) findViewById(R.id.boxOverMap);
-        layout.setVisibility(View.VISIBLE);
+//        layout.setVisibility(View.VISIBLE);
+        layout.animate()
+                .alpha(1.0f)
+                .setDuration(200)
+                .translationY(+10);
         Button run = (Button) findViewById(R.id.runButton);
-        run.setVisibility(View.VISIBLE);
+//        run.setVisibility(View.VISIBLE);
+        run.animate()
+                .alpha(1.0f)
+                .setDuration(200)
+                .translationY(-5);
     }
 }
