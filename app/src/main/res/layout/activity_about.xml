@@ -27,7 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="31dp"
         android:layout_marginTop="40dp"
-        android:text="About PaceX"
+        android:text="About Loop"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textSize="14sp" />
 
