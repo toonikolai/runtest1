@@ -173,7 +173,7 @@
                     android:layout_height="50dp"
                     android:layout_below="@+id/GenderLayout"
                     android:gravity="bottom"
-                    android:text="Who Do You Want To Run With?"
+                    android:text="Partner Type"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textSize="14sp" />
 
