@@ -29,6 +29,8 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -55,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     GoogleApiClient mGoogleApiClient;
     Marker mPositionMarker;
     LatLng ll;
+    SeekBar slider1, slider2, slider3;
+    TextView label1, label2, label3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,73 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             Toast.makeText(this, "No G-maps layout", Toast.LENGTH_SHORT).show();
         }
+        slider1 = (SeekBar) findViewById(R.id.mainseek1);
+        label1 = (TextView) findViewById(R.id.mainLabel1);
+        slider1.setMax(20);
+        slider1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                label1.setText("Run Speed: " + progress + "km/h");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        slider2 = (SeekBar) findViewById(R.id.mainseek2);
+        label2 = (TextView) findViewById(R.id.mainLabel2);
+        slider2.setMax(84);
+        slider2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                label2.setText("Distance: " + progress + "km");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        slider3 = (SeekBar) findViewById(R.id.mainseek3);
+        label3 = (TextView) findViewById(R.id.mainLabel3);
+        slider3.setMax(100);
+        slider3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress <= 20) {
+                    label3.setText("Early Morning (6am - 9am)");
+                } else if (progress > 20 && progress <= 40) {
+                    label3.setText("Late Morning (9am - 12pm)");
+                } else if (progress > 40 && progress <= 60) {
+                    label3.setText("Afternoon (12am - 3pm)");
+                } else if (progress > 60 && progress <= 80) {
+                    label3.setText("Midday (3am - 6pm)");
+                } else {
+                    label3.setText("Evening (6pm-9pm)");
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     private void initMap() {
@@ -189,13 +260,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void run() {
                 // Do something after 5s = 5000ms
-                mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder()
-                        .target(ll)
-                        .zoom(14)
-                        .build()
-                ));
+                if (ll != null) {
+                    mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder()
+                            .target(ll)
+                            .zoom(14)
+                            .build()
+                    ));
+                } else {
+                    Toast.makeText(MainActivity.this, "LatLng == null", Toast.LENGTH_SHORT).show();
+                }
             }
-        }, 1000);
+        }, 3000);
+
     }
 
     @Override
@@ -274,7 +350,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         })
                         .create()
                         .show();
-
 
             } else {
                 // No explanation needed, we can request the permission.
