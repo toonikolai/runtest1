@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Toast.makeText(MainActivity.this, "LatLng == null", Toast.LENGTH_SHORT).show();
                 }
             }
-        }, 3000);
+        }, 1500);
 
     }
 
@@ -380,6 +380,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         //Request location updates:
                         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocRequest, this);
+                        final Handler handler4 = new Handler();
+                        handler4.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Do something after 5s = 5000ms
+                                if (ll != null) {
+                                    mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder()
+                                            .target(ll)
+                                            .zoom(14)
+                                            .build()
+                                    ));
+                                } else {
+                                    Toast.makeText(MainActivity.this, "LatLng == null #2", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }, 1500);
                     }
 
                 } else {
