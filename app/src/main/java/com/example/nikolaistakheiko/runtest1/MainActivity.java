@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +25,8 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -36,14 +41,20 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private DrawerLayout mDrawerLayout;
     private GoogleMap mGoogleMap;
     GoogleApiClient mGoogleApiClient;
+    Marker mPositionMarker;
+    LatLng ll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         LatLng startplace = new LatLng(-33.8688, 151.2093);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 15));
         MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
-                //Choose map style (from res->raw folder):
+                //Choose map style:
                 monotone
         );
         mGoogleMap.setMapStyle(style);
@@ -169,8 +180,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mGoogleMap.setMyLocationEnabled(true);
-
+        mGoogleMap.setMyLocationEnabled(false);
+        mGoogleMap.getUiSettings().setCompassEnabled(false);
+        mGoogleMap.getUiSettings().setRotateGesturesEnabled(false);
+        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        final Handler handler3 = new Handler();
+        handler3.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder()
+                        .target(ll)
+                        .zoom(14)
+                        .build()
+                ));
+            }
+        }, 1000);
     }
 
     @Override
@@ -283,10 +308,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
 
                 } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
@@ -324,6 +346,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        }
 //        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocRequest, this);
 
+
     }
 
 
@@ -337,14 +360,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Toast.makeText(this, "Connection Failed", Toast.LENGTH_SHORT).show();
     }
 
+
+    public Bitmap resizeMapIcons(String image_name, int w, int h) {
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),getResources().getIdentifier(image_name, "drawable", getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, w, h, false);
+        return resizedBitmap;
+    }
+
     @Override
     public void onLocationChanged(Location location) {
         if(location == null) {
             Toast.makeText(this, "null location", Toast.LENGTH_SHORT).show();
-        } else {
-//            double lng = location.getLongitude();
-//            double lat = location.getLatitude();
-//            Toast.makeText(this, lng + ", " + lat, Toast.LENGTH_SHORT).show();
+            return;
         }
+        if (location != null) {
+            ll = new LatLng(location.getLatitude(),location.getLongitude());
+            if(mPositionMarker == null) {
+                mPositionMarker = mGoogleMap.addMarker(new MarkerOptions()
+                        .flat(true)
+                        .icon(BitmapDescriptorFactory
+                                .fromBitmap(resizeMapIcons("blue_thin_2", 55, 55)))
+                        .anchor(0.5f, 0.5f)
+                        .position(ll)
+                );
+            } else {
+                mPositionMarker.setPosition(ll);
+            }
+        }
+
     }
+
+
 }
+
+
