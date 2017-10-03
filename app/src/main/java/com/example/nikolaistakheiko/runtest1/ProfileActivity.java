@@ -16,12 +16,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout2;
+    SeekBar profileseek1, profileseek2, profileseek3, profileseek4;
+    TextView profilelabel1, profilelabel2, profilelabel3, profilelabel4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
         genderSetUp();
         partnerSetUp();
         terrainSetUp();
+        seekBarSetUp();
 
 //        ImageView imageView = (ImageView) findViewById(R.id.imageView);
 //
@@ -39,6 +44,105 @@ public class ProfileActivity extends AppCompatActivity {
 //        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
 //        roundedBitmapDrawable.setCircular(true);
 //        imageView.setImageDrawable(roundedBitmapDrawable);
+    }
+
+    private void seekBarSetUp() {
+        profileseek1 = (SeekBar) findViewById(R.id.DistanceSeekProfile);
+        profilelabel1 = (TextView) findViewById(R.id.DistanceLabelProfile);
+        profileseek1.setMax(42);
+        profileseek1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress == 42) {
+                    profilelabel1.setText("Distance: " + progress + "+ km");
+                } else {
+                    profilelabel1.setText("Distance: " + progress + " km");
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        profileseek2 = (SeekBar) findViewById(R.id.TimeSeekProfile);
+        profilelabel2 = (TextView) findViewById(R.id.TimeLabelProfile);
+        profileseek2.setMax(100);
+        profileseek2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress <= 20) {
+                    profilelabel2.setText("Early Morning (6am - 9am)");
+                } else if (progress > 20 && progress <= 40) {
+                    profilelabel2.setText("Late Morning (9am - 12pm)");
+                } else if (progress > 40 && progress <= 60) {
+                    profilelabel2.setText("Afternoon (12am - 3pm)");
+                } else if (progress > 60 && progress <= 80) {
+                    profilelabel2.setText("Midday (3am - 6pm)");
+                } else {
+                    profilelabel2.setText("Evening (6pm-9pm)");
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        profileseek3 = (SeekBar) findViewById(R.id.PaceSeekProfile);
+        profilelabel3 = (TextView) findViewById(R.id.PaceLabelProfile);
+        profileseek3.setMax(20);
+        profileseek3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                profilelabel3.setText("Group Size: " + progress + "km/h");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        profileseek4 = (SeekBar) findViewById(R.id.GroupSizeSeekProfile);
+        profilelabel4 = (TextView) findViewById(R.id.GroupSizeLabelProfile);
+        profileseek4.setMax(100);
+        profileseek4.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress <= 20) {
+                    profilelabel4.setText("Running partner (2 people)");
+                } else if (progress > 20 && progress <= 60) {
+                    profilelabel4.setText("Small group (2-4 people)");
+                } else {
+                    profilelabel4.setText("Large group (5-10 people)");
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     private void genderSetUp() {

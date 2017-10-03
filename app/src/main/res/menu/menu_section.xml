@@ -12,7 +12,7 @@
 
 
     <item android:id="@+id/about"
-        android:title="About PaceX"
+        android:title="About Loop"
         android:onClick="openAbout"/>
 
 </menu>

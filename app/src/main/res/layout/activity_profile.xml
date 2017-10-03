@@ -84,9 +84,11 @@
                     android:id="@+id/NameLabel"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    android:gravity="bottom"
                     android:layout_below="@+id/frame"
                     android:text="Name"
-                    android:textSize="24sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textSize="14sp" />
 
                 <EditText
                     android:id="@+id/Name"
@@ -102,10 +104,12 @@
                 <TextView
                     android:id="@+id/AgeLabel"
                     android:layout_width="match_parent"
+                    android:gravity="bottom"
                     android:layout_height="30dp"
                     android:layout_below="@+id/Name"
                     android:text="Age"
-                    android:textSize="24sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textSize="14sp" />
 
                 <EditText
                     android:id="@+id/Age"
@@ -119,10 +123,12 @@
                 <TextView
                     android:id="@+id/GenderLabel"
                     android:layout_width="match_parent"
+                    android:gravity="bottom"
                     android:layout_height="30dp"
                     android:layout_below="@+id/Age"
                     android:text="Gender"
-                    android:textSize="24sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textSize="14sp" />
 
                 <RelativeLayout
                     android:id="@+id/GenderLayout"
@@ -166,8 +172,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_below="@+id/GenderLayout"
+                    android:gravity="bottom"
                     android:text="Who Do You Want To Run With?"
-                    android:textSize="24sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textSize="14sp" />
 
                 <RelativeLayout
                     android:id="@+id/RunPartnerLayout"
@@ -211,8 +219,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_below="@+id/RunPartnerLayout"
+                    android:gravity="bottom"
                     android:text="Terrain"
-                    android:textSize="24sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textSize="14sp" />
 
                 <RelativeLayout
                     android:id="@+id/TerrainLayout"
@@ -251,66 +261,76 @@
                     <!--android:layout_below="@+id/TerrainLabel"/>-->
 
                 <TextView
-                    android:id="@+id/DistanceLabel"
+                    android:id="@+id/DistanceLabelProfile"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    android:gravity="bottom"
                     android:layout_below="@+id/TerrainLayout"
                     android:text="Distance"
-                    android:textSize="24sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textSize="14sp" />
 
                 <SeekBar
-                    android:id="@+id/Distance"
+                    android:id="@+id/DistanceSeekProfile"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/DistanceLabel"/>
+                    android:layout_below="@+id/DistanceLabelProfile"/>
 
                 <TextView
-                    android:id="@+id/TimeLabel"
+                    android:id="@+id/TimeLabelProfile"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/Distance"
+                    android:gravity="bottom"
+                    android:layout_below="@+id/DistanceSeekProfile"
                     android:text="Time"
-                    android:textSize="24sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textSize="14sp" />
 
                 <SeekBar
-                    android:id="@+id/Time"
+                    android:id="@+id/TimeSeekProfile"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/TimeLabel"/>
+                    android:layout_below="@+id/TimeLabelProfile"/>
 
                 <TextView
-                    android:id="@+id/PaceLabel"
+                    android:id="@+id/PaceLabelProfile"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/Time"
+                    android:gravity="bottom"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/TimeSeekProfile"
                     android:text="Pace"
-                    android:textSize="24sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textSize="14sp" />
 
                 <SeekBar
-                    android:id="@+id/Pace"
+                    android:id="@+id/PaceSeekProfile"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/PaceLabel"/>
+                    android:layout_below="@+id/PaceLabelProfile"/>
 
                 <TextView
-                    android:id="@+id/GroupSizeLabel"
+                    android:id="@+id/GroupSizeLabelProfile"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/Pace"
+                    android:gravity="bottom"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/PaceSeekProfile"
                     android:text="Group Size"
-                    android:textSize="24sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textSize="14sp" />
 
                 <SeekBar
-                    android:id="@+id/GroupSize"
+                    android:id="@+id/GroupSizeSeekProfile"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/GroupSizeLabel" />
+                    android:layout_below="@+id/GroupSizeLabelProfile" />
 
                 <Space
                     android:id="@+id/space1"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/GroupSize"
+                    android:layout_below="@+id/GroupSizeSeekProfile"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true" />
 

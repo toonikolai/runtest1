@@ -64,22 +64,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (googleServicesAvailable()) {
-//            Toast.makeText(this, "Connected to play services", Toast.LENGTH_SHORT).show();
             setContentView(R.layout.activity_main);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             setUpButton();
             setUpRunButton();
             initMap();
+            setUpSeekBars();
         } else {
             Toast.makeText(this, "No G-maps layout", Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    private void setUpSeekBars() {
         slider1 = (SeekBar) findViewById(R.id.mainseek1);
         label1 = (TextView) findViewById(R.id.mainLabel1);
         slider1.setMax(20);
         slider1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                label1.setText("Run Speed: " + progress + "km/h");
+                label1.setText("Run Pace: " + progress + " km/h");
             }
 
             @Override
@@ -92,13 +96,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
+
         slider2 = (SeekBar) findViewById(R.id.mainseek2);
         label2 = (TextView) findViewById(R.id.mainLabel2);
-        slider2.setMax(84);
+        slider2.setMax(42);
         slider2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                label2.setText("Distance: " + progress + "km");
+                if (progress == 42) {
+                    label2.setText("Distance: " + progress + "+ km");
+                } else {
+                    label2.setText("Distance: " + progress + " km");
+                }
             }
 
             @Override
@@ -111,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
+
         slider3 = (SeekBar) findViewById(R.id.mainseek3);
         label3 = (TextView) findViewById(R.id.mainLabel3);
         slider3.setMax(100);
@@ -285,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Toast.makeText(MainActivity.this, "LatLng == null", Toast.LENGTH_SHORT).show();
                 }
             }
-        }, 1500);
+        }, 2000);
 
     }
 
@@ -410,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     Toast.makeText(MainActivity.this, "LatLng == null #2", Toast.LENGTH_SHORT).show();
                                 }
                             }
-                        }, 1500);
+                        }, 3500);
                     }
 
                 } else {
