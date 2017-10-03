@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context="com.example.nikolaistakheiko.runtest1.RunActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal"
+            android:id="@+id/runLinear1">
+
+            <Button
+                android:id="@+id/rbutton1"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:background="@color/color2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/runLinear2"
+            android:layout_height="200dp"
+            android:layout_below="@+id/runLinear1"
+            android:layout_centerHorizontal="true"
+            android:weightSum="10"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/rbutton2"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:background="@color/colorAccent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:text="" />
+
+            <Button
+                android:id="@+id/rbutton3"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:background="@color/colorPrimary"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:text="" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/runLinear3"
+            android:weightSum="10"
+            android:layout_below="@+id/runLinear2"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/rbutton4"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:background="@color/color2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:text="" />
+
+            <Button
+                android:id="@+id/rbutton5"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:background="@color/colorAccent"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:text="" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/runLinear4"
+            android:weightSum="10"
+            android:layout_below="@+id/runLinear3"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button8"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:background="@color/colorPrimary"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:text="" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</ScrollView>

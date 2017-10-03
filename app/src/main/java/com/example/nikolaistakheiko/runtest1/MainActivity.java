@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             setContentView(R.layout.activity_main);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             setUpButton();
+            setUpRunButton();
             initMap();
         } else {
             Toast.makeText(this, "No G-maps layout", Toast.LENGTH_SHORT).show();
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+
     private void initMap() {
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
@@ -197,6 +199,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+    }
+
+
+    private void setUpRunButton() {
+        Button runButton = (Button) findViewById(R.id.runButton);
+        runButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent runIntent = new Intent(MainActivity.this, RunActivity.class);
+                startActivity(runIntent);
             }
         });
     }
