@@ -1,14 +1,18 @@
 package com.example.nikolaistakheiko.runtest1;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,11 +25,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class ProfileActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout2;
     SeekBar profileseek1, profileseek2, profileseek3, profileseek4;
     TextView profilelabel1, profilelabel2, profilelabel3, profilelabel4;
+    SharedPreferences preferences = getSharedPreferences("preferences", MODE_PRIVATE);
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
         terrainSetUp();
         seekBarSetUp();
 
+
 //        ImageView imageView = (ImageView) findViewById(R.id.imageView);
 //
 //        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.stlsm);
@@ -45,12 +53,22 @@ public class ProfileActivity extends AppCompatActivity {
 //        roundedBitmapDrawable.setCircular(true);
 //        imageView.setImageDrawable(roundedBitmapDrawable);
     }
-
+    int savedprogress;
     private void seekBarSetUp() {
         profileseek1 = (SeekBar) findViewById(R.id.DistanceSeekProfile);
         profilelabel1 = (TextView) findViewById(R.id.DistanceLabelProfile);
         profileseek1.setMax(42);
+
+        preferences = getSharedPreferences("preferences", MODE_PRIVATE);
+        savedprogress=preferences.getInt("length", 0);
+
+        profileseek1.setProgress(savedprogress);
+
+
         profileseek1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (progress == 42) {
@@ -58,6 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
                 } else {
                     profilelabel1.setText("Distance: " + progress + " km");
                 }
+                savedprogress=progress;
             }
 
             @Override
@@ -67,6 +86,22 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+
+                editor = preferences.edit();
+                editor.putInt("length", savedprogress);
+                editor.commit();
+
+
+
+
+                //Set Preference
+//                SharedPreferences distance = getSharedPreferences("myPrefs", MODE_PRIVATE);
+//                SharedPreferences.Editor distanceEditor;
+//                distanceEditor = distance.edit();
+//                //strVersionName->Any value to be stored
+//                int length;
+//                distanceEditor.putInt("STORED VALUE",length);
+//                distanceEditor.commit();
 
             }
         });
@@ -140,6 +175,7 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+
 
             }
         });

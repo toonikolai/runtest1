@@ -27,4 +27,16 @@
         <item>By The Water</item>
     </string-array>
 
+    <string name="name"></string>
+    <string name="gender"></string>
+    <string name="partner"></string>
+    <string name="distance"></string>
+    <string name="time"></string>
+    <string name="pace"></string>
+    <string name="group"></string>
+
+    <string time="">Loop</string>
+    <string pace="">Loop</string>
+    <string group="">Loop</string>
+
 </resources>
