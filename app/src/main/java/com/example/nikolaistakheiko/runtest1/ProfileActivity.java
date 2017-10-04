@@ -140,7 +140,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileseek3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                profilelabel3.setText("Group Size: " + progress + "km/h");
+                profilelabel3.setText("Your Pace: " + progress + "km/h");
             }
 
             @Override

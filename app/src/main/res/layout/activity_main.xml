@@ -48,52 +48,95 @@
 
         <LinearLayout
             android:id="@+id/boxOverMap"
+            android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
+            android:background="@drawable/background_with_shadow"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            android:orientation="horizontal"
             android:layout_below="@+id/mainMenuButton"
+            android:weightSum="10"
+
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="36dp"
-            android:background="@drawable/background_with_shadow"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:layout_marginTop="24dp" >
 
-            <TextView
-                android:id="@+id/mainLabel1"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/linlayleft"
+                android:layout_width="0dp"
+                android:layout_weight="5"
                 android:layout_height="wrap_content"
-                android:text="Run Speed" />
+                android:orientation="vertical"
+                android:padding="8dp">
 
-            <SeekBar
-                android:id="@+id/mainseek1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/mainLabel1"
+                    android:layout_width="wrap_content"
+                    android:textColor="#ff000000"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:text="Run Speed" />
 
-            <TextView
-                android:id="@+id/mainLabel2"
-                android:layout_width="match_parent"
+                <SeekBar
+                    android:id="@+id/mainseek1"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"/>
+
+                <TextView
+                    android:id="@+id/mainLabel2"
+                    android:layout_width="wrap_content"
+                    android:textColor="#ff000000"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Distance" />
+
+                <SeekBar
+                    android:id="@+id/mainseek2"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linlayright"
+                android:layout_width="0dp"
+                android:layout_weight="5"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Distance" />
+                android:orientation="vertical"
+                android:padding="8dp">
 
-            <SeekBar
-                android:id="@+id/mainseek2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/mainLabel3"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#ff000000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Choose your run time" />
 
-            <TextView
-                android:id="@+id/mainLabel3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Choose your run time" />
+                <SeekBar
+                    android:id="@+id/mainseek3"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp" />
 
-            <SeekBar
-                android:id="@+id/mainseek3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp" />
+                <TextView
+                    android:id="@+id/mainLabel4"
+                    android:layout_width="wrap_content"
+                    android:textColor="#ff000000"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Choose your run time" />
+
+                <SeekBar
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/mainseek4"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
