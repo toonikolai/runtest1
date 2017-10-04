@@ -49,6 +49,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.triggertrap.seekarc.SeekArc;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -57,7 +58,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     GoogleApiClient mGoogleApiClient;
     Marker mPositionMarker;
     LatLng ll;
-    SeekBar slider1, slider2, slider3;
+    SeekArc slider1;
+    SeekBar slider2, slider3;
     TextView label1, label2, label3;
 
     @Override
@@ -77,24 +79,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void setUpSeekBars() {
-        slider1 = (SeekBar) findViewById(R.id.mainseek1);
+        slider1 = (SeekArc) findViewById(R.id.mainseek1);
         label1 = (TextView) findViewById(R.id.mainLabel1);
-        slider1.setMax(20);
-        slider1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//        slider1.setMax(20);
+        slider1.setArcColor(R.color.colorAccent);
+        slider1.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                label1.setText("Run Pace: " + progress + " km/h");
+            public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
+                label1.setText("Run Pace: " + i + " km/h");
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekArc seekArc) {
 
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekArc seekArc) {
+
             }
         });
+//        slider1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                label1.setText("Run Pace: " + progress + " km/h");
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//            }
+//        });
 
         slider2 = (SeekBar) findViewById(R.id.mainseek2);
         label2 = (TextView) findViewById(R.id.mainLabel2);

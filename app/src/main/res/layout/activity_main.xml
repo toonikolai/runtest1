@@ -76,11 +76,19 @@
                     android:layout_height="wrap_content"
                     android:text="Run Speed" />
 
-                <SeekBar
+                <com.triggertrap.seekarc.SeekArc
                     android:id="@+id/mainseek1"
                     android:layout_gravity="center_horizontal"
-                    android:layout_width="150dp"
-                    android:layout_height="60dp"/>
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:padding="30dp"
+                    app:rotation="180"
+                    app:max="20"
+                    app:progressColor="@color/colorAccent"
+                    app:arcWidth="2dp"
+                    app:startAngle="30"
+                    app:sweepAngle="300"
+                    app:touchInside="true"/>
 
                 <TextView
                     android:id="@+id/mainLabel2"
