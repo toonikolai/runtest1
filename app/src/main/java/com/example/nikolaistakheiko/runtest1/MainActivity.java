@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -60,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     LatLng ll;
     SeekArc slider1, slider2, slider3, slider4;
     TextView label1, label2, label3, label4;
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (googleServicesAvailable()) {
             setContentView(R.layout.activity_main);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            prefs = this.getSharedPreferences("myPrefs", Activity.MODE_PRIVATE);
+            editor = prefs.edit();
             setUpButton();
             setUpRunButton();
             initMap();
@@ -77,10 +82,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+
+
     private void setUpSeekBars() {
         slider1 = (SeekArc) findViewById(R.id.mainseek1);
         label1 = (TextView) findViewById(R.id.mainLabel1);
         slider1.setArcColor(R.color.colorAccent);
+        int paceInt = prefs.getInt("pace", 0);
+        slider1.setProgress(paceInt);
+        label1.setText("Run Pace: " + paceInt + " km/h");
         slider1.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
             @Override
             public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
@@ -101,6 +111,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         slider2 = (SeekArc) findViewById(R.id.mainseek2);
         label2 = (TextView) findViewById(R.id.mainLabel2);
         slider2.setArcColor(R.color.colorAccent);
+        int distanceInt = prefs.getInt("distance", 0);
+        slider2.setProgress(distanceInt);
+        if (distanceInt == 42) {
+            label2.setText("Distance: " + distanceInt + "+ km");
+        } else {
+            label2.setText("Distance: " + distanceInt + " km");
+        }
         slider2.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
             @Override
             public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
@@ -122,20 +139,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         slider3 = (SeekArc) findViewById(R.id.mainseek3);
         label3 = (TextView) findViewById(R.id.mainLabel3);
         slider3.setArcColor(R.color.colorAccent);
+        int timeInt = prefs.getInt("time", 0);
+        slider3.setProgress(timeInt);
+        timeCheck(timeInt);
         slider3.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
             @Override
             public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
-                if (i <= 20) {
-                    label3.setText("Early Morning (6am - 9am)");
-                } else if (i > 20 && i <= 40) {
-                    label3.setText("Late Morning (9am - 12pm)");
-                } else if (i > 40 && i <= 60) {
-                    label3.setText("Afternoon (12am - 3pm)");
-                } else if (i > 60 && i <= 80) {
-                    label3.setText("Midday (3am - 6pm)");
-                } else {
-                    label3.setText("Evening (6pm-9pm)");
-                }
+                timeCheck(i);
             }
 
             @Override
@@ -152,19 +162,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         slider4 = (SeekArc) findViewById(R.id.mainseek4);
         label4 = (TextView) findViewById(R.id.mainLabel4);
         slider4.setArcColor(R.color.colorAccent);
+        int groupInt = prefs.getInt("group", 0);
+        slider4.setProgress(groupInt);
+        if (groupInt <= 20) {
+            label4.setText("Running partner (2 people)");
+        } else if (groupInt > 20 && groupInt <= 60) {
+            label4.setText("Small group (2-4 people)");
+        } else {
+            label4.setText("Large group (5-10 people)");
+        }
         slider4.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
             @Override
             public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
                 if (i <= 20) {
-                    label4.setText("Early Morning (6am - 9am)");
-                } else if (i > 20 && i <= 40) {
-                    label4.setText("Late Morning (9am - 12pm)");
-                } else if (i > 40 && i <= 60) {
-                    label4.setText("Afternoon (12am - 3pm)");
-                } else if (i > 60 && i <= 80) {
-                    label4.setText("Midday (3am - 6pm)");
+                    label4.setText("Running partner (2 people)");
+                } else if (i > 20 && i <= 60) {
+                    label4.setText("Small group (2-4 people)");
                 } else {
-                    label4.setText("Evening (6pm-9pm)");
+                    label4.setText("Large group (5-10 people)");
                 }
             }
 
@@ -178,6 +193,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
+    }
+
+    private void timeCheck(int i) {
+        if (i <= 20) {
+            label3.setText("Early Morning (6am - 9am)");
+        } else if (i > 20 && i <= 40) {
+            label3.setText("Late Morning (9am - 12pm)");
+        } else if (i > 40 && i <= 60) {
+            label3.setText("Afternoon (12am - 3pm)");
+        } else if (i > 60 && i <= 80) {
+            label3.setText("Midday (3am - 6pm)");
+        } else {
+            label3.setText("Evening (6pm-9pm)");
+        }
     }
 
 
@@ -323,7 +352,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Toast.makeText(MainActivity.this, "LatLng == null", Toast.LENGTH_SHORT).show();
                 }
             }
-        }, 2000);
+        }, 3000);
 
     }
 

@@ -72,6 +72,13 @@ public class ProfileActivity extends AppCompatActivity {
         int lengthInt = prefs.getInt("distance", 0);
         profileseek1.setProgress(lengthInt);
 
+        //Set initial text according to last saved distance
+        if (lengthInt == 42) {
+            profilelabel1.setText("Distance: " + lengthInt + "+ km");
+        } else {
+            profilelabel1.setText("Distance: " + lengthInt + " km");
+        }
+
         profileseek1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -100,7 +107,19 @@ public class ProfileActivity extends AppCompatActivity {
         profileseek2 = (SeekBar) findViewById(R.id.TimeSeekProfile);
         profilelabel2 = (TextView) findViewById(R.id.TimeLabelProfile);
         profileseek2.setMax(100);
-        profileseek2.setProgress(prefs.getInt("time", 0));
+        int timeInt = prefs.getInt("time", 0);
+        profileseek2.setProgress(timeInt);
+        if (timeInt <= 20) {
+            profilelabel2.setText("Early Morning (6am - 9am)");
+        } else if (timeInt > 20 && timeInt <= 40) {
+            profilelabel2.setText("Late Morning (9am - 12pm)");
+        } else if (timeInt > 40 && timeInt <= 60) {
+            profilelabel2.setText("Afternoon (12am - 3pm)");
+        } else if (timeInt > 60 && timeInt <= 80) {
+            profilelabel2.setText("Midday (3am - 6pm)");
+        } else {
+            profilelabel2.setText("Evening (6pm-9pm)");
+        }
         profileseek2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -134,7 +153,9 @@ public class ProfileActivity extends AppCompatActivity {
         profileseek3 = (SeekBar) findViewById(R.id.PaceSeekProfile);
         profilelabel3 = (TextView) findViewById(R.id.PaceLabelProfile);
         profileseek3.setMax(20);
-        profileseek3.setProgress(prefs.getInt("pace", 0));
+        int paceInt = prefs.getInt("pace", 0);
+        profileseek3.setProgress(paceInt);
+        profilelabel3.setText("Your Pace: " + paceInt + "km/h");
         profileseek3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -158,7 +179,15 @@ public class ProfileActivity extends AppCompatActivity {
         profileseek4 = (SeekBar) findViewById(R.id.GroupSizeSeekProfile);
         profilelabel4 = (TextView) findViewById(R.id.GroupSizeLabelProfile);
         profileseek4.setMax(100);
-        profileseek4.setProgress(prefs.getInt("group", 0));
+        int groupInt = prefs.getInt("group", 0);
+        profileseek4.setProgress(groupInt);
+        if (groupInt <= 20) {
+            profilelabel4.setText("Running partner (2 people)");
+        } else if (groupInt > 20 && groupInt <= 60) {
+            profilelabel4.setText("Small group (2-4 people)");
+        } else {
+            profilelabel4.setText("Large group (5-10 people)");
+        }
         profileseek4.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

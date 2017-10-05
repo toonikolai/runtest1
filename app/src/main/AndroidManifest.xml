@@ -35,7 +35,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ProfileActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".AboutActivity" />
 
         <meta-data
