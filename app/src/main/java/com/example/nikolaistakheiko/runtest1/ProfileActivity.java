@@ -31,7 +31,10 @@ public class ProfileActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout2;
     SeekBar profileseek1, profileseek2, profileseek3, profileseek4;
     TextView profilelabel1, profilelabel2, profilelabel3, profilelabel4;
-    SharedPreferences preferences = getSharedPreferences("preferences", MODE_PRIVATE);
+    int savedDistance, savedTime, savedPace, savedGroupSize;
+
+    //Initializing variables
+    SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
     @Override
@@ -39,6 +42,11 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         mDrawerLayout2 = (DrawerLayout) findViewById(R.id.drawer_layout2);
+
+        //Putting information into these variables
+        prefs = this.getSharedPreferences("myPrefs", Activity.MODE_PRIVATE);
+        editor = prefs.edit();
+
         buttonSetUp();
         genderSetUp();
         partnerSetUp();
@@ -53,22 +61,18 @@ public class ProfileActivity extends AppCompatActivity {
 //        roundedBitmapDrawable.setCircular(true);
 //        imageView.setImageDrawable(roundedBitmapDrawable);
     }
-    int savedprogress;
+
     private void seekBarSetUp() {
+
+        //Distance
         profileseek1 = (SeekBar) findViewById(R.id.DistanceSeekProfile);
         profilelabel1 = (TextView) findViewById(R.id.DistanceLabelProfile);
         profileseek1.setMax(42);
-
-        preferences = getSharedPreferences("preferences", MODE_PRIVATE);
-        savedprogress=preferences.getInt("length", 0);
-
-        profileseek1.setProgress(savedprogress);
-
+        //Set bar progress to last saved distance or 0
+        int lengthInt = prefs.getInt("distance", 0);
+        profileseek1.setProgress(lengthInt);
 
         profileseek1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (progress == 42) {
@@ -76,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
                 } else {
                     profilelabel1.setText("Distance: " + progress + " km");
                 }
-                savedprogress=progress;
+                savedDistance=progress;
             }
 
             @Override
@@ -86,28 +90,17 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
-                editor = preferences.edit();
-                editor.putInt("length", savedprogress);
+                //Save distance
+                editor.putInt("distance", savedDistance);
                 editor.commit();
-
-
-
-
-                //Set Preference
-//                SharedPreferences distance = getSharedPreferences("myPrefs", MODE_PRIVATE);
-//                SharedPreferences.Editor distanceEditor;
-//                distanceEditor = distance.edit();
-//                //strVersionName->Any value to be stored
-//                int length;
-//                distanceEditor.putInt("STORED VALUE",length);
-//                distanceEditor.commit();
-
             }
         });
+
+        //Time
         profileseek2 = (SeekBar) findViewById(R.id.TimeSeekProfile);
         profilelabel2 = (TextView) findViewById(R.id.TimeLabelProfile);
         profileseek2.setMax(100);
+        profileseek2.setProgress(prefs.getInt("time", 0));
         profileseek2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -122,6 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
                 } else {
                     profilelabel2.setText("Evening (6pm-9pm)");
                 }
+                savedTime = progress;
             }
 
             @Override
@@ -131,16 +125,21 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                editor.putInt("time", savedTime);
+                editor.commit();
             }
         });
+
+        //Pace
         profileseek3 = (SeekBar) findViewById(R.id.PaceSeekProfile);
         profilelabel3 = (TextView) findViewById(R.id.PaceLabelProfile);
         profileseek3.setMax(20);
+        profileseek3.setProgress(prefs.getInt("pace", 0));
         profileseek3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 profilelabel3.setText("Your Pace: " + progress + "km/h");
+                savedPace = progress;
             }
 
             @Override
@@ -150,12 +149,16 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                editor.putInt("pace", savedPace);
+                editor.commit();
             }
         });
+
+        //Group Size
         profileseek4 = (SeekBar) findViewById(R.id.GroupSizeSeekProfile);
         profilelabel4 = (TextView) findViewById(R.id.GroupSizeLabelProfile);
         profileseek4.setMax(100);
+        profileseek4.setProgress(prefs.getInt("group", 0));
         profileseek4.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -166,6 +169,7 @@ public class ProfileActivity extends AppCompatActivity {
                 } else {
                     profilelabel4.setText("Large group (5-10 people)");
                 }
+                savedGroupSize = progress;
             }
 
             @Override
@@ -175,8 +179,8 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
-
+                editor.putInt("group", savedGroupSize);
+                editor.commit();
             }
         });
     }

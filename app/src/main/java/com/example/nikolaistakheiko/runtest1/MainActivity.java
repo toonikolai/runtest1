@@ -58,9 +58,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     GoogleApiClient mGoogleApiClient;
     Marker mPositionMarker;
     LatLng ll;
-    SeekArc slider1;
-    SeekBar slider2, slider3;
-    TextView label1, label2, label3;
+    SeekArc slider1, slider2, slider3, slider4;
+    TextView label1, label2, label3, label4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void setUpSeekBars() {
         slider1 = (SeekArc) findViewById(R.id.mainseek1);
         label1 = (TextView) findViewById(R.id.mainLabel1);
-//        slider1.setMax(20);
         slider1.setArcColor(R.color.colorAccent);
         slider1.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
             @Override
@@ -99,59 +97,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
-//        slider1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                label1.setText("Run Pace: " + progress + " km/h");
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//            }
-//        });
 
-        slider2 = (SeekBar) findViewById(R.id.mainseek2);
+        slider2 = (SeekArc) findViewById(R.id.mainseek2);
         label2 = (TextView) findViewById(R.id.mainLabel2);
-        slider2.setMax(42);
-        slider2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        slider2.setArcColor(R.color.colorAccent);
+        slider2.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress == 42) {
-                    label2.setText("Distance: " + progress + "+ km");
+            public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
+                if (i == 42) {
+                    label2.setText("Distance: " + i + "+ km");
                 } else {
-                    label2.setText("Distance: " + progress + " km");
+                    label2.setText("Distance: " + i + " km");
                 }
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
+            public void onStartTrackingTouch(SeekArc seekArc) {
             }
-
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
+            public void onStopTrackingTouch(SeekArc seekArc) {
             }
         });
 
-        slider3 = (SeekBar) findViewById(R.id.mainseek3);
+        slider3 = (SeekArc) findViewById(R.id.mainseek3);
         label3 = (TextView) findViewById(R.id.mainLabel3);
-        slider3.setMax(100);
-        slider3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        slider3.setArcColor(R.color.colorAccent);
+        slider3.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress <= 20) {
+            public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
+                if (i <= 20) {
                     label3.setText("Early Morning (6am - 9am)");
-                } else if (progress > 20 && progress <= 40) {
+                } else if (i > 20 && i <= 40) {
                     label3.setText("Late Morning (9am - 12pm)");
-                } else if (progress > 40 && progress <= 60) {
+                } else if (i > 40 && i <= 60) {
                     label3.setText("Afternoon (12am - 3pm)");
-                } else if (progress > 60 && progress <= 80) {
+                } else if (i > 60 && i <= 80) {
                     label3.setText("Midday (3am - 6pm)");
                 } else {
                     label3.setText("Evening (6pm-9pm)");
@@ -159,12 +139,42 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekArc seekArc) {
 
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekArc seekArc) {
+
+            }
+        });
+
+        slider4 = (SeekArc) findViewById(R.id.mainseek4);
+        label4 = (TextView) findViewById(R.id.mainLabel4);
+        slider4.setArcColor(R.color.colorAccent);
+        slider4.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
+            @Override
+            public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
+                if (i <= 20) {
+                    label4.setText("Early Morning (6am - 9am)");
+                } else if (i > 20 && i <= 40) {
+                    label4.setText("Late Morning (9am - 12pm)");
+                } else if (i > 40 && i <= 60) {
+                    label4.setText("Afternoon (12am - 3pm)");
+                } else if (i > 60 && i <= 80) {
+                    label4.setText("Midday (3am - 6pm)");
+                } else {
+                    label4.setText("Evening (6pm-9pm)");
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekArc seekArc) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekArc seekArc) {
 
             }
         });
