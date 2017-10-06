@@ -308,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 15));
         MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
                 //Choose map style:
-                tomandjerrycolours
+                monotone
         );
         mGoogleMap.setMapStyle(style);
         mGoogleMap.setOnCameraMoveListener(this);

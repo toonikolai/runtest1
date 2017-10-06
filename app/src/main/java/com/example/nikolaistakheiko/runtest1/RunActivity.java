@@ -55,22 +55,16 @@ public class RunActivity extends AppCompatActivity implements OnMapReadyCallback
             startplace = new LatLng(-33.8688, 151.2093);
             style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
                     //Choose map style:
-                    blue
+                    monotone
             );
         } else {
             startplace = new LatLng(43.6532, -79.3832);
             style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
                     //Choose map style:
-                    avocado
+                    monotone
             );
         }
-//        else {
-//            startplace = new LatLng(22.9068, -43.1729);
-//            style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
-//                    //Choose map style:
-//                    blue
-//            );
-//        }
+
         mMapTile.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 15));
         mMapTile.setMapStyle(style);
         mMapTile.getUiSettings().setAllGesturesEnabled(false);
