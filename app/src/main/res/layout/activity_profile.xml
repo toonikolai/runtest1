@@ -355,9 +355,13 @@
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
+        android:id="@+id/navViewProfile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:headerLayout="@layout/header"
+        app:itemTextColor="@color/progress_gray_dark"
+        app:itemIconTint="@color/progress_gray_dark"
         app:menu="@menu/menu_section"></android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

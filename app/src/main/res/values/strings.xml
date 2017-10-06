@@ -39,4 +39,7 @@
     <string pace="">Loop</string>
     <string group="">Loop</string>
 
+    <string name="profile_name">Random Name</string>
+    <string name="athlete_type">Rookie Runner</string>
+
 </resources>

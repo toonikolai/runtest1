@@ -17,6 +17,7 @@ import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -52,7 +53,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.triggertrap.seekarc.SeekArc;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
     private GoogleMap mGoogleMap;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             prefs = this.getSharedPreferences("myPrefs", Activity.MODE_PRIVATE);
             editor = prefs.edit();
+            setName();
             setUpButton();
             setUpRunButton();
             initMap();
@@ -82,6 +84,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    private void setName() {
+        View inflatedView = getLayoutInflater().inflate(R.layout.header, null);
+        String profilename = prefs.getString("user_name", "nothing");
+        TextView profiletextview = (TextView) inflatedView.findViewById(R.id.header_text_1);
+        profiletextview.setText(profilename);
+    }
 
 
     private void setUpSeekBars() {
@@ -229,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return false;
     }
 
-    public void openProfile(MenuItem item) {
+    public void openProfile(View item) {
         Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivityForResult(profileIntent, 0);
         final Handler handler = new Handler();
@@ -564,6 +572,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    public void openProfile2(View view) {
+        Toast.makeText(this, "test1", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
+    }
 }
 
 

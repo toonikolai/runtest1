@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:background="@drawable/landscape"
+    android:padding="20dp">
+    <ImageView
+        android:src="@drawable/blue_circle_thin"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:onClick="openProfile"/>
+    <TextView
+        android:id="@+id/header_text_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Profile"
+        android:textColor="@color/color1"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"/>
+    <!--<TextView-->
+        <!--android:id="@+id/header_text_2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/athlete_type"-->
+        <!--android:textColor="@color/color1"/>-->
+
+</LinearLayout>

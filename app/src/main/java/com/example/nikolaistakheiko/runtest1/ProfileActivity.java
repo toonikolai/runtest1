@@ -12,6 +12,8 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -47,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
         prefs = this.getSharedPreferences("myPrefs", Activity.MODE_PRIVATE);
         editor = prefs.edit();
 
+        nameEditorSetUp();
         buttonSetUp();
         genderSetUp();
         partnerSetUp();
@@ -60,6 +64,28 @@ public class ProfileActivity extends AppCompatActivity {
 //        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
 //        roundedBitmapDrawable.setCircular(true);
 //        imageView.setImageDrawable(roundedBitmapDrawable);
+    }
+
+    private void nameEditorSetUp() {
+        EditText nameTextView = (EditText) findViewById(R.id.Name);
+        nameTextView.setText(prefs.getString("user_name", ""));
+        nameTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                editor.putString("user_name", s.toString());
+                editor.commit();
+            }
+        });
     }
 
     private void seekBarSetUp() {
@@ -241,7 +267,7 @@ public class ProfileActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
-    public void openProfile(MenuItem item){
+    public void openProfile(View item){
         mDrawerLayout2.closeDrawer(Gravity.LEFT);
     }
 
