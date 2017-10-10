@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setName();
         setUpButton();
         setUpRunButton();
-        setUpSeekBars();
+        setUpSeeeekBars();
     }
 
     private void setName() {
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    private void setUpSeekBars() {
+    private void setUpSeeeekBars() {
         slider1 = (SeekArc) findViewById(R.id.mainseek1);
         label1 = (TextView) findViewById(R.id.mainLabel1);
         slider1.setArcColor(R.color.colorAccent);
