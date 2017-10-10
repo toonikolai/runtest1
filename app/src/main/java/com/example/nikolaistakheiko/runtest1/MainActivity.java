@@ -51,6 +51,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.triggertrap.seekarc.SeekArc;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener {
@@ -62,8 +67,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     LatLng ll;
     SeekArc slider1, slider2, slider3, slider4;
     TextView label1, label2, label3, label4;
+    String profilename;
+    int paceInt, timeInt, distanceInt, groupSizeInt;
+
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
+
+    DatabaseReference mRunnerData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,22 +84,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             prefs = this.getSharedPreferences("myPrefs", Activity.MODE_PRIVATE);
             editor = prefs.edit();
-            setName();
-            setUpButton();
-            setUpRunButton();
             initMap();
-            setUpSeekBars();
         } else {
             Toast.makeText(this, "No G-maps layout", Toast.LENGTH_SHORT).show();
         }
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mRunnerData = FirebaseDatabase.getInstance().getReference("runners");
+        setName();
+        setUpButton();
+        setUpRunButton();
+        setUpSeekBars();
+    }
+
     private void setName() {
-        View inflatedView = getLayoutInflater().inflate(R.layout.header, null);
-        String profilename = prefs.getString("user_name", "nothing");
-        TextView profiletextview = (TextView) inflatedView.findViewById(R.id.header_text_1);
-        profiletextview.setText(profilename);
+        profilename = prefs.getString("user_name", "nothing");
     }
 
 
@@ -96,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         slider1 = (SeekArc) findViewById(R.id.mainseek1);
         label1 = (TextView) findViewById(R.id.mainLabel1);
         slider1.setArcColor(R.color.colorAccent);
-        int paceInt = prefs.getInt("pace", 0);
+        paceInt = prefs.getInt("pace", 0);
         slider1.setProgress(paceInt);
         label1.setText("Run Pace: " + paceInt + " km/h");
         slider1.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
@@ -119,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         slider2 = (SeekArc) findViewById(R.id.mainseek2);
         label2 = (TextView) findViewById(R.id.mainLabel2);
         slider2.setArcColor(R.color.colorAccent);
-        int distanceInt = prefs.getInt("distance", 0);
+        distanceInt = prefs.getInt("distance", 0);
         slider2.setProgress(distanceInt);
         if (distanceInt == 42) {
             label2.setText("Distance: " + distanceInt + "+ km");
@@ -147,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         slider3 = (SeekArc) findViewById(R.id.mainseek3);
         label3 = (TextView) findViewById(R.id.mainLabel3);
         slider3.setArcColor(R.color.colorAccent);
-        int timeInt = prefs.getInt("time", 0);
+        timeInt = prefs.getInt("time", 0);
         slider3.setProgress(timeInt);
         timeCheck(timeInt);
         slider3.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
@@ -170,11 +184,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         slider4 = (SeekArc) findViewById(R.id.mainseek4);
         label4 = (TextView) findViewById(R.id.mainLabel4);
         slider4.setArcColor(R.color.colorAccent);
-        int groupInt = prefs.getInt("group", 0);
-        slider4.setProgress(groupInt);
-        if (groupInt <= 20) {
+        groupSizeInt = prefs.getInt("group", 0);
+        slider4.setProgress(groupSizeInt);
+        if (groupSizeInt <= 20) {
             label4.setText("Running partner (2 people)");
-        } else if (groupInt > 20 && groupInt <= 60) {
+        } else if (groupSizeInt > 20 && groupSizeInt <= 60) {
             label4.setText("Small group (2-4 people)");
         } else {
             label4.setText("Large group (5-10 people)");
@@ -280,15 +294,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     private void setUpRunButton() {
-        Button runButton = (Button) findViewById(R.id.runButton);
+        final Button runButton = (Button) findViewById(R.id.runButton);
+
         runButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                String id = mRunnerData.push().getKey();
+                PushData runner = new PushData(ll, profilename, slider2.getProgress(), label3.getText().toString(), paceInt, id);
+                mRunnerData.child(id).setValue(runner);
+
                 Intent runIntent = new Intent(MainActivity.this, RunActivity.class);
                 startActivity(runIntent);
             }
         });
+
+
     }
 
     @Override
