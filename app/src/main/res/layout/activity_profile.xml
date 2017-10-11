@@ -69,7 +69,7 @@
                         android:layout_alignStart="@+id/frame"
                         android:layout_below="@+id/ProfileTitle"
                         android:layout_weight="0.33"
-                        android:src="@drawable/landscape" />
+                        android:src="@mipmap/landscape" />
 
                     <ImageView
                         android:id="@+id/circle_crop"
