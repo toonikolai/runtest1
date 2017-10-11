@@ -56,6 +56,8 @@ public class ProfileActivity extends AppCompatActivity {
         partnerSetUp();
         terrainSetUp();
         seekBarSetUp();
+        loginSetUp();
+
 
 
 //        ImageView imageView = (ImageView) findViewById(R.id.imageView);
@@ -64,6 +66,18 @@ public class ProfileActivity extends AppCompatActivity {
 //        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
 //        roundedBitmapDrawable.setCircular(true);
 //        imageView.setImageDrawable(roundedBitmapDrawable);
+    }
+
+    private void loginSetUp() {
+        ImageView image=(ImageView)findViewById(R.id.circle_crop);
+        image.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent=new Intent(ProfileActivity.this, LoginActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
     }
 
     private void nameEditorSetUp() {
