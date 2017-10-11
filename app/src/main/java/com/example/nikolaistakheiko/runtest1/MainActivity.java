@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             Toast.makeText(this, "No G-maps layout", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setName();
         setUpButton();
         setUpRunButton();
-        setUpSeeeekBars();
+        setUpSeekBars();
     }
 
     private void setName() {
@@ -106,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    private void setUpSeeeekBars() {
+    private void setUpSeekBars() {
         slider1 = (SeekArc) findViewById(R.id.mainseek1);
         label1 = (TextView) findViewById(R.id.mainLabel1);
         slider1.setArcColor(R.color.colorAccent);
@@ -297,15 +296,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         final Button runButton = (Button) findViewById(R.id.runButton);
 
         runButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 String id = mRunnerData.push().getKey();
-                PushData runner = new PushData(ll, profilename, slider2.getProgress(), label3.getText().toString(), paceInt, id);
+                PushData runner = new PushData(profilename, slider2.getProgress(), label3.getText().toString(), slider1.getProgress(), slider4.getProgress(), id);
                 mRunnerData.child(id).setValue(runner);
 
                 Intent runIntent = new Intent(MainActivity.this, RunActivity.class);
                 startActivity(runIntent);
+            }
+        });
+        runButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent runIntent = new Intent(MainActivity.this, RunActivity.class);
+                startActivity(runIntent);
+                return false;
             }
         });
 

@@ -8,29 +8,31 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class PushData {
 
-    LatLng latlng;
+//    LatLng latlng;
     String username;
     int distance;
     String timeofday;
     int pace;
+    int group;
     String i_d;
 
     public PushData() {
 
     }
 
-    public PushData(LatLng latlng, String username, int distance, String timeofday, int pace, String i_d) {
-        this.latlng = latlng;
+    public PushData(/*LatLng latlng,*/ String username, int distance, String timeofday, int pace, int group, String i_d) {
+//        this.latlng = latlng;
         this.username = username;
         this.distance = distance;
         this.timeofday = timeofday;
         this.pace = pace;
+        this.group = group;
         this.i_d = i_d;
     }
 
-    public LatLng getLatlng() {
-        return latlng;
-    }
+//    public LatLng getLatlng() {
+//        return latlng;
+//    }
 
     public String getUsername() {
         return username;
@@ -46,6 +48,10 @@ public class PushData {
 
     public int getPace() {
         return pace;
+    }
+
+    public int getGroup() {
+        return group;
     }
 
     public String getI_d() {

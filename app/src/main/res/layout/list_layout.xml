@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/listTile"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:background="@color/color2"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:text=""
+        android:paddingBottom="10dp"/>
+
+    <com.triggertrap.seekarc.SeekArc
+        android:id="@+id/listSeek2"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:padding="30dp"
+        app:thumb="@color/colorAccent"
+        app:rotation="180"
+        app:roundEdges="true"
+        app:max="20"
+        app:progressColor="@color/colorAccent"
+        app:arcWidth="2dp"
+        app:startAngle="30"
+        app:sweepAngle="300"
+        app:touchInside="true"
+        android:layout_alignBottom="@+id/listTile" />
+
+    <com.triggertrap.seekarc.SeekArc
+        android:id="@+id/listSeek1"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:padding="30dp"
+        app:thumb="@color/colorAccent"
+        app:rotation="180"
+        app:roundEdges="true"
+        app:max="20"
+        app:progressColor="@color/colorAccent"
+        app:arcWidth="2dp"
+        app:startAngle="30"
+        app:sweepAngle="300"
+        app:touchInside="true"
+        android:layout_alignBottom="@+id/listTile"
+        android:layout_toStartOf="@+id/listSeek2"
+        android:layout_marginRight="10dp"/>
+
+    <com.triggertrap.seekarc.SeekArc
+        android:id="@+id/listSeek3"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:padding="30dp"
+        app:thumb="@color/colorAccent"
+        app:rotation="180"
+        app:roundEdges="true"
+        app:max="20"
+        app:progressColor="@color/colorAccent"
+        app:arcWidth="2dp"
+        app:startAngle="30"
+        app:sweepAngle="300"
+        app:touchInside="true"
+        android:layout_alignBottom="@+id/listTile"
+        android:layout_toEndOf="@+id/listSeek2"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/listLabel1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color1"
+        android:layout_above="@+id/listSeek1"
+        android:layout_alignStart="@+id/listSeek1"
+        android:text="TextView"
+        android:layout_alignEnd="@+id/listSeek1" />
+
+    <TextView
+        android:id="@+id/listTimeofday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/listName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
+        android:textColor="@color/color1"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/listName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
+        android:textColor="@color/color1"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/listLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color1"
+        android:layout_above="@+id/listSeek2"
+        android:layout_alignStart="@+id/listSeek2"
+        android:text="TextView"
+        android:layout_alignEnd="@+id/listSeek2" />
+
+    <TextView
+        android:id="@+id/listLabel3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color1"
+        android:layout_above="@+id/listSeek3"
+        android:layout_alignStart="@+id/listSeek3"
+        android:text="TextView"
+        android:layout_alignEnd="@+id/listSeek3" />
+
+
+</RelativeLayout>

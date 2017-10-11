@@ -1,103 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    tools:context="com.example.nikolaistakheiko.runtest1.RunActivity">
-
-    <RelativeLayout
+    <TextView
+        android:id="@+id/activeRunnersLabel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_alignParentTop="true"
-            android:orientation="horizontal"
-            android:id="@+id/runLinear1">
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Active Runners"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="36sp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/color1"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"/>
 
-            <Button
-                android:id="@+id/rbutton1"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:background="@color/color2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="" />
+    <ListView
+        android:id="@+id/runListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#d4d4d4"
+        android:dividerHeight="1dp"
+        android:orientation="vertical"
+        android:layout_below="@+id/activeRunnersLabel" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/runLinear2"
-            android:layout_height="200dp"
-            android:layout_below="@+id/runLinear1"
-            android:layout_centerHorizontal="true"
-            android:weightSum="10"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/rbutton3"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:background="@color/colorPrimary"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:text="" />
-
-            <fragment
-                android:id="@+id/mapTile3"
-                android:name="com.google.android.gms.maps.MapFragment"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/runLinear3"
-            android:weightSum="10"
-            android:layout_below="@+id/runLinear2"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/rbutton4"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:background="@color/color2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:text="" />
-
-            <Button
-                android:id="@+id/rbutton5"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:background="@color/colorAccent"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:text="" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/runLinear4"
-            android:weightSum="10"
-            android:layout_below="@+id/runLinear3"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
-
-            <fragment
-                android:id="@+id/mapTile6"
-                android:name="com.google.android.gms.maps.MapFragment"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="10" />
-        </LinearLayout>
-    </RelativeLayout>
-
-
-</ScrollView>
+</RelativeLayout>
