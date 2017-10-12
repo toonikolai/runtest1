@@ -42,6 +42,8 @@ public class RunnerList extends ArrayAdapter<PushData> {
         SeekArc paceArc = (SeekArc) listViewItem.findViewById(R.id.listSeek2);
         SeekArc groupArc = (SeekArc) listViewItem.findViewById(R.id.listSeek3);
 
+
+
         PushData runner = runnerList.get(position);
 
         username.setText(runner.getUsername());
