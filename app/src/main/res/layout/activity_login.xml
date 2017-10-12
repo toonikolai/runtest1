@@ -9,11 +9,12 @@
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/fb_login_btn"
-        android:layout_width="368dp"
-        android:layout_height="wrap_content"
+        android:layout_width="248dp"
+        android:layout_height="37dp"
         android:layout_gravity="center_horizontal"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="489dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

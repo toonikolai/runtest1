@@ -70,6 +70,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void loginSetUp() {
         ImageView image=(ImageView)findViewById(R.id.circle_crop);
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(ProfileActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+
         image.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
