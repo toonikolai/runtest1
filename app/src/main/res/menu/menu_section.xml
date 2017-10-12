@@ -17,4 +17,11 @@
         android:onClick="openAbout"
         android:icon="@drawable/ic_info_outline_black_24dp"/>
 
+    <item android:id="@+id/logout"
+        android:title="Sign Off"
+        android:onClick="openAbout"
+        android:icon="@drawable/logout_icon"/>
+
+
+
 </menu>

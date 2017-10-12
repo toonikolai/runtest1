@@ -63,6 +63,8 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
 
+                    finish();
+
                 }
 
                 @Override
@@ -85,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
+            this.finish();
 
         }
     }
