@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -27,6 +28,8 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.login.LoginManager;
 
 
 public class ProfileActivity extends AppCompatActivity {
@@ -57,6 +60,8 @@ public class ProfileActivity extends AppCompatActivity {
         terrainSetUp();
         seekBarSetUp();
         loginSetUp();
+
+
 
 
 
@@ -296,11 +301,33 @@ public class ProfileActivity extends AppCompatActivity {
     public void openHome(MenuItem item) {
         finish();
     }
+
     public void openAbout(MenuItem item){
         Intent resultIntent = new Intent();
         resultIntent.putExtra("Menu_Option", "about");
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
+    }
+
+    public void openLogout(MenuItem item) {
+
+        LoginManager.getInstance().logOut();
+
+        Intent profileIntent = new Intent(ProfileActivity.this, LoginActivity.class);
+        startActivityForResult(profileIntent, 0);
+//        final Handler handler = new Handler();
+//
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                // Do something after 5s = 5000ms
+//                mDrawerLayout2.closeDrawer(Gravity.LEFT);
+//            }
+//        }, 1000);
+
+        this.finish();
+
+
     }
 
     private void buttonSetUp() {

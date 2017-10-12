@@ -2,9 +2,11 @@ package com.example.nikolaistakheiko.runtest1;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -35,6 +37,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -74,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     SharedPreferences.Editor editor;
 
     DatabaseReference mRunnerData;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onStartTrackingTouch(SeekArc seekArc) {
             }
+
             @Override
             public void onStopTrackingTouch(SeekArc seekArc) {
             }
@@ -254,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivityForResult(profileIntent, 0);
         final Handler handler = new Handler();
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -261,9 +265,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
             }
         }, 1000);
+
     }
 
     public void openHome(MenuItem item) {
+
         mDrawerLayout.closeDrawer(Gravity.LEFT);
     }
 
@@ -278,6 +284,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
             }
         }, 1000);
+    }
+
+    public void openLogout(MenuItem item) {
+
+        LoginManager.getInstance().logOut();
+
+        Intent profileIntent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivityForResult(profileIntent, 0);
+        this.finish();
+
     }
 
     private void setUpButton() {

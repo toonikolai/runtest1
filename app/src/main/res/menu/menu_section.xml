@@ -19,7 +19,7 @@
 
     <item android:id="@+id/logout"
         android:title="Sign Off"
-        android:onClick="openAbout"
+        android:onClick="openLogout"
         android:icon="@drawable/logout_icon"/>
 
 
