@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Intent profileIntent = new Intent(MainActivity.this, LoginActivity.class);
         startActivityForResult(profileIntent, 0);
-        this.finish();
+        finishAffinity();
 
     }
 

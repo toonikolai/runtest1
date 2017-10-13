@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -29,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 
 
@@ -46,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(this);
         setContentView(R.layout.activity_profile);
         mDrawerLayout2 = (DrawerLayout) findViewById(R.id.drawer_layout2);
 
@@ -61,10 +64,6 @@ public class ProfileActivity extends AppCompatActivity {
         seekBarSetUp();
         loginSetUp();
 
-
-
-
-
 //        ImageView imageView = (ImageView) findViewById(R.id.imageView);
 //
 //        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.stlsm);
@@ -73,19 +72,26 @@ public class ProfileActivity extends AppCompatActivity {
 //        imageView.setImageDrawable(roundedBitmapDrawable);
     }
 
+
+
+
+
     private void loginSetUp() {
         ImageView image=(ImageView)findViewById(R.id.circle_crop);
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    LoginManager.getInstance().logOut();
                     Intent intent=new Intent(ProfileActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    finishAffinity();
                 }
             });
 
         image.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                LoginManager.getInstance().logOut();
                 Intent intent=new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(intent);
                 return false;
@@ -310,22 +316,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void openLogout(MenuItem item) {
-
         LoginManager.getInstance().logOut();
-
-        Intent profileIntent = new Intent(ProfileActivity.this, LoginActivity.class);
-        startActivityForResult(profileIntent, 0);
-//        final Handler handler = new Handler();
-//
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                // Do something after 5s = 5000ms
-//                mDrawerLayout2.closeDrawer(Gravity.LEFT);
-//            }
-//        }, 1000);
-
-        this.finish();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finishAffinity();
 
 
     }
