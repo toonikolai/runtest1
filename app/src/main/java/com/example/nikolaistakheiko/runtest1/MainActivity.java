@@ -23,6 +23,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,6 +90,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setUpButton();
         setUpRunButton();
         setUpSeekBars();
+        setUpTerrains();
+    }
+
+    private void setUpTerrains() {
+        ImageView terrain1 = (ImageView) findViewById(R.id.terrain1);
+        ImageView terrain2 = (ImageView) findViewById(R.id.terrain2);
+        ImageView terrain3 = (ImageView) findViewById(R.id.terrain3);
+        ImageView terrain4 = (ImageView) findViewById(R.id.terrain4);
+        ImageView terrain5 = (ImageView) findViewById(R.id.terrain5);
+        terrain1.setImageAlpha(90);
+        terrain2.setImageAlpha(90);
+        terrain3.setImageAlpha(90);
+        terrain4.setImageAlpha(90);
+        terrain5.setImageAlpha(90);
     }
 
     private void setName() {
@@ -97,28 +112,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     private void setUpSeekBars() {
-        slider1 = (SeekArc) findViewById(R.id.mainseek1);
-        label1 = (TextView) findViewById(R.id.mainLabel1);
-        slider1.setArcColor(R.color.colorAccent);
         paceInt = prefs.getInt("pace", 0);
-        slider1.setProgress(paceInt);
-        label1.setText("Run Pace: " + paceInt + " km/h");
-        slider1.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
-            @Override
-            public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
-                label1.setText("Run Pace: " + i + " km/h");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekArc seekArc) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekArc seekArc) {
-
-            }
-        });
+//        slider1 = (SeekArc) findViewById(R.id.mainseek1);
+//        label1 = (TextView) findViewById(R.id.mainLabel1);
+//        slider1.setArcColor(R.color.colorAccent);
+//        slider1.setProgress(paceInt);
+//        label1.setText("Run Pace: " + paceInt + " km/h");
+//        slider1.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
+//                label1.setText("Run Pace: " + i + " km/h");
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekArc seekArc) {
+//
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekArc seekArc) {
+//
+//            }
+//        });
 
         slider2 = (SeekArc) findViewById(R.id.mainseek2);
         label2 = (TextView) findViewById(R.id.mainLabel2);
@@ -172,40 +187,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        slider4 = (SeekArc) findViewById(R.id.mainseek4);
-        label4 = (TextView) findViewById(R.id.mainLabel4);
-        slider4.setArcColor(R.color.colorAccent);
+
         groupSizeInt = prefs.getInt("group", 0);
-        slider4.setProgress(groupSizeInt);
-        if (groupSizeInt <= 20) {
-            label4.setText("Running partner (2 people)");
-        } else if (groupSizeInt > 20 && groupSizeInt <= 60) {
-            label4.setText("Small group (2-4 people)");
-        } else {
-            label4.setText("Large group (5-10 people)");
-        }
-        slider4.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
-            @Override
-            public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
-                if (i <= 20) {
-                    label4.setText("Running partner (2 people)");
-                } else if (i > 20 && i <= 60) {
-                    label4.setText("Small group (2-4 people)");
-                } else {
-                    label4.setText("Large group (5-10 people)");
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekArc seekArc) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekArc seekArc) {
-
-            }
-        });
+//        slider4 = (SeekArc) findViewById(R.id.mainseek4);
+//        label4 = (TextView) findViewById(R.id.mainLabel4);
+//        slider4.setArcColor(R.color.colorAccent);
+//        slider4.setProgress(groupSizeInt);
+//        if (groupSizeInt <= 20) {
+//            label4.setText("Running partner (2 people)");
+//        } else if (groupSizeInt > 20 && groupSizeInt <= 60) {
+//            label4.setText("Small group (2-4 people)");
+//        } else {
+//            label4.setText("Large group (5-10 people)");
+//        }
+//        slider4.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
+//            @Override
+//            public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
+//                if (i <= 20) {
+//                    label4.setText("Running partner (2 people)");
+//                } else if (i > 20 && i <= 60) {
+//                    label4.setText("Small group (2-4 people)");
+//                } else {
+//                    label4.setText("Large group (5-10 people)");
+//                }
+//            }
+//
+//            @Override
+//            public void onStartTrackingTouch(SeekArc seekArc) {
+//
+//            }
+//
+//            @Override
+//            public void onStopTrackingTouch(SeekArc seekArc) {
+//
+//            }
+//        });
     }
 
     private void timeCheck(int i) {
@@ -285,6 +301,51 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    public void terrainMountain(View vieww) {
+        ImageView view = (ImageView) vieww.findViewById(R.id.terrain1);
+        if (view.getImageAlpha()==90) {
+            view.setImageAlpha(255);
+        } else {
+            view.setImageAlpha(90);
+        }
+    }
+
+    public void terrainForest(View vieww) {
+        ImageView view = (ImageView) vieww.findViewById(R.id.terrain2);
+        if (view.getImageAlpha()==90) {
+            view.setImageAlpha(255);
+        } else {
+            view.setImageAlpha(90);
+        }
+    }
+
+    public void terrainWater(View vieww) {
+        ImageView view = (ImageView) vieww.findViewById(R.id.terrain3);
+        if (view.getImageAlpha()==90) {
+            view.setImageAlpha(255);
+        } else {
+            view.setImageAlpha(90);
+        }
+    }
+
+    public void terrainCity(View vieww) {
+        ImageView view = (ImageView) vieww.findViewById(R.id.terrain4);
+        if (view.getImageAlpha()==90) {
+            view.setImageAlpha(255);
+        } else {
+            view.setImageAlpha(90);
+        }
+    }
+
+    public void terrainFlat(View vieww) {
+        ImageView view = (ImageView) vieww.findViewById(R.id.terrain5);
+        if (view.getImageAlpha() == 90) {
+            view.setImageAlpha(255);
+        } else {
+            view.setImageAlpha(90);
+        }
+    }
+
     private void setUpButton() {
         Button button = (Button) findViewById(R.id.mainMenuButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -304,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 String id = mRunnerData.push().getKey();
-                RunnerClass runner = new RunnerClass(lat, lng, profilename, slider2.getProgress(), label3.getText().toString(), slider1.getProgress(), slider4.getProgress(), id);
+                RunnerClass runner = new RunnerClass(lat, lng, profilename, slider2.getProgress(), label3.getText().toString(), paceInt, groupSizeInt, id);
                 mRunnerData.child(id).setValue(runner);
 
                 Intent runIntent = new Intent(MainActivity.this, RunActivity.class);
@@ -348,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 15));
         MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
                 //Choose map style:
-                cool_map_thick
+                blue_hues
         );
         mGoogleMap.setMapStyle(style);
         mGoogleMap.setOnCameraMoveListener(this);

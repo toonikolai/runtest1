@@ -52,14 +52,98 @@
             android:layout_width="match_parent"
             android:background="@drawable/background_with_shadow"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_below="@+id/mainMenuButton"
-            android:weightSum="10"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp" >
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="8dp"
+                android:weightSum="10">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/terrain1"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:srcCompat="@mipmap/mountain_circle"
+                        android:layout_gravity="center"
+                        android:onClick="terrainMountain"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:paddingTop="4dp"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/terrain2"
+                        android:layout_width="51dp"
+                        android:layout_height="51dp"
+                        app:srcCompat="@mipmap/forest_circle"
+                        android:layout_gravity="center"
+                        android:onClick="terrainForest"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:paddingTop="4dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/terrain3"
+                        android:layout_width="53dp"
+                        android:layout_height="53dp"
+                        app:srcCompat="@mipmap/water_circle"
+                        android:layout_gravity="center"
+                        android:onClick="terrainWater"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:paddingTop="2dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/terrain4"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        app:srcCompat="@mipmap/water_terrain"
+                        android:layout_gravity="center"
+                        android:onClick="terrainCity"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:paddingTop="4dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/terrain5"
+                        android:layout_width="51dp"
+                        android:layout_height="51dp"
+                        app:srcCompat="@mipmap/golf_circle_2"
+                        android:layout_gravity="center"
+                        android:onClick="terrainFlat"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <LinearLayout
                 android:id="@+id/linlayleft"
                 android:layout_width="0dp"
                 android:layout_weight="5"
@@ -67,29 +151,29 @@
                 android:orientation="vertical"
                 android:paddingTop="8dp">
 
-                <TextView
-                    android:id="@+id/mainLabel1"
-                    android:layout_width="wrap_content"
-                    android:textColor="#ff000000"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_height="wrap_content"
-                    android:text="Run Speed" />
+                <!--<TextView-->
+                    <!--android:id="@+id/mainLabel1"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:textColor="#ff000000"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Run Speed" />-->
 
-                <com.triggertrap.seekarc.SeekArc
-                    android:id="@+id/mainseek1"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:padding="30dp"
-                    app:thumb="@color/colorAccent"
-                    app:rotation="180"
-                    app:roundEdges="true"
-                    app:max="20"
-                    app:progressColor="@color/colorAccent"
-                    app:arcWidth="2dp"
-                    app:startAngle="30"
-                    app:sweepAngle="300"
-                    app:touchInside="true"/>
+                <!--<com.triggertrap.seekarc.SeekArc-->
+                    <!--android:id="@+id/mainseek1"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:layout_width="150dp"-->
+                    <!--android:layout_height="150dp"-->
+                    <!--android:padding="30dp"-->
+                    <!--app:thumb="@color/colorAccent"-->
+                    <!--app:rotation="180"-->
+                    <!--app:roundEdges="true"-->
+                    <!--app:max="20"-->
+                    <!--app:progressColor="@color/colorAccent"-->
+                    <!--app:arcWidth="2dp"-->
+                    <!--app:startAngle="30"-->
+                    <!--app:sweepAngle="300"-->
+                    <!--app:touchInside="true"/>-->
 
                 <TextView
                     android:id="@+id/mainLabel2"
@@ -97,7 +181,6 @@
                     android:textColor="#ff000000"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:text="Distance" />
 
                 <com.triggertrap.seekarc.SeekArc
@@ -118,7 +201,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+                <LinearLayout
                 android:id="@+id/linlayright"
                 android:layout_width="0dp"
                 android:layout_weight="5"
@@ -150,34 +233,37 @@
                     app:sweepAngle="300"
                     app:touchInside="true"/>
 
-                <TextView
-                    android:id="@+id/mainLabel4"
-                    android:layout_width="wrap_content"
-                    android:textColor="#ff000000"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Choose your run time" />
+                <!--<TextView-->
+                    <!--android:id="@+id/mainLabel4"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:textColor="#ff000000"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:text="Choose your run time" />-->
 
-                <com.triggertrap.seekarc.SeekArc
-                    android:id="@+id/mainseek4"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:padding="30dp"
-                    app:thumb="@color/colorAccent"
-                    app:rotation="180"
-                    app:roundEdges="true"
-                    app:max="100"
-                    app:progressColor="@color/colorAccent"
-                    app:arcWidth="2dp"
-                    app:startAngle="30"
-                    app:sweepAngle="300"
-                    app:touchInside="true"/>
+                <!--<com.triggertrap.seekarc.SeekArc-->
+                    <!--android:id="@+id/mainseek4"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:layout_width="150dp"-->
+                    <!--android:layout_height="150dp"-->
+                    <!--android:padding="30dp"-->
+                    <!--app:thumb="@color/colorAccent"-->
+                    <!--app:rotation="180"-->
+                    <!--app:roundEdges="true"-->
+                    <!--app:max="100"-->
+                    <!--app:progressColor="@color/colorAccent"-->
+                    <!--app:arcWidth="2dp"-->
+                    <!--app:startAngle="30"-->
+                    <!--app:sweepAngle="300"-->
+                    <!--app:touchInside="true"/>-->
+
+            </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
+
 
 
     </RelativeLayout>
