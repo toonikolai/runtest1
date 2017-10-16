@@ -2,21 +2,14 @@ package com.example.nikolaistakheiko.runtest1;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Handler;
-import android.os.SystemClock;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -29,11 +22,8 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,11 +44,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.triggertrap.seekarc.SeekArc;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener {
@@ -68,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     GoogleApiClient mGoogleApiClient;
     Marker mPositionMarker;
     LatLng ll;
+    Double lat;
+    Double lng;
     SeekArc slider1, slider2, slider3, slider4;
     TextView label1, label2, label3, label4;
     String profilename;
@@ -315,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 String id = mRunnerData.push().getKey();
-                PushData runner = new PushData(profilename, slider2.getProgress(), label3.getText().toString(), slider1.getProgress(), slider4.getProgress(), id);
+                RunnerClass runner = new RunnerClass(lat, lng, profilename, slider2.getProgress(), label3.getText().toString(), slider1.getProgress(), slider4.getProgress(), id);
                 mRunnerData.child(id).setValue(runner);
 
                 Intent runIntent = new Intent(MainActivity.this, RunActivity.class);
@@ -359,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 15));
         MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
                 //Choose map style:
-                monotone
+                cool_map_thick
         );
         mGoogleMap.setMapStyle(style);
         mGoogleMap.setOnCameraMoveListener(this);
@@ -599,6 +588,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         if (location != null) {
             ll = new LatLng(location.getLatitude(),location.getLongitude());
+            lat = ll.latitude;
+            lng = ll.longitude;
             if(mPositionMarker == null) {
                 mPositionMarker = mGoogleMap.addMarker(new MarkerOptions()
                         .flat(true)

@@ -68,6 +68,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".RunActivity" />
+        <activity android:name=".RunActivity2" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
