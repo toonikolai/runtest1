@@ -2,6 +2,7 @@ package com.example.nikolaistakheiko.runtest1;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -47,6 +51,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mapbox.services.Constants;
+import com.mapbox.services.api.staticimage.v1.MapboxStaticImage;
+import com.squareup.picasso.Picasso;
 import com.triggertrap.seekarc.SeekArc;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener {
@@ -66,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
+    private RecyclerView recV;
+
     DatabaseReference mRunnerData;
 
     @Override
@@ -77,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             prefs = this.getSharedPreferences("myPrefs", Activity.MODE_PRIVATE);
             editor = prefs.edit();
             initMap();
+            recV = (RecyclerView) findViewById(R.id.recyclerViewInsideBox);
+            recV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         } else {
             Toast.makeText(this, "No G-maps layout", Toast.LENGTH_SHORT).show();
         }
@@ -302,47 +313,77 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void terrainMountain(View vieww) {
-        ImageView view = (ImageView) vieww.findViewById(R.id.terrain1);
-        if (view.getImageAlpha()==90) {
-            view.setImageAlpha(255);
+        ImageView view1 = (ImageView) vieww.findViewById(R.id.terrain1);
+        if (view1.getImageAlpha()==90) {
+            setUpTerrains();
+            view1.setImageAlpha(255);
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+                    //Choose map style:
+                    cool_map_thick
+            );
+            mGoogleMap.setMapStyle(style);
         } else {
-            view.setImageAlpha(90);
+            view1.setImageAlpha(90);
         }
     }
 
     public void terrainForest(View vieww) {
-        ImageView view = (ImageView) vieww.findViewById(R.id.terrain2);
-        if (view.getImageAlpha()==90) {
-            view.setImageAlpha(255);
+        ImageView view2 = (ImageView) vieww.findViewById(R.id.terrain2);
+        if (view2.getImageAlpha()==90) {
+            setUpTerrains();
+            view2.setImageAlpha(255);
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+                    //Choose map style:
+                    colorful1
+            );
+            mGoogleMap.setMapStyle(style);
         } else {
-            view.setImageAlpha(90);
+            view2.setImageAlpha(90);
         }
     }
 
     public void terrainWater(View vieww) {
-        ImageView view = (ImageView) vieww.findViewById(R.id.terrain3);
-        if (view.getImageAlpha()==90) {
-            view.setImageAlpha(255);
+        ImageView view3 = (ImageView) vieww.findViewById(R.id.terrain3);
+        if (view3.getImageAlpha()==90) {
+            setUpTerrains();
+            view3.setImageAlpha(255);
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+                    //Choose map style:
+                    blue_hues
+            );
+            mGoogleMap.setMapStyle(style);
         } else {
-            view.setImageAlpha(90);
+            view3.setImageAlpha(90);
         }
     }
 
     public void terrainCity(View vieww) {
-        ImageView view = (ImageView) vieww.findViewById(R.id.terrain4);
-        if (view.getImageAlpha()==90) {
-            view.setImageAlpha(255);
+        ImageView view4 = (ImageView) vieww.findViewById(R.id.terrain4);
+        if (view4.getImageAlpha()==90) {
+            setUpTerrains();
+            view4.setImageAlpha(255);
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+                    //Choose map style:
+                    monotone
+            );
+            mGoogleMap.setMapStyle(style);
         } else {
-            view.setImageAlpha(90);
+            view4.setImageAlpha(90);
         }
     }
 
     public void terrainFlat(View vieww) {
-        ImageView view = (ImageView) vieww.findViewById(R.id.terrain5);
-        if (view.getImageAlpha() == 90) {
-            view.setImageAlpha(255);
+        ImageView view5 = (ImageView) vieww.findViewById(R.id.terrain5);
+        if (view5.getImageAlpha() == 90) {
+            setUpTerrains();
+            view5.setImageAlpha(255);
+            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+                    //Choose map style:
+                    miastra
+            );
+            mGoogleMap.setMapStyle(style);
         } else {
-            view.setImageAlpha(90);
+            view5.setImageAlpha(90);
         }
     }
 
@@ -364,12 +405,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         runButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String id = mRunnerData.push().getKey();
-                RunnerClass runner = new RunnerClass(lat, lng, profilename, slider2.getProgress(), label3.getText().toString(), paceInt, groupSizeInt, id);
-                mRunnerData.child(id).setValue(runner);
+                View but = findViewById(R.id.boxOverMap);
+                View but2 = findViewById(R.id.recyclerViewInsideBox);
+                but.setVisibility(View.GONE);
+                but2.setVisibility(View.VISIBLE);
 
-                Intent runIntent = new Intent(MainActivity.this, RunActivity.class);
-                startActivity(runIntent);
+                FirebaseRecyclerAdapter<RunnerClass, MainActivity.RunnerViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<RunnerClass, MainActivity.RunnerViewHolder>(
+                        RunnerClass.class,
+                        R.layout.user_over_map,
+                        MainActivity.RunnerViewHolder.class,
+                        mRunnerData
+                ) {
+                    @Override
+                    protected void populateViewHolder(MainActivity.RunnerViewHolder viewHolder, RunnerClass model, int position) {
+                        viewHolder.setUpUsers(MainActivity.this, model);
+                    }
+                };
+                recV.setAdapter(firebaseRecyclerAdapter);
+
+
+//                String id = mRunnerData.push().getKey();
+//                RunnerClass runner = new RunnerClass(lat, lng, profilename, slider2.getProgress(), label3.getText().toString(), paceInt, groupSizeInt, id);
+//                mRunnerData.child(id).setValue(runner);
+//
+//                Intent runIntent = new Intent(MainActivity.this, RunActivity.class);
+//                startActivity(runIntent);
             }
         });
         runButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -382,6 +442,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
+    }
+
+
+    public static class RunnerViewHolder extends RecyclerView.ViewHolder {
+
+        View mView2;
+
+        public RunnerViewHolder(View itemView) {
+            super(itemView);
+            mView2 = itemView;
+        }
+
+        public void setUpUsers(Context context, RunnerClass runner) {
+            TextView name = (TextView) mView2.findViewById(R.id.userTextName);
+            name.setText(runner.getUsername());
+            SeekArc uSeek1 =  (SeekArc) mView2.findViewById(R.id.userSeek1);
+            SeekArc uSeek2 =  (SeekArc) mView2.findViewById(R.id.userSeek2);
+            SeekArc uSeek3 =  (SeekArc) mView2.findViewById(R.id.userSeek3);
+            uSeek1.setProgress(runner.getDistance());
+            uSeek2.setProgress(runner.getPace());
+            uSeek3.setProgress(runner.getGroup());
+            TextView uLabel1 = (TextView) mView2.findViewById(R.id.userLabel1);
+            TextView uLabel2 = (TextView) mView2.findViewById(R.id.userLabel2);
+            TextView uLabel3 = (TextView) mView2.findViewById(R.id.userLabel3);
+            String s1 = runner.getDistance() + " km";
+            String s2 = runner.getPace() + " km/h";
+            String s3 = "People: " + runner.getDistance();
+            uLabel1.setText(s1);
+            uLabel2.setText(s2);
+            uLabel3.setText(s3);
+        }
     }
 
     @Override
@@ -409,7 +500,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 15));
         MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
                 //Choose map style:
-                blue_hues
+                cool_map_thick
         );
         mGoogleMap.setMapStyle(style);
         mGoogleMap.setOnCameraMoveListener(this);

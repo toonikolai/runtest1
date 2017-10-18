@@ -56,9 +56,10 @@
             android:layout_below="@+id/mainMenuButton"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp" >
+            android:layout_marginTop="10dp">
 
             <LinearLayout
+                android:id="@+id/boxInsideBox1"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:orientation="horizontal"
@@ -138,6 +139,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/boxInsideBox2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -264,7 +266,15 @@
 
         </LinearLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewInsideBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mainMenuButton"
+            android:layout_marginTop="10dp"
+            android:visibility="gone">
 
+        </android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
     
