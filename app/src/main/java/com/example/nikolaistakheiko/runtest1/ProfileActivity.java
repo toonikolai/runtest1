@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -32,6 +35,9 @@ import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.squareup.picasso.Picasso;
+
+import static com.example.nikolaistakheiko.runtest1.R.id.pic;
 
 
 public class ProfileActivity extends AppCompatActivity {
@@ -44,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
     //Initializing variables
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
+    ImageView profile_image_drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,42 +69,31 @@ public class ProfileActivity extends AppCompatActivity {
         partnerSetUp();
         terrainSetUp();
         seekBarSetUp();
-        loginSetUp();
+//        loginSetUp();
+        fbPicSetup();
 
-//        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-//
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.stlsm);
-//        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-//        roundedBitmapDrawable.setCircular(true);
-//        imageView.setImageDrawable(roundedBitmapDrawable);
     }
 
-
-
-
-
-    private void loginSetUp() {
-        ImageView image=(ImageView)findViewById(R.id.circle_crop);
-            image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoginManager.getInstance().logOut();
-                    Intent intent=new Intent(ProfileActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finishAffinity();
-                }
-            });
-
-        image.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                LoginManager.getInstance().logOut();
-                Intent intent=new Intent(ProfileActivity.this, LoginActivity.class);
-                startActivity(intent);
-                return false;
-            }
-        });
+    private void fbPicSetup() {
+        String pic_url = prefs.getString("fb_profile_pic","");
+        ImageView profile_image = (ImageView) findViewById(R.id.pic);
+        Picasso.with(this)
+                .load(pic_url)
+                .into(profile_image);
     }
+
+//    private void loginSetUp() {
+//        ImageView image=(ImageView)findViewById(R.id.circle_crop);
+//            image.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoginManager.getInstance().logOut();
+//                    Intent intent=new Intent(ProfileActivity.this, LoginActivity.class);
+//                    startActivity(intent);
+//                    finishAffinity();
+//                }
+//            });
+
 
     private void nameEditorSetUp() {
         EditText nameTextView = (EditText) findViewById(R.id.Name);
@@ -328,12 +324,19 @@ public class ProfileActivity extends AppCompatActivity {
 
         Button button = (Button) findViewById(R.id.profilebutton2);
         button.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 mDrawerLayout2.openDrawer(Gravity.LEFT);
+                String pic_url2 = prefs.getString("fb_profile_pic","");
+                ImageView profile_image2 = (ImageView) findViewById(R.id.pic2);
+                Picasso.with(ProfileActivity.this)
+                        .load(pic_url2)
+                        .into(profile_image2);
             }
-        });
+
+        }
+
+        );
 
 
 //        Button button = (Button) findViewById(R.id.button3);

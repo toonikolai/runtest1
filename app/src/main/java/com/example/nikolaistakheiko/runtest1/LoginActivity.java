@@ -1,34 +1,33 @@
 package com.example.nikolaistakheiko.runtest1;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import static android.R.attr.bitmap;
+import java.util.Arrays;
+
+import static java.net.Proxy.Type.HTTP;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -36,9 +35,13 @@ public class LoginActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     AccessToken accessToken;
     AccessTokenTracker accessTokenTracker;
-    ImageView profilePhoto;
-    TextView profileName;
-
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
+    String name;
+    String gender;
+    String birthday;
+    String email;
+    GraphRequest request;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +54,15 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
+        prefs = this.getSharedPreferences("myPrefs", Activity.MODE_PRIVATE);
+        editor = prefs.edit();
+
         loginButton = (LoginButton) findViewById(R.id.fb_login_btn);
         callbackManager = CallbackManager.Factory.create();
 
+        //get permissions for these things
+//        loginButton.setReadPermissions(Arrays.asList(
+//                "public_profile", "email", "user_birthday", "user_friends"));
 
         accessTokenTracker = new AccessTokenTracker() {
 
@@ -61,13 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
 
             }
-        };
 
-        ProfileTracker profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-
-            }
         };
 
         accessToken = AccessToken.getCurrentAccessToken();
@@ -78,28 +81,17 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
 
+                    //saved userId in shared prefs and called it in Profile Activity to get profile picture from fb URL
+                    editor.putString("fb_profile_pic", "https://graph.facebook.com/" + loginResult.getAccessToken().getUserId() + "/picture?type=large");
+                    editor.commit();
+
+
+
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                     {
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
-
-                    //trying to take information from facebook page to use as Image and Name
-//                    Profile profile = Profile.getCurrentProfile();
-//                    String userID = loginResult.getAccessToken().getUserId();
-//                    String profileImgUrl = "https://graph.facebook.com/" + userID + "/picture?type=large";
-//                    profileName = (TextView) findViewById(R.id.Name);
-//                    profileName.setText(profile.getFirstName());
-//
-//                    try {
-//                        bitmap = getBitMapFromURL (profileImgUrl);
-//                        profilePhoto = (ImageView) findViewById(R.id.pic);
-//                        profilePhoto.setImageBitmap(bitmap);
-//                        profilePhoto.setImageBitmap(profile.getProfilePictureUri(150,150));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-
 
                     finish();
 
@@ -120,8 +112,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
-
-
         } else {
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -130,9 +120,6 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
-
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

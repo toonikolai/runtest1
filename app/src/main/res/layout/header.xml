@@ -1,23 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="180dp"
     android:background="@mipmap/landscape"
-    android:paddingLeft="20dp"
-    android:paddingTop="30dp">
-    <ImageView
-        android:src="@drawable/blue_circle_thin"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:onClick="openProfile"/>
+    android:paddingTop="10dp"
+    android:onClick="openProfile">
+
+    <!--<ImageView-->
+        <!--android:id="@+id/pic2"-->
+        <!--android:layout_width="150dp"-->
+        <!--android:layout_height="150dp"-->
+        <!--android:src="@drawable/com_facebook_profile_picture_blank_square"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignEnd="@+id/circle_crop"-->
+        <!--android:layout_alignBottom="@+id/circle_crop"-->
+        <!--android:layout_alignTop="@+id/circle_crop" />-->
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/pic2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/com_facebook_profile_picture_blank_square"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="14dp" />
+
+    <!--<ImageView-->
+        <!--android:id="@+id/circle_crop"-->
+        <!--android:layout_width="140dp"-->
+        <!--android:layout_height="140dp"-->
+        <!--android:src="@drawable/cicle_crop"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_alignParentStart="true" />-->
+
     <TextView
         android:id="@+id/header_text_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="My Profile"
+        android:textAlignment="center"
         android:textColor="@color/color1"
-        android:layout_marginTop="10dp"/>
+        android:layout_below="@+id/pic2"
+        android:layout_alignStart="@+id/pic2"
+        android:layout_marginTop="12dp"
+        android:layout_alignEnd="@+id/pic2" />
+
     <!--<TextView-->
         <!--android:id="@+id/header_text_2"-->
         <!--android:layout_width="wrap_content"-->
@@ -25,4 +54,4 @@
         <!--android:text="@string/athlete_type"-->
         <!--android:textColor="@color/color1"/>-->
 
-</LinearLayout>
+</RelativeLayout>

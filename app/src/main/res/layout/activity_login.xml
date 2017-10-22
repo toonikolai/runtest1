@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.nikolaistakheiko.runtest1.LoginActivity">
+    tools:context="com.example.nikolaistakheiko.runtest1.LoginActivity"
+    android:background="@color/colorPrimaryDark">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login and start running"
+        android:textSize="20dp"
+        android:textColor="@color/color1"
+        android:layout_above="@+id/fb_login_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp" />
+
 
 
     <com.facebook.login.widget.LoginButton
@@ -14,7 +26,10 @@
         android:layout_gravity="center_horizontal"
         tools:layout_editor_absoluteY="489dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="36dp" />
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
