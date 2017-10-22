@@ -13,6 +13,7 @@
         <!--android:layout_height="400dp"-->
         <!--android:text=""-->
         <!--android:paddingBottom="10dp"/>-->
+
     <ImageView
         android:id="@+id/listTile"
         android:layout_width="match_parent"
@@ -46,7 +47,7 @@
         app:thumb="@color/colorAccent"
         app:rotation="180"
         app:roundEdges="true"
-        app:max="20"
+        app:max="42"
         app:progressColor="@color/colorAccent"
         app:arcWidth="2dp"
         app:startAngle="30"
@@ -65,7 +66,7 @@
         app:thumb="@color/colorAccent"
         app:rotation="180"
         app:roundEdges="true"
-        app:max="20"
+        app:max="100"
         app:progressColor="@color/colorAccent"
         app:arcWidth="2dp"
         app:startAngle="30"

@@ -32,6 +32,18 @@
             android:background="@drawable/menu_symbol" />
 
         <Button
+            android:id="@+id/goBackButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="9dp"
+            android:visibility="gone"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/ic_keyboard_backspace_black_24dp" />
+
+        <Button
             android:id="@+id/runButton"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
@@ -45,6 +57,22 @@
             android:layout_centerHorizontal="true"
             android:elevation="0dp"
             android:text="Go for run" />
+
+        <Button
+            android:id="@+id/joinRunButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:textColor="@color/color2"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            android:background="@drawable/background_with_shadow"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:elevation="0dp"
+            android:text="Request to Join Run" />
 
         <LinearLayout
             android:id="@+id/boxOverMap"
@@ -73,12 +101,12 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <ImageView
-                        android:id="@+id/terrain1"
+                        android:id="@+id/activity1"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        app:srcCompat="@mipmap/mountain_circle"
+                        app:srcCompat="@mipmap/running_circle"
                         android:layout_gravity="center"
-                        android:onClick="terrainMountain"/>
+                        android:onClick="activityRunning"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -87,12 +115,12 @@
                     android:paddingTop="4dp"
                     android:orientation="vertical">
                     <ImageView
-                        android:id="@+id/terrain2"
+                        android:id="@+id/activity2"
                         android:layout_width="51dp"
                         android:layout_height="51dp"
-                        app:srcCompat="@mipmap/forest_circle"
+                        app:srcCompat="@mipmap/bike_circle"
                         android:layout_gravity="center"
-                        android:onClick="terrainForest"/>
+                        android:onClick="activityBiking"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -101,12 +129,12 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <ImageView
-                        android:id="@+id/terrain3"
+                        android:id="@+id/activity3"
                         android:layout_width="53dp"
                         android:layout_height="53dp"
-                        app:srcCompat="@mipmap/water_circle"
+                        app:srcCompat="@mipmap/gym_circle"
                         android:layout_gravity="center"
-                        android:onClick="terrainWater"/>
+                        android:onClick="activityGym"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -115,12 +143,12 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <ImageView
-                        android:id="@+id/terrain4"
+                        android:id="@+id/activity4"
                         android:layout_width="57dp"
                         android:layout_height="57dp"
-                        app:srcCompat="@mipmap/water_terrain"
+                        app:srcCompat="@mipmap/yoga_circle"
                         android:layout_gravity="center"
-                        android:onClick="terrainCity"/>
+                        android:onClick="activityYoga"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
@@ -129,12 +157,12 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <ImageView
-                        android:id="@+id/terrain5"
+                        android:id="@+id/activity5"
                         android:layout_width="51dp"
                         android:layout_height="51dp"
-                        app:srcCompat="@mipmap/golf_circle_2"
+                        app:srcCompat="@mipmap/basketball_circle"
                         android:layout_gravity="center"
-                        android:onClick="terrainFlat"/>
+                        android:onClick="activityZuma"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -270,8 +298,7 @@
             android:id="@+id/recyclerViewInsideBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mainMenuButton"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="50dp"
             android:visibility="gone">
 
         </android.support.v7.widget.RecyclerView>

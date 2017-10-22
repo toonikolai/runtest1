@@ -2,7 +2,6 @@ package com.example.nikolaistakheiko.runtest1;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,7 +31,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,12 +51,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.mapbox.services.Constants;
-import com.mapbox.services.api.staticimage.v1.MapboxStaticImage;
-import com.squareup.picasso.Picasso;
+import com.google.firebase.database.ValueEventListener;
 import com.triggertrap.seekarc.SeekArc;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -77,17 +86,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     DatabaseReference mRunnerData;
 
+    //Geofire stuff
+    DatabaseReference mGeo;
+    GeoFire geoFire;
+    private int initialListSize;
+    private boolean queReadyCalledOnce = false;
+    private Map<String, Location> userIdsToLocations = new HashMap<>();
+    private Set<String> userIdsWithListeners = new HashSet<>();
+    private List<RunnerClass> runners = new ArrayList<>();
+    private ValueEventListener userValueListener;
+    private RecyclerAdapter adapter;
+    private int iterationCount;
+    private Set<GeoQuery> geoQueries = new HashSet<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (googleServicesAvailable()) {
             setContentView(R.layout.activity_main);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            //SharedPrefs
             prefs = this.getSharedPreferences("myPrefs", Activity.MODE_PRIVATE);
             editor = prefs.edit();
             initMap();
+            //RecyclerView
             recV = (RecyclerView) findViewById(R.id.recyclerViewInsideBox);
             recV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
         } else {
             Toast.makeText(this, "No G-maps layout", Toast.LENGTH_SHORT).show();
         }
@@ -96,7 +121,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onStart() {
         super.onStart();
+        //Database
         mRunnerData = FirebaseDatabase.getInstance().getReference("runners");
+        mGeo = FirebaseDatabase.getInstance().getReference("runner_locations");
+        geoFire = new GeoFire(mGeo);
+//        setUpListeners();
         setName();
         setUpButton();
         setUpRunButton();
@@ -104,12 +133,74 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setUpTerrains();
     }
 
+    private void setUpListeners() {
+        userValueListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+//                RunnerClass rc = dataSnapshot.getValue(RunnerClass.class);
+//                rc.i_d = dataSnapshot.getKey();
+//                Location location = userIdsToLocations.get(dataSnapshot.getKey());
+//                rc.lat = location.getLatitude();
+//                rc.lng = location.getLongitude();
+//                //May need to link other stuff from dataSnapshot to rc
+//
+//                if (runners.contains(rc)) {
+//                    userUpdated(rc);
+//                } else {
+//                    newUser(rc);
+//                }
+
+            }
+
+            private void newUser(RunnerClass rc) {
+                iterationCount++;
+                runners.add(0, rc);
+                if (!queReadyCalledOnce && iterationCount == initialListSize) {
+                    queReadyCalledOnce = true;
+//                    sortByDistanceFromMe();
+                    adapter.setRunners(runners);
+                } else if (queReadyCalledOnce) {
+//                    sortByDistanceFromMe();
+                    adapter.notifyItemInserted(getIndexOfNewRunner(rc));
+                }
+            }
+
+            private void userUpdated(RunnerClass u) {
+                int position = getRunnerPosition(u.getI_d());
+                runners.set(position, u);
+                adapter.notifyItemChanged(position);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+    }
+
+    private int getIndexOfNewRunner(RunnerClass rc) {
+        for (int i = 0; i < runners.size(); i++) {
+            if (runners.get(i).i_d.equals(rc.i_d)) {
+                return i;
+            }
+        }
+        throw new RuntimeException();
+    }
+
+    private int getRunnerPosition(String i_d) {
+        for (int i = 0; i < runners.size(); i++) {
+            if (runners.get(i).i_d.equals(i_d)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     private void setUpTerrains() {
-        ImageView terrain1 = (ImageView) findViewById(R.id.terrain1);
-        ImageView terrain2 = (ImageView) findViewById(R.id.terrain2);
-        ImageView terrain3 = (ImageView) findViewById(R.id.terrain3);
-        ImageView terrain4 = (ImageView) findViewById(R.id.terrain4);
-        ImageView terrain5 = (ImageView) findViewById(R.id.terrain5);
+        ImageView terrain1 = (ImageView) findViewById(R.id.activity1);
+        ImageView terrain2 = (ImageView) findViewById(R.id.activity2);
+        ImageView terrain3 = (ImageView) findViewById(R.id.activity3);
+        ImageView terrain4 = (ImageView) findViewById(R.id.activity4);
+        ImageView terrain5 = (ImageView) findViewById(R.id.activity5);
         terrain1.setImageAlpha(90);
         terrain2.setImageAlpha(90);
         terrain3.setImageAlpha(90);
@@ -120,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void setName() {
         profilename = prefs.getString("user_name", "nothing");
     }
-
 
     private void setUpSeekBars() {
         paceInt = prefs.getInt("pace", 0);
@@ -312,8 +402,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    public void terrainMountain(View vieww) {
-        ImageView view1 = (ImageView) vieww.findViewById(R.id.terrain1);
+    public void activityRunning(View vieww) {
+        ImageView view1 = (ImageView) vieww.findViewById(R.id.activity1);
         if (view1.getImageAlpha()==90) {
             setUpTerrains();
             view1.setImageAlpha(255);
@@ -327,8 +417,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    public void terrainForest(View vieww) {
-        ImageView view2 = (ImageView) vieww.findViewById(R.id.terrain2);
+    public void activityBiking(View vieww) {
+        ImageView view2 = (ImageView) vieww.findViewById(R.id.activity2);
         if (view2.getImageAlpha()==90) {
             setUpTerrains();
             view2.setImageAlpha(255);
@@ -342,8 +432,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    public void terrainWater(View vieww) {
-        ImageView view3 = (ImageView) vieww.findViewById(R.id.terrain3);
+    public void activityGym(View vieww) {
+        ImageView view3 = (ImageView) vieww.findViewById(R.id.activity3);
         if (view3.getImageAlpha()==90) {
             setUpTerrains();
             view3.setImageAlpha(255);
@@ -357,8 +447,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    public void terrainCity(View vieww) {
-        ImageView view4 = (ImageView) vieww.findViewById(R.id.terrain4);
+    public void activityYoga(View vieww) {
+        ImageView view4 = (ImageView) vieww.findViewById(R.id.activity4);
         if (view4.getImageAlpha()==90) {
             setUpTerrains();
             view4.setImageAlpha(255);
@@ -372,8 +462,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    public void terrainFlat(View vieww) {
-        ImageView view5 = (ImageView) vieww.findViewById(R.id.terrain5);
+    public void activityZuma(View vieww) {
+        ImageView view5 = (ImageView) vieww.findViewById(R.id.activity5);
         if (view5.getImageAlpha() == 90) {
             setUpTerrains();
             view5.setImageAlpha(255);
@@ -398,6 +488,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    @Override
+    protected void onStop() {
+        removeListeners();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        removeListeners();
+        super.onDestroy();
+    }
+
+    private void removeListeners() {
+        queReadyCalledOnce=false;
+
+        for (GeoQuery geoQuery : geoQueries) {
+            geoQuery.removeAllListeners();
+        }
+
+//        for (String userId : userIdsWithListeners) {
+//            mRunnerData.child(userId)
+//                    .removeEventListener(userValueListener);
+//        }
+        for (RunnerClass runner : runners) {
+            if (runner != null) {
+                mRunnerData.child(runner.i_d).removeEventListener(userValueListener);
+            }
+        }
+    }
 
     private void setUpRunButton() {
         final Button runButton = (Button) findViewById(R.id.runButton);
@@ -405,36 +524,226 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         runButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View but = findViewById(R.id.boxOverMap);
-                View but2 = findViewById(R.id.recyclerViewInsideBox);
-                but.setVisibility(View.GONE);
-                but2.setVisibility(View.VISIBLE);
+                //Change view layout
+                View box = findViewById(R.id.boxOverMap);
+                View box2 = findViewById(R.id.recyclerViewInsideBox);
+                Button buttonMenu = (Button) findViewById(R.id.mainMenuButton);
+                Button buttonBack = (Button) findViewById(R.id.goBackButton);
+                Button buttonJoin = (Button) findViewById(R.id.joinRunButton);
 
-                FirebaseRecyclerAdapter<RunnerClass, MainActivity.RunnerViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<RunnerClass, MainActivity.RunnerViewHolder>(
-                        RunnerClass.class,
-                        R.layout.user_over_map,
-                        MainActivity.RunnerViewHolder.class,
-                        mRunnerData
-                ) {
+                box.setVisibility(View.GONE);
+                box2.setVisibility(View.VISIBLE);
+                buttonMenu.setVisibility(View.GONE);
+                buttonBack.setVisibility(View.VISIBLE);
+                setUpBackButton();
+                runButton.setVisibility(View.GONE);
+                buttonJoin.setVisibility(View.VISIBLE);
+                buttonJoin.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
-                    protected void populateViewHolder(MainActivity.RunnerViewHolder viewHolder, RunnerClass model, int position) {
-                        viewHolder.setUpUsers(MainActivity.this, model);
+                    public boolean onLongClick(View v) {
+                        String id = mRunnerData.push().getKey();
+                        RunnerClass runner = new RunnerClass(lat, lng, profilename + ": From Join", slider2.getProgress(), label3.getText().toString(), paceInt, groupSizeInt, id);
+
+                        //Update runners and runner_locations in Firebase
+                        mRunnerData.child(id).setValue(runner);
+                        geoFire.setLocation(id, new GeoLocation(lat, lng));
+                        return false;
                     }
-                };
-                recV.setAdapter(firebaseRecyclerAdapter);
+                });
 
+                //Set up adapter
+                adapter = new RecyclerAdapter(MainActivity.this, runners);
+                recV.setAdapter(adapter);
 
-//                String id = mRunnerData.push().getKey();
-//                RunnerClass runner = new RunnerClass(lat, lng, profilename, slider2.getProgress(), label3.getText().toString(), paceInt, groupSizeInt, id);
-//                mRunnerData.child(id).setValue(runner);
+                //Find users around you
+                GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(lat, lng), 10.0);
+                geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+                    @Override
+                    public void onKeyEntered(String key, GeoLocation location) {
+                        //Before queReady called (each user is new)
+                        if (!queReadyCalledOnce) {
+
+                            runners.clear();
+                            userValueListener = mRunnerData.child(key).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    RunnerClass rc = dataSnapshot.getValue(RunnerClass.class);
+                                    //When new user joins
+                                    if (!runners.contains(rc)) {
+                                        runners.add(0, rc);
+                                    }
+                                    //When user changes data
+                                    else {
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                        //New users after queReady called
+                        else {
+                            Toast.makeText(MainActivity.this, "A new runner is active in your area", Toast.LENGTH_SHORT).show();
+                            userValueListener = mRunnerData.child(key).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    RunnerClass rc = dataSnapshot.getValue(RunnerClass.class);
+                                    //When new user joins
+                                    if (!runners.contains(rc)) {
+                                        runners.add(0, rc);
+                                        adapter.notifyItemInserted(0);
+                                    }
+                                    //When user changes data
+                                    else {
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+//                        Location to = new Location("to");
+//                        to.setLatitude(location.latitude);
+//                        to.setLongitude(location.longitude);
+//                        if (!queReadyCalledOnce) {
+//                            userIdsToLocations.put(key, to);
+//                        } else {
+//                            userIdsToLocations.put(key, to);
+//                            mRunnerData.child(key).addValueEventListener(userValueListener);
+//                            userIdsWithListeners.add(key);
+//                        }
+                    }
+
+                    @Override
+                    public void onKeyExited (String key) {
+                        Toast.makeText(MainActivity.this, "Someone here has exited", Toast.LENGTH_SHORT).show();
+//                        mRunnerData.child(key).removeEventListener(userValueListener);
+                        int position = getRunnerPosition(key);
+                        runners.remove(position);
+                        adapter.notifyItemRemoved(position);
+//                        mRunnerData.child(key).removeValue();
+
+//                        if (userIdsWithListeners.contains(key)) {
+//                            int position = getRunnerPosition(key);
+//                            runners.remove(position);
+//                            adapter.notifyItemRemoved(position);
+//                        }
+                    }
+
+                    @Override
+                    public void onKeyMoved(String key, GeoLocation location) {
+                        Toast.makeText(MainActivity.this, "A user has changed route", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onGeoQueryReady() {
+                        if (!queReadyCalledOnce) {
+                            //Quick delay so all initial entries catch up
+                            final Handler handler4 = new Handler();
+                            handler4.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    adapter.setRunners(runners);
+                                    queReadyCalledOnce = true;
+                                }
+
+                            }, 500);
+                        } else {
+                            Toast.makeText(MainActivity.this, "queready2", Toast.LENGTH_SHORT).show();
+                        }
+//                        initialListSize = userIdsToLocations.size();
+//                        if (initialListSize == 0) {
+//                            queReadyCalledOnce = true;
+//                        }
+//                        iterationCount = 0;
+//                        for (String userId : userIdsToLocations.keySet()){
+//                            mRunnerData.child(userId).addValueEventListener(userValueListener);
+//                            userIdsWithListeners.add(userId);
+//                        }
+                    }
+
+                    @Override
+                    public void onGeoQueryError(DatabaseError error) {
+
+                    }
+                });
+                geoQueries.add(geoQuery);
 //
-//                Intent runIntent = new Intent(MainActivity.this, RunActivity.class);
-//                startActivity(runIntent);
+//                // query around current user location with 1.6km radius
+//                final Set<String> runnersNearby = new HashSet<String>();
+//
+//                GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(lat, lng), 1.6);
+//
+//                geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+//                    @Override
+//                    public void onKeyEntered(String username, GeoLocation location) {
+//                        runnersNearby.add(username);
+//                        // additional code, like displaying a pin on the map
+//                        // and adding Firebase listeners for this user
+//                    }
+//
+//                    @Override
+//                    public void onKeyExited(String username) {
+//                        runnersNearby.remove(username);
+//                        // additional code, like removing a pin from the map
+//                        // and removing any Firebase listener for this user
+//                    }
+//
+//                    @Override
+//                    public void onKeyMoved(String key, GeoLocation location) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onGeoQueryReady() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onGeoQueryError(DatabaseError error) {
+//
+//                    }
+//                });
+            }
+
+            private void setUpBackButton() {
+                Button buttonBack = (Button) findViewById(R.id.goBackButton);
+                buttonBack.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        removeListeners();
+
+                        View box = findViewById(R.id.boxOverMap);
+                        View box2 = findViewById(R.id.recyclerViewInsideBox);
+                        Button buttonMenu = (Button) findViewById(R.id.mainMenuButton);
+                        Button buttonBack = (Button) findViewById(R.id.goBackButton);
+                        Button buttonJoin = (Button) findViewById(R.id.joinRunButton);
+
+                        box.setVisibility(View.VISIBLE);
+                        box2.setVisibility(View.GONE);
+                        buttonMenu.setVisibility(View.VISIBLE);
+                        buttonBack.setVisibility(View.GONE);
+                        runButton.setVisibility(View.VISIBLE);
+                        buttonJoin.setVisibility(View.GONE);
+                    }
+                });
             }
         });
         runButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                String id = mRunnerData.push().getKey();
+                RunnerClass runner = new RunnerClass(lat, lng, profilename, slider2.getProgress(), label3.getText().toString(), paceInt, groupSizeInt, id);
+
+                //Update runners and runner_locations in Firebase
+                mRunnerData.child(id).setValue(runner);
+                geoFire.setLocation(id, new GeoLocation(lat, lng));
+
+                //Start mapbox tile activity
                 Intent runIntent = new Intent(MainActivity.this, RunActivity.class);
                 startActivity(runIntent);
                 return false;
@@ -445,35 +754,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    public static class RunnerViewHolder extends RecyclerView.ViewHolder {
-
-        View mView2;
-
-        public RunnerViewHolder(View itemView) {
-            super(itemView);
-            mView2 = itemView;
-        }
-
-        public void setUpUsers(Context context, RunnerClass runner) {
-            TextView name = (TextView) mView2.findViewById(R.id.userTextName);
-            name.setText(runner.getUsername());
-            SeekArc uSeek1 =  (SeekArc) mView2.findViewById(R.id.userSeek1);
-            SeekArc uSeek2 =  (SeekArc) mView2.findViewById(R.id.userSeek2);
-            SeekArc uSeek3 =  (SeekArc) mView2.findViewById(R.id.userSeek3);
-            uSeek1.setProgress(runner.getDistance());
-            uSeek2.setProgress(runner.getPace());
-            uSeek3.setProgress(runner.getGroup());
-            TextView uLabel1 = (TextView) mView2.findViewById(R.id.userLabel1);
-            TextView uLabel2 = (TextView) mView2.findViewById(R.id.userLabel2);
-            TextView uLabel3 = (TextView) mView2.findViewById(R.id.userLabel3);
-            String s1 = runner.getDistance() + " km";
-            String s2 = runner.getPace() + " km/h";
-            String s3 = "People: " + runner.getDistance();
-            uLabel1.setText(s1);
-            uLabel2.setText(s2);
-            uLabel3.setText(s3);
-        }
-    }
+//    public static class RunnerViewHolder extends RecyclerView.ViewHolder {
+//
+//        View mView2;
+//
+//        public RunnerViewHolder(View itemView) {
+//            super(itemView);
+//            mView2 = itemView;
+//        }
+//
+//        public void setUpUsers(Context context, RunnerClass runner) {
+//            TextView name = (TextView) mView2.findViewById(R.id.userTextName);
+//            name.setText(runner.getUsername());
+//            SeekArc uSeek1 =  (SeekArc) mView2.findViewById(R.id.userSeek1);
+//            SeekArc uSeek2 =  (SeekArc) mView2.findViewById(R.id.userSeek2);
+//            SeekArc uSeek3 =  (SeekArc) mView2.findViewById(R.id.userSeek3);
+//            uSeek1.setProgress(runner.getDistance());
+//            uSeek2.setProgress(runner.getPace());
+//            uSeek3.setProgress(runner.getGroup());
+//            TextView uLabel1 = (TextView) mView2.findViewById(R.id.userLabel1);
+//            TextView uLabel2 = (TextView) mView2.findViewById(R.id.userLabel2);
+//            TextView uLabel3 = (TextView) mView2.findViewById(R.id.userLabel3);
+//            String s1 = runner.getDistance() + " km";
+//            String s2 = runner.getPace() + " km/h";
+//            String s3 = "People: " + runner.getDistance();
+//            uLabel1.setText(s1);
+//            uLabel2.setText(s2);
+//            uLabel3.setText(s3);
+//        }
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -754,12 +1063,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mPositionMarker.setPosition(ll);
             }
         }
-
-    }
-
-
-    public void openProfile2(View view) {
-        Toast.makeText(this, "test1", Toast.LENGTH_SHORT).show();
     }
 
     @Override
