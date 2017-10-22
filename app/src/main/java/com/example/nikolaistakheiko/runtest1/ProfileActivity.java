@@ -75,11 +75,15 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void fbPicSetup() {
-        String pic_url = prefs.getString("fb_profile_pic","");
-        ImageView profile_image = (ImageView) findViewById(R.id.pic);
-        Picasso.with(this)
-                .load(pic_url)
-                .into(profile_image);
+
+        String pic_url = prefs.getString("fb_profile_pic", "");
+        if (pic_url !="") {
+            ImageView profile_image = (ImageView) findViewById(R.id.pic);
+            Picasso.with(this)
+                    .load(pic_url)
+                    .into(profile_image);
+        }
+
     }
 
 //    private void loginSetUp() {
@@ -328,10 +332,12 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mDrawerLayout2.openDrawer(Gravity.LEFT);
                 String pic_url2 = prefs.getString("fb_profile_pic","");
-                ImageView profile_image2 = (ImageView) findViewById(R.id.pic2);
-                Picasso.with(ProfileActivity.this)
-                        .load(pic_url2)
-                        .into(profile_image2);
+                if (pic_url2 !="") {
+                    ImageView profile_image2 = (ImageView) findViewById(R.id.pic2);
+                    Picasso.with(ProfileActivity.this)
+                            .load(pic_url2)
+                            .into(profile_image2);
+                }
             }
 
         }

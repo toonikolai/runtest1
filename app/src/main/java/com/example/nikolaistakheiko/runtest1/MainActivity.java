@@ -486,10 +486,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
                 mDrawerLayout.openDrawer(Gravity.LEFT);
                 String pic_url = prefs.getString("fb_profile_pic","");
-                ImageView profile_image = (ImageView) findViewById(R.id.pic2);
-                Picasso.with(MainActivity.this)
-                        .load(pic_url)
-                        .into(profile_image);
+                if (pic_url !="") {
+                    ImageView profile_image = (ImageView) findViewById(R.id.pic2);
+                    Picasso.with(MainActivity.this)
+                            .load(pic_url)
+                            .into(profile_image);
+                }
             }
         });
     }
