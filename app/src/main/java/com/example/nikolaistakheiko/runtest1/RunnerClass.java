@@ -6,9 +6,10 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by nikolaistakheiko on 2017-10-10.
  */
 
-public class PushData {
+public class RunnerClass {
 
-//    LatLng latlng;
+    Double lat;
+    Double lng;
     String username;
     int distance;
     String timeofday;
@@ -16,12 +17,13 @@ public class PushData {
     int group;
     String i_d;
 
-    public PushData() {
+    public RunnerClass() {
 
     }
 
-    public PushData(/*LatLng latlng,*/ String username, int distance, String timeofday, int pace, int group, String i_d) {
-//        this.latlng = latlng;
+    public RunnerClass(Double lat, Double lng, String username, int distance, String timeofday, int pace, int group, String i_d) {
+        this.lat = lat;
+        this.lng = lng;
         this.username = username;
         this.distance = distance;
         this.timeofday = timeofday;
@@ -29,10 +31,6 @@ public class PushData {
         this.group = group;
         this.i_d = i_d;
     }
-
-//    public LatLng getLatlng() {
-//        return latlng;
-//    }
 
     public String getUsername() {
         return username;
@@ -56,5 +54,13 @@ public class PushData {
 
     public String getI_d() {
         return i_d;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public Double getLng() {
+        return lng;
     }
 }

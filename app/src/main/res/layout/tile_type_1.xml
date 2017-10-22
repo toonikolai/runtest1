@@ -5,14 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <!--<Button-->
+        <!--android:id="@+id/listTile"-->
+        <!--style="@style/Widget.AppCompat.Button.Borderless"-->
+        <!--android:background="@color/color2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="400dp"-->
+        <!--android:text=""-->
+        <!--android:paddingBottom="10dp"/>-->
+
+    <ImageView
         android:id="@+id/listTile"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:background="@color/color2"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:text=""
-        android:paddingBottom="10dp"/>
+        android:layout_height="400dp">
+    </ImageView>
 
     <com.triggertrap.seekarc.SeekArc
         android:id="@+id/listSeek2"
@@ -41,7 +47,7 @@
         app:thumb="@color/colorAccent"
         app:rotation="180"
         app:roundEdges="true"
-        app:max="20"
+        app:max="42"
         app:progressColor="@color/colorAccent"
         app:arcWidth="2dp"
         app:startAngle="30"
@@ -60,7 +66,7 @@
         app:thumb="@color/colorAccent"
         app:rotation="180"
         app:roundEdges="true"
-        app:max="20"
+        app:max="100"
         app:progressColor="@color/colorAccent"
         app:arcWidth="2dp"
         app:startAngle="30"
@@ -74,7 +80,7 @@
         android:id="@+id/listLabel1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/color1"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_above="@+id/listSeek1"
         android:layout_alignStart="@+id/listSeek1"
         android:text="TextView"
@@ -89,7 +95,7 @@
         android:layout_marginTop="28dp"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
-        android:textColor="@color/color1"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp" />
 
     <TextView
@@ -101,14 +107,14 @@
         android:layout_marginTop="21dp"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
-        android:textColor="@color/color1"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="30sp" />
 
     <TextView
         android:id="@+id/listLabel2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/color1"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_above="@+id/listSeek2"
         android:layout_alignStart="@+id/listSeek2"
         android:text="TextView"
@@ -118,7 +124,7 @@
         android:id="@+id/listLabel3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/color1"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_above="@+id/listSeek3"
         android:layout_alignStart="@+id/listSeek3"
         android:text="TextView"

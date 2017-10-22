@@ -1,18 +1,9 @@
 package com.example.nikolaistakheiko.runtest1;
 
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +17,7 @@ public class RunActivity extends AppCompatActivity {
 
     DatabaseReference databaseRunners;
     ListView listViewRunners;
-    List<PushData> runnerList;
+    List<RunnerClass> runnerList;
 //    private GoogleMap mMapTile;
 //    int tileNumber = 0;
 
@@ -69,11 +60,11 @@ public class RunActivity extends AppCompatActivity {
 
                 runnerList.clear();
                 for (DataSnapshot runnerSnapshot : dataSnapshot.getChildren()){
-                    PushData runner =runnerSnapshot.getValue(PushData.class);
+                    RunnerClass runner =runnerSnapshot.getValue(RunnerClass.class);
                     runnerList.add(runner);
                 }
 
-                RunnerList adapter = new RunnerList(RunActivity.this, runnerList);
+                RunnerTile1 adapter = new RunnerTile1(RunActivity.this, runnerList);
                 listViewRunners.setAdapter(adapter);
             }
 
