@@ -85,6 +85,46 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("fb_profile_pic", "https://graph.facebook.com/" + loginResult.getAccessToken().getUserId() + "/picture?type=large");
                     editor.commit();
 
+                    request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(JSONObject object, GraphResponse response) {
+                                    Toast.makeText(LoginActivity.this, "OnCompleted", Toast.LENGTH_SHORT).show();
+                                    Log.v("LoginActivity Response ", response.toString());
+
+                                    try {
+
+//                                        Toast.makeText(LoginActivity.this, "TRY", Toast.LENGTH_SHORT).show();
+                                        name = object.getString("name");
+                                        email = object.getString("email");
+                                        birthday = object.getString("birthday");
+                                        gender = object.getString("gender");
+
+                                        editor.putString("name",name);
+                                        editor.commit();
+                                        editor.putString("email",email);
+                                        editor.commit();
+                                        editor.putString("birthday",birthday);
+                                        editor.commit();
+                                        editor.putString("gender",gender);
+                                        editor.commit();
+
+
+
+                                        Log.v("Email = ", "" + email);
+//                                        Toast.makeText(getApplicationContext(), "Email " + email, Toast.LENGTH_SHORT).show();
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+//                                        Toast.makeText(LoginActivity.this, "CATCH", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "name,email,birthday,gender");
+                    request.setParameters(parameters);
+                    request.executeAsync();
+
 
 
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();

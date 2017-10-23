@@ -99,7 +99,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textSize="14sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/Name"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -120,14 +120,15 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textSize="14sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/Age"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_below="@+id/AgeLabel"
                     android:ems="10"
-                    android:inputType="number"
                     android:textSize="20sp" />
+                    <!--android:inputType="number"-->
+
 
                 <TextView
                     android:id="@+id/GenderLabel"
@@ -139,36 +140,36 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textSize="14sp" />
 
-                <RelativeLayout
-                    android:id="@+id/GenderLayout"
+                <!--<RelativeLayout-->
+                    <!--android:id="@+id/GenderLayout"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@+id/GenderLabel"-->
+                    <!--android:layout_marginRight="3dp"-->
+                    <!--android:layout_weight=".28"-->
+                    <!--android:background="@drawable/spinner_background"-->
+                    <!--android:orientation="horizontal">-->
+
+                    <!--<Spinner-->
+                <TextView
+                    android:id="@+id/Gender"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_below="@+id/GenderLabel"
-                    android:layout_marginRight="3dp"
-                    android:layout_weight=".28"
-                    android:background="@drawable/spinner_background"
-                    android:orientation="horizontal">
+                    android:ems="10"
+                    android:textSize="20sp" />
+                        <!--android:layout_marginLeft="5dp"-->
+                        <!--android:spinnerMode="dropdown" />-->
 
-                    <Spinner
-                        android:id="@+id/Gender"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:spinnerMode="dropdown" />
+                    <!--<ImageView-->
+                        <!--android:layout_width="50dp"-->
+                        <!--android:layout_height="50dp"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:src="@drawable/dropdown_arrow" />-->
 
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:src="@drawable/dropdown_arrow" />
-
-                </RelativeLayout>
+                <!--</RelativeLayout>-->
 
                 <!--<Spinner-->
                     <!--android:id="@+id/Gender"-->
@@ -180,7 +181,7 @@
                     android:id="@+id/RunPartnerLabel"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/GenderLayout"
+                    android:layout_below="@+id/Gender"
                     android:gravity="bottom"
                     android:text="Partner Type"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"

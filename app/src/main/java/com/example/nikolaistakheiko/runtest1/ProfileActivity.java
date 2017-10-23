@@ -1,29 +1,16 @@
 package com.example.nikolaistakheiko.runtest1;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +24,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.squareup.picasso.Picasso;
 
-import static com.example.nikolaistakheiko.runtest1.R.id.pic;
+//import java.time.*;
 
 
 public class ProfileActivity extends AppCompatActivity {
@@ -64,6 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
         editor = prefs.edit();
 
         nameEditorSetUp();
+        ageEditorSetUp();
         buttonSetUp();
         genderSetUp();
         partnerSetUp();
@@ -73,6 +61,8 @@ public class ProfileActivity extends AppCompatActivity {
         fbPicSetup();
 
     }
+
+
 
     private void fbPicSetup() {
 
@@ -100,8 +90,9 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private void nameEditorSetUp() {
-        EditText nameTextView = (EditText) findViewById(R.id.Name);
-        nameTextView.setText(prefs.getString("user_name", ""));
+        TextView nameTextView = (TextView) findViewById(R.id.Name);
+        nameTextView.setText(prefs.getString("name", ""));
+//        Toast.makeText(this, prefs.getString("name",""), Toast.LENGTH_SHORT).show();
         nameTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -115,10 +106,49 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                editor.putString("user_name", s.toString());
+                editor.putString("name", s.toString());
                 editor.commit();
             }
         });
+    }
+
+    private void ageEditorSetUp() {
+
+//        LocalDate today             = LocalDate.now();
+//        LocalDate birthday          = LocalDate.of(1982, 9, 26);
+//        LocalDate thisYearsBirthday = birthday.with(Year.now());
+//
+//        long age = ChronoUnit.YEARS.between(birthday, today);
+//
+//        if (thisYearsBirthday.equals(today))
+//        {
+//            System.out.println("It is your birthday, and your Age is " + age);
+//        }
+//        else
+//        {
+//            long daysUntilBirthday = ChronoUnit.DAYS.between(today, thisYearsBirthday);
+//            System.out.println("Your age is " + age + ". " + daysUntilBirthday + " more days until your birthday!");
+//        }
+
+            TextView ageTextView = (TextView) findViewById(R.id.Age);
+            ageTextView.setText(prefs.getString("birthday", ""));
+            ageTextView.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    editor.putString("birthday", s.toString());
+                    editor.commit();
+                }
+            });
     }
 
     private void seekBarSetUp() {
@@ -274,14 +304,16 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void genderSetUp() {
-        Spinner spinner = (Spinner) findViewById(R.id.Gender);
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.gender_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        TextView nameTextView = (TextView) findViewById(R.id.Gender);
+        nameTextView.setText(prefs.getString("gender", ""));
+//        Spinner spinner = (Spinner) findViewById(R.id.Gender);
+//// Create an ArrayAdapter using the string array and a default spinner layout
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                R.array.gender_array, android.R.layout.simple_spinner_item);
+//// Specify the layout to use when the list of choices appears
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//// Apply the adapter to the spinner
+//        spinner.setAdapter(adapter);
     }
 
     private void partnerSetUp() {
