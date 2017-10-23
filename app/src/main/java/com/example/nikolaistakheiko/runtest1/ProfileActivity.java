@@ -91,7 +91,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void nameEditorSetUp() {
         TextView nameTextView = (TextView) findViewById(R.id.Name);
-        nameTextView.setText(prefs.getString("name", ""));
+        nameTextView.setText(prefs.getString("name", "hi"));
 //        Toast.makeText(this, prefs.getString("name",""), Toast.LENGTH_SHORT).show();
         nameTextView.addTextChangedListener(new TextWatcher() {
             @Override

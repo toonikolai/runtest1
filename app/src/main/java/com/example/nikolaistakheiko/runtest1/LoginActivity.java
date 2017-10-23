@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     try {
 
-//                                        Toast.makeText(LoginActivity.this, "TRY", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, "TRY", Toast.LENGTH_SHORT).show();
                                         name = object.getString("name");
                                         email = object.getString("email");
                                         birthday = object.getString("birthday");
@@ -111,12 +111,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                         Log.v("Email = ", "" + email);
-//                                        Toast.makeText(getApplicationContext(), "Email " + email, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Email " + email, Toast.LENGTH_SHORT).show();
 
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
-//                                        Toast.makeText(LoginActivity.this, "CATCH", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, "CATCH", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
