@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void setName() {
-        profilename = prefs.getString("user_name", "nothing");
+        profilename = prefs.getString("name", "nothing");
     }
 
     private void setUpSeekBars() {

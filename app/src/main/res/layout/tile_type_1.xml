@@ -100,23 +100,27 @@
         android:id="@+id/listTimeofday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/userImage"
+        android:layout_alignStart="@+id/listName"
         android:text="TextView"
+        android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        android:layout_alignBottom="@+id/userImage"
-        android:layout_alignStart="@+id/listName" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/listName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/userImage"
         android:text="TextView"
+        android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="30sp"
-        android:layout_alignTop="@+id/userImage"
-        android:layout_centerHorizontal="true" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/listLabel2"

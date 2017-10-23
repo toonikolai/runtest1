@@ -61,8 +61,8 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
 
         //get permissions for these things
-//        loginButton.setReadPermissions(Arrays.asList(
-//                "public_profile", "email", "user_birthday", "user_friends"));
+        loginButton.setReadPermissions(Arrays.asList(
+                "public_profile", "email", "user_birthday", "user_friends"));
 
         accessTokenTracker = new AccessTokenTracker() {
 
@@ -88,12 +88,12 @@ public class LoginActivity extends AppCompatActivity {
                     request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                                 @Override
                                 public void onCompleted(JSONObject object, GraphResponse response) {
-                                    Toast.makeText(LoginActivity.this, "OnCompleted", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(LoginActivity.this, "OnCompleted", Toast.LENGTH_SHORT).show();
                                     Log.v("LoginActivity Response ", response.toString());
 
                                     try {
 
-                                        Toast.makeText(LoginActivity.this, "TRY", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(LoginActivity.this, "TRY", Toast.LENGTH_SHORT).show();
                                         name = object.getString("name");
                                         email = object.getString("email");
                                         birthday = object.getString("birthday");
@@ -111,12 +111,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                         Log.v("Email = ", "" + email);
-                                        Toast.makeText(getApplicationContext(), "Email " + email, Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(getApplicationContext(), "Email " + email, Toast.LENGTH_SHORT).show();
 
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
-                                        Toast.makeText(LoginActivity.this, "CATCH", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(LoginActivity.this, "CATCH", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
