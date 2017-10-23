@@ -45,6 +45,7 @@ public class RunnerTile1 extends ArrayAdapter<RunnerClass> {
         SeekArc distanceArc = (SeekArc) listViewItem.findViewById(R.id.listSeek1);
         SeekArc paceArc = (SeekArc) listViewItem.findViewById(R.id.listSeek2);
         SeekArc groupArc = (SeekArc) listViewItem.findViewById(R.id.listSeek3);
+        ImageView image = (ImageView) listViewItem.findViewById(R.id.userImage);
 
         ImageView imageView = (ImageView) listViewItem.findViewById(R.id.listTile);
 
@@ -64,6 +65,7 @@ public class RunnerTile1 extends ArrayAdapter<RunnerClass> {
                 .build();
 
         Picasso.with(context).load(veniceStaticImage.getUrl().toString()).into(imageView);
+        Picasso.with(context).load(runner.getPic_url()).into(image);
 
         username.setText(runner.getUsername());
         timeofday.setText(runner.getTimeofday());

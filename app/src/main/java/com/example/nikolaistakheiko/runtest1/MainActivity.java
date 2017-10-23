@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     SharedPreferences.Editor editor;
 
     private RecyclerView recV;
+    boolean mainMenuView = true;
 
     DatabaseReference mRunnerData;
 
@@ -132,6 +133,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setUpRunButton();
         setUpSeekBars();
         setUpTerrains();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!mainMenuView) {
+            clickBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void setUpListeners() {
@@ -532,6 +542,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         runButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mainMenuView = false;
                 //Change view layout
                 View box = findViewById(R.id.boxOverMap);
                 View box2 = findViewById(R.id.recyclerViewInsideBox);
@@ -549,12 +560,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 buttonJoin.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        String id = mRunnerData.push().getKey();
-                        RunnerClass runner = new RunnerClass(lat, lng, profilename + ": From Join", slider2.getProgress(), label3.getText().toString(), paceInt, groupSizeInt, id);
-
-                        //Update runners and runner_locations in Firebase
-                        mRunnerData.child(id).setValue(runner);
-                        geoFire.setLocation(id, new GeoLocation(lat, lng));
+                        newEntryInFirebase();
                         return false;
                     }
                 });
@@ -723,20 +729,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 buttonBack.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        removeListeners();
+                        clickBack();
 
-                        View box = findViewById(R.id.boxOverMap);
-                        View box2 = findViewById(R.id.recyclerViewInsideBox);
-                        Button buttonMenu = (Button) findViewById(R.id.mainMenuButton);
-                        Button buttonBack = (Button) findViewById(R.id.goBackButton);
-                        Button buttonJoin = (Button) findViewById(R.id.joinRunButton);
-
-                        box.setVisibility(View.VISIBLE);
-                        box2.setVisibility(View.GONE);
-                        buttonMenu.setVisibility(View.VISIBLE);
-                        buttonBack.setVisibility(View.GONE);
-                        runButton.setVisibility(View.VISIBLE);
-                        buttonJoin.setVisibility(View.GONE);
                     }
                 });
             }
@@ -744,12 +738,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         runButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                String id = mRunnerData.push().getKey();
-                RunnerClass runner = new RunnerClass(lat, lng, profilename, slider2.getProgress(), label3.getText().toString(), paceInt, groupSizeInt, id);
-
-                //Update runners and runner_locations in Firebase
-                mRunnerData.child(id).setValue(runner);
-                geoFire.setLocation(id, new GeoLocation(lat, lng));
+                newEntryInFirebase();
 
                 //Start mapbox tile activity
                 Intent runIntent = new Intent(MainActivity.this, RunActivity.class);
@@ -761,36 +750,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    private void newEntryInFirebase() {
+        String pic_url = prefs.getString("fb_profile_pic","");
+        String id = mRunnerData.push().getKey();
+        RunnerClass runner = new RunnerClass(lat, lng, profilename, slider2.getProgress(), label3.getText().toString(), paceInt, groupSizeInt, pic_url, id);
 
-//    public static class RunnerViewHolder extends RecyclerView.ViewHolder {
-//
-//        View mView2;
-//
-//        public RunnerViewHolder(View itemView) {
-//            super(itemView);
-//            mView2 = itemView;
-//        }
-//
-//        public void setUpUsers(Context context, RunnerClass runner) {
-//            TextView name = (TextView) mView2.findViewById(R.id.userTextName);
-//            name.setText(runner.getUsername());
-//            SeekArc uSeek1 =  (SeekArc) mView2.findViewById(R.id.userSeek1);
-//            SeekArc uSeek2 =  (SeekArc) mView2.findViewById(R.id.userSeek2);
-//            SeekArc uSeek3 =  (SeekArc) mView2.findViewById(R.id.userSeek3);
-//            uSeek1.setProgress(runner.getDistance());
-//            uSeek2.setProgress(runner.getPace());
-//            uSeek3.setProgress(runner.getGroup());
-//            TextView uLabel1 = (TextView) mView2.findViewById(R.id.userLabel1);
-//            TextView uLabel2 = (TextView) mView2.findViewById(R.id.userLabel2);
-//            TextView uLabel3 = (TextView) mView2.findViewById(R.id.userLabel3);
-//            String s1 = runner.getDistance() + " km";
-//            String s2 = runner.getPace() + " km/h";
-//            String s3 = "People: " + runner.getDistance();
-//            uLabel1.setText(s1);
-//            uLabel2.setText(s2);
-//            uLabel3.setText(s3);
-//        }
-//    }
+        //Update runners and runner_locations in Firebase
+        mRunnerData.child(id).setValue(runner);
+        geoFire.setLocation(id, new GeoLocation(lat, lng));
+    }
+
+    private void clickBack() {
+        mainMenuView = true;
+        removeListeners();
+
+        View box = findViewById(R.id.boxOverMap);
+        View box2 = findViewById(R.id.recyclerViewInsideBox);
+        Button buttonMenu = (Button) findViewById(R.id.mainMenuButton);
+        Button buttonBack = (Button) findViewById(R.id.goBackButton);
+        Button buttonJoin = (Button) findViewById(R.id.joinRunButton);
+        Button runButton = (Button) findViewById(R.id.runButton);
+
+        box.setVisibility(View.VISIBLE);
+        box2.setVisibility(View.GONE);
+        buttonMenu.setVisibility(View.VISIBLE);
+        buttonBack.setVisibility(View.GONE);
+        runButton.setVisibility(View.VISIBLE);
+        buttonJoin.setVisibility(View.GONE);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -814,10 +801,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGoogleMap = googleMap;
         mGoogleMap.setPadding(0, 0, 0, 155);
         LatLng startplace = new LatLng(-33.8688, 151.2093);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 15));
+        LatLng startplace2 = new LatLng(40, -74);
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace2, 1));
         MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
                 //Choose map style:
-                cool_map_thick
+                colorful1
         );
         mGoogleMap.setMapStyle(style);
         mGoogleMap.setOnCameraMoveListener(this);

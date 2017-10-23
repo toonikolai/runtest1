@@ -15,13 +15,14 @@ public class RunnerClass {
     String timeofday;
     int pace;
     int group;
+    String pic_url;
     String i_d;
 
     public RunnerClass() {
 
     }
 
-    public RunnerClass(Double lat, Double lng, String username, int distance, String timeofday, int pace, int group, String i_d) {
+    public RunnerClass(Double lat, Double lng, String username, int distance, String timeofday, int pace, int group, String pic_url, String i_d) {
         this.lat = lat;
         this.lng = lng;
         this.username = username;
@@ -29,7 +30,16 @@ public class RunnerClass {
         this.timeofday = timeofday;
         this.pace = pace;
         this.group = group;
+        this.pic_url = pic_url;
         this.i_d = i_d;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public Double getLng() {
+        return lng;
     }
 
     public String getUsername() {
@@ -56,11 +66,7 @@ public class RunnerClass {
         return i_d;
     }
 
-    public Double getLat() {
-        return lat;
-    }
-
-    public Double getLng() {
-        return lng;
+    public String getPic_url() {
+        return pic_url;
     }
 }
