@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = (LoginButton) findViewById(R.id.fb_login_btn);
         callbackManager = CallbackManager.Factory.create();
 
-        //get permissions for these things
+//        get permissions for these things
         loginButton.setReadPermissions(Arrays.asList(
                 "public_profile", "email", "user_birthday", "user_friends"));
 
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                     request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                                 @Override
                                 public void onCompleted(JSONObject object, GraphResponse response) {
-//                                    Toast.makeText(LoginActivity.this, "OnCompleted", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "OnCompleted", Toast.LENGTH_SHORT).show();
                                     Log.v("LoginActivity Response ", response.toString());
 
                                     try {

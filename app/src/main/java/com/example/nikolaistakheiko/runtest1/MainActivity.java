@@ -299,9 +299,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void timeCheck(int i) {
         if (i <= 20) {
-            label3.setText("Early Morning (6am - 9am)");
+            label3.setText("Dawn (6am - 9am)");
         } else if (i > 20 && i <= 40) {
-            label3.setText("Late Morning (9am - 12pm)");
+            label3.setText("Morning (9am - 12pm)");
         } else if (i > 40 && i <= 60) {
             label3.setText("Afternoon (12am - 3pm)");
         } else if (i > 60 && i <= 80) {

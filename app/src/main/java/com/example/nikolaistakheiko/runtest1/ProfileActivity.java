@@ -199,9 +199,9 @@ public class ProfileActivity extends AppCompatActivity {
         int timeInt = prefs.getInt("time", 0);
         profileseek2.setProgress(timeInt);
         if (timeInt <= 20) {
-            profilelabel2.setText("Early Morning (6am - 9am)");
+            profilelabel2.setText("Dawn (6am - 9am)");
         } else if (timeInt > 20 && timeInt <= 40) {
-            profilelabel2.setText("Late Morning (9am - 12pm)");
+            profilelabel2.setText("Morning (9am - 12pm)");
         } else if (timeInt > 40 && timeInt <= 60) {
             profilelabel2.setText("Afternoon (12am - 3pm)");
         } else if (timeInt > 60 && timeInt <= 80) {
@@ -213,9 +213,9 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (progress <= 20) {
-                    profilelabel2.setText("Early Morning (6am - 9am)");
+                    profilelabel2.setText("Dawn (6am - 9am)");
                 } else if (progress > 20 && progress <= 40) {
-                    profilelabel2.setText("Late Morning (9am - 12pm)");
+                    profilelabel2.setText("Morning (9am - 12pm)");
                 } else if (progress > 40 && progress <= 60) {
                     profilelabel2.setText("Afternoon (12am - 3pm)");
                 } else if (progress > 60 && progress <= 80) {
@@ -271,7 +271,7 @@ public class ProfileActivity extends AppCompatActivity {
         int groupInt = prefs.getInt("group", 0);
         profileseek4.setProgress(groupInt);
         if (groupInt <= 20) {
-            profilelabel4.setText("Running partner (2 people)");
+            profilelabel4.setText("Partner (2 people)");
         } else if (groupInt > 20 && groupInt <= 60) {
             profilelabel4.setText("Small group (2-4 people)");
         } else {
@@ -281,7 +281,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (progress <= 20) {
-                    profilelabel4.setText("Running partner (2 people)");
+                    profilelabel4.setText("Partner (2 people)");
                 } else if (progress > 20 && progress <= 60) {
                     profilelabel4.setText("Small group (2-4 people)");
                 } else {
