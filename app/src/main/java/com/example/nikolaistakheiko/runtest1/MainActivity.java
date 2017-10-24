@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setUpButton();
         setUpRunButton();
         setUpSeekBars();
-        setUpTerrains();
+//        setUpTerrains();
     }
 
     @Override
@@ -207,45 +207,39 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void setUpTerrains() {
-        ImageView terrain1 = (ImageView) findViewById(R.id.activity1);
-        ImageView terrain2 = (ImageView) findViewById(R.id.activity2);
-        ImageView terrain3 = (ImageView) findViewById(R.id.activity3);
-        ImageView terrain4 = (ImageView) findViewById(R.id.activity4);
-        ImageView terrain5 = (ImageView) findViewById(R.id.activity5);
-        terrain1.setImageAlpha(90);
-        terrain2.setImageAlpha(90);
-        terrain3.setImageAlpha(90);
-        terrain4.setImageAlpha(90);
-        terrain5.setImageAlpha(90);
+//        ImageView terrain1 = (ImageView) findViewById(R.id.activity1);
+//        ImageView terrain2 = (ImageView) findViewById(R.id.activity2);
+//        ImageView terrain3 = (ImageView) findViewById(R.id.activity3);
+//        ImageView terrain4 = (ImageView) findViewById(R.id.activity4);
+//        ImageView terrain5 = (ImageView) findViewById(R.id.activity5);
+//        terrain1.setImageAlpha(90);
+//        terrain2.setImageAlpha(90);
+//        terrain3.setImageAlpha(90);
+//        terrain4.setImageAlpha(90);
+//        terrain5.setImageAlpha(90);
     }
 
     private void setName() {
         profilename = prefs.getString("name", "nothing");
+        ImageView image = (ImageView) findViewById(R.id.userImage);
+        String pic_url = prefs.getString("fb_profile_pic", "");
+        if (pic_url !="") {
+            Picasso.with(this)
+                    .load(pic_url)
+                    .into(image);
+        }
+        
+        ImageView imageAdd = (ImageView) findViewById(R.id.userAddImage);
+        imageAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Invite friends from Facebook", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setUpSeekBars() {
         paceInt = prefs.getInt("pace", 0);
-//        slider1 = (SeekArc) findViewById(R.id.mainseek1);
-//        label1 = (TextView) findViewById(R.id.mainLabel1);
-//        slider1.setArcColor(R.color.colorAccent);
-//        slider1.setProgress(paceInt);
-//        label1.setText("Run Pace: " + paceInt + " km/h");
-//        slider1.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
-//                label1.setText("Run Pace: " + i + " km/h");
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekArc seekArc) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekArc seekArc) {
-//
-//            }
-//        });
 
         slider2 = (SeekArc) findViewById(R.id.mainseek2);
         label2 = (TextView) findViewById(R.id.mainLabel2);
@@ -301,39 +295,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         groupSizeInt = prefs.getInt("group", 0);
-//        slider4 = (SeekArc) findViewById(R.id.mainseek4);
-//        label4 = (TextView) findViewById(R.id.mainLabel4);
-//        slider4.setArcColor(R.color.colorAccent);
-//        slider4.setProgress(groupSizeInt);
-//        if (groupSizeInt <= 20) {
-//            label4.setText("Running partner (2 people)");
-//        } else if (groupSizeInt > 20 && groupSizeInt <= 60) {
-//            label4.setText("Small group (2-4 people)");
-//        } else {
-//            label4.setText("Large group (5-10 people)");
-//        }
-//        slider4.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
-//                if (i <= 20) {
-//                    label4.setText("Running partner (2 people)");
-//                } else if (i > 20 && i <= 60) {
-//                    label4.setText("Small group (2-4 people)");
-//                } else {
-//                    label4.setText("Large group (5-10 people)");
-//                }
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekArc seekArc) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekArc seekArc) {
-//
-//            }
-//        });
     }
 
     private void timeCheck(int i) {
@@ -413,80 +374,80 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    public void activityRunning(View vieww) {
-        ImageView view1 = (ImageView) vieww.findViewById(R.id.activity1);
-        if (view1.getImageAlpha()==90) {
-            setUpTerrains();
-            view1.setImageAlpha(255);
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
-                    //Choose map style:
-                    cool_map_thick
-            );
-            mGoogleMap.setMapStyle(style);
-        } else {
-            view1.setImageAlpha(90);
-        }
-    }
-
-    public void activityBiking(View vieww) {
-        ImageView view2 = (ImageView) vieww.findViewById(R.id.activity2);
-        if (view2.getImageAlpha()==90) {
-            setUpTerrains();
-            view2.setImageAlpha(255);
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
-                    //Choose map style:
-                    colorful1
-            );
-            mGoogleMap.setMapStyle(style);
-        } else {
-            view2.setImageAlpha(90);
-        }
-    }
-
-    public void activityGym(View vieww) {
-        ImageView view3 = (ImageView) vieww.findViewById(R.id.activity3);
-        if (view3.getImageAlpha()==90) {
-            setUpTerrains();
-            view3.setImageAlpha(255);
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
-                    //Choose map style:
-                    blue_hues
-            );
-            mGoogleMap.setMapStyle(style);
-        } else {
-            view3.setImageAlpha(90);
-        }
-    }
-
-    public void activityYoga(View vieww) {
-        ImageView view4 = (ImageView) vieww.findViewById(R.id.activity4);
-        if (view4.getImageAlpha()==90) {
-            setUpTerrains();
-            view4.setImageAlpha(255);
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
-                    //Choose map style:
-                    monotone
-            );
-            mGoogleMap.setMapStyle(style);
-        } else {
-            view4.setImageAlpha(90);
-        }
-    }
-
-    public void activityZuma(View vieww) {
-        ImageView view5 = (ImageView) vieww.findViewById(R.id.activity5);
-        if (view5.getImageAlpha() == 90) {
-            setUpTerrains();
-            view5.setImageAlpha(255);
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
-                    //Choose map style:
-                    miastra
-            );
-            mGoogleMap.setMapStyle(style);
-        } else {
-            view5.setImageAlpha(90);
-        }
-    }
+//    public void activityRunning(View vieww) {
+//        ImageView view1 = (ImageView) vieww.findViewById(R.id.activity1);
+//        if (view1.getImageAlpha()==90) {
+//            setUpTerrains();
+//            view1.setImageAlpha(255);
+//            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+//                    //Choose map style:
+//                    cool_map_thick
+//            );
+//            mGoogleMap.setMapStyle(style);
+//        } else {
+//            view1.setImageAlpha(90);
+//        }
+//    }
+//
+//    public void activityBiking(View vieww) {
+//        ImageView view2 = (ImageView) vieww.findViewById(R.id.activity2);
+//        if (view2.getImageAlpha()==90) {
+//            setUpTerrains();
+//            view2.setImageAlpha(255);
+//            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+//                    //Choose map style:
+//                    colorful1
+//            );
+//            mGoogleMap.setMapStyle(style);
+//        } else {
+//            view2.setImageAlpha(90);
+//        }
+//    }
+//
+//    public void activityGym(View vieww) {
+//        ImageView view3 = (ImageView) vieww.findViewById(R.id.activity3);
+//        if (view3.getImageAlpha()==90) {
+//            setUpTerrains();
+//            view3.setImageAlpha(255);
+//            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+//                    //Choose map style:
+//                    blue_hues
+//            );
+//            mGoogleMap.setMapStyle(style);
+//        } else {
+//            view3.setImageAlpha(90);
+//        }
+//    }
+//
+//    public void activityYoga(View vieww) {
+//        ImageView view4 = (ImageView) vieww.findViewById(R.id.activity4);
+//        if (view4.getImageAlpha()==90) {
+//            setUpTerrains();
+//            view4.setImageAlpha(255);
+//            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+//                    //Choose map style:
+//                    monotone
+//            );
+//            mGoogleMap.setMapStyle(style);
+//        } else {
+//            view4.setImageAlpha(90);
+//        }
+//    }
+//
+//    public void activityZuma(View vieww) {
+//        ImageView view5 = (ImageView) vieww.findViewById(R.id.activity5);
+//        if (view5.getImageAlpha() == 90) {
+//            setUpTerrains();
+//            view5.setImageAlpha(255);
+//            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+//                    //Choose map style:
+//                    miastra
+//            );
+//            mGoogleMap.setMapStyle(style);
+//        } else {
+//            view5.setImageAlpha(90);
+//        }
+//    }
 
     private void setUpButton() {
         Button button = (Button) findViewById(R.id.mainMenuButton);

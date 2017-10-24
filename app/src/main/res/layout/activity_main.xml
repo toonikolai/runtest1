@@ -86,90 +86,129 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="6dp">
 
-            <LinearLayout
-                android:id="@+id/boxInsideBox1"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:paddingTop="8dp"
-                android:weightSum="10">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:id="@+id/activity1"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        app:srcCompat="@mipmap/running_circle"
-                        android:layout_gravity="center"
-                        android:onClick="activityRunning"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="match_parent"
-                    android:paddingTop="4dp"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:id="@+id/activity2"
-                        android:layout_width="51dp"
-                        android:layout_height="51dp"
-                        app:srcCompat="@mipmap/bike_circle"
-                        android:layout_gravity="center"
-                        android:onClick="activityBiking"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:paddingTop="4dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:id="@+id/activity3"
-                        android:layout_width="53dp"
-                        android:layout_height="53dp"
-                        app:srcCompat="@mipmap/gym_circle"
-                        android:layout_gravity="center"
-                        android:onClick="activityGym"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:paddingTop="2dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:id="@+id/activity4"
-                        android:layout_width="57dp"
-                        android:layout_height="57dp"
-                        app:srcCompat="@mipmap/yoga_circle"
-                        android:layout_gravity="center"
-                        android:onClick="activityYoga"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:paddingTop="4dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:id="@+id/activity5"
-                        android:layout_width="51dp"
-                        android:layout_height="51dp"
-                        app:srcCompat="@mipmap/basketball_circle"
-                        android:layout_gravity="center"
-                        android:onClick="activityZuma"/>
-                </LinearLayout>
-            </LinearLayout>
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userAddImage"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_alignLeft="@+id/userImage"
+                    android:layout_marginLeft="40dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@mipmap/plus"/>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/userImage"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@mipmap/water_terrain"/>
+
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_toRightOf="@+id/userAddImage"
+                    android:text="Me"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            </RelativeLayout>
+            <!--<LinearLayout-->
+                <!--android:id="@+id/boxInsideBox1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="70dp"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:paddingLeft="5dp"-->
+                <!--android:paddingRight="5dp"-->
+                <!--android:paddingTop="8dp"-->
+                <!--android:weightSum="10">-->
+                <!--<LinearLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="2"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:orientation="vertical">-->
+                    <!--<ImageView-->
+                        <!--android:id="@+id/activity1"-->
+                        <!--android:layout_width="60dp"-->
+                        <!--android:layout_height="60dp"-->
+                        <!--app:srcCompat="@mipmap/running_circle"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:onClick="activityRunning"/>-->
+                <!--</LinearLayout>-->
+                <!--<LinearLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="2"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:paddingTop="4dp"-->
+                    <!--android:orientation="vertical">-->
+                    <!--<ImageView-->
+                        <!--android:id="@+id/activity2"-->
+                        <!--android:layout_width="51dp"-->
+                        <!--android:layout_height="51dp"-->
+                        <!--app:srcCompat="@mipmap/bike_circle"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:onClick="activityBiking"/>-->
+                <!--</LinearLayout>-->
+                <!--<LinearLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="2"-->
+                    <!--android:paddingTop="4dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:orientation="vertical">-->
+                    <!--<ImageView-->
+                        <!--android:id="@+id/activity3"-->
+                        <!--android:layout_width="53dp"-->
+                        <!--android:layout_height="53dp"-->
+                        <!--app:srcCompat="@mipmap/gym_circle"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:onClick="activityGym"/>-->
+                <!--</LinearLayout>-->
+                <!--<LinearLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="2"-->
+                    <!--android:paddingTop="2dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:orientation="vertical">-->
+                    <!--<ImageView-->
+                        <!--android:id="@+id/activity4"-->
+                        <!--android:layout_width="57dp"-->
+                        <!--android:layout_height="57dp"-->
+                        <!--app:srcCompat="@mipmap/yoga_circle"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:onClick="activityYoga"/>-->
+                <!--</LinearLayout>-->
+                <!--<LinearLayout-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="2"-->
+                    <!--android:paddingTop="4dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:orientation="vertical">-->
+                    <!--<ImageView-->
+                        <!--android:id="@+id/activity5"-->
+                        <!--android:layout_width="51dp"-->
+                        <!--android:layout_height="51dp"-->
+                        <!--app:srcCompat="@mipmap/basketball_circle"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:onClick="activityZuma"/>-->
+                <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/boxInsideBox2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:orientation="horizontal"
                 android:weightSum="10">
 
@@ -181,31 +220,7 @@
                 android:orientation="vertical"
                 android:paddingTop="8dp">
 
-                <!--<TextView-->
-                    <!--android:id="@+id/mainLabel1"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:textColor="#ff000000"-->
-                    <!--android:layout_gravity="center_horizontal"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Run Speed" />-->
-
-                <!--<com.triggertrap.seekarc.SeekArc-->
-                    <!--android:id="@+id/mainseek1"-->
-                    <!--android:layout_gravity="center_horizontal"-->
-                    <!--android:layout_width="150dp"-->
-                    <!--android:layout_height="150dp"-->
-                    <!--android:padding="30dp"-->
-                    <!--app:thumb="@color/colorAccent"-->
-                    <!--app:rotation="180"-->
-                    <!--app:roundEdges="true"-->
-                    <!--app:max="20"-->
-                    <!--app:progressColor="@color/colorAccent"-->
-                    <!--app:arcWidth="2dp"-->
-                    <!--app:startAngle="30"-->
-                    <!--app:sweepAngle="300"-->
-                    <!--app:touchInside="true"/>-->
-
-                <TextView
+                    <TextView
                     android:id="@+id/mainLabel2"
                     android:layout_width="wrap_content"
                     android:textColor="#ff000000"
@@ -213,21 +228,27 @@
                     android:layout_height="wrap_content"
                     android:text="Distance" />
 
-                <com.triggertrap.seekarc.SeekArc
-                    android:id="@+id/mainseek2"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:padding="30dp"
-                    app:roundEdges="true"
-                    app:thumb="@color/colorAccent"
-                    app:rotation="180"
-                    app:max="42"
-                    app:progressColor="@color/colorAccent"
-                    app:arcWidth="2dp"
-                    app:startAngle="30"
-                    app:sweepAngle="300"
-                    app:touchInside="true"/>
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <com.triggertrap.seekarc.SeekArc
+                        android:id="@+id/mainseek2"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:padding="20dp"
+                        app:roundEdges="false"
+                        app:thumb="@color/colorAccent"
+                        app:rotation="180"
+                        app:max="42"
+                        app:progressColor="@color/colorAccent"
+                        app:arcWidth="1dp"
+                            app:progressWidth="6dp"
+                        app:startAngle="30"
+                        app:sweepAngle="300"
+                        app:touchInside="true"/>
+                    </RelativeLayout>
+
 
             </LinearLayout>
 
@@ -239,7 +260,7 @@
                 android:orientation="vertical"
                 android:paddingTop="8dp">
 
-                <TextView
+                    <TextView
                     android:id="@+id/mainLabel3"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#ff000000"
@@ -247,48 +268,24 @@
                     android:layout_height="wrap_content"
                     android:text="Choose your run time" />
 
-                <com.triggertrap.seekarc.SeekArc
+                    <com.triggertrap.seekarc.SeekArc
                     android:id="@+id/mainseek3"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:padding="30dp"
-                    app:thumb="@color/colorAccent"
-                    app:roundEdges="true"
-                    app:rotation="180"
-                    app:max="100"
-                    app:progressColor="@color/colorAccent"
-                    app:arcWidth="2dp"
-                    app:startAngle="30"
-                    app:sweepAngle="300"
-                    app:touchInside="true"/>
+                    android:padding="20dp"
+                        app:roundEdges="false"
+                        app:thumb="@color/colorAccent"
+                        app:rotation="180"
+                        app:max="42"
+                        app:progressColor="@color/colorAccent"
+                        app:arcWidth="1dp"
+                        app:progressWidth="6dp"
+                        app:startAngle="30"
+                        app:sweepAngle="300"
+                        app:touchInside="true"/>
 
-                <!--<TextView-->
-                    <!--android:id="@+id/mainLabel4"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:textColor="#ff000000"-->
-                    <!--android:layout_gravity="center_horizontal"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="10dp"-->
-                    <!--android:text="Choose your run time" />-->
-
-                <!--<com.triggertrap.seekarc.SeekArc-->
-                    <!--android:id="@+id/mainseek4"-->
-                    <!--android:layout_gravity="center_horizontal"-->
-                    <!--android:layout_width="150dp"-->
-                    <!--android:layout_height="150dp"-->
-                    <!--android:padding="30dp"-->
-                    <!--app:thumb="@color/colorAccent"-->
-                    <!--app:rotation="180"-->
-                    <!--app:roundEdges="true"-->
-                    <!--app:max="100"-->
-                    <!--app:progressColor="@color/colorAccent"-->
-                    <!--app:arcWidth="2dp"-->
-                    <!--app:startAngle="30"-->
-                    <!--app:sweepAngle="300"-->
-                    <!--app:touchInside="true"/>-->
-
-            </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
 
