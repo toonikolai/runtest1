@@ -89,75 +89,95 @@
                 <!--</FrameLayout>-->
 
 
-                <TextView
-                    android:id="@+id/NameLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:gravity="bottom"
-                    android:layout_below="@+id/pic"
-                    android:text="Name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/Name"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_below="@+id/NameLabel"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:selectAllOnFocus="false"
-                    android:singleLine="false"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/AgeLabel"
-                    android:layout_width="match_parent"
-                    android:gravity="bottom"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/Name"
-                    android:text="Age"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/Age"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_below="@+id/AgeLabel"
-                    android:ems="10"
-                    android:textSize="20sp" />
-                    <!--android:inputType="number"-->
-
-
-                <TextView
-                    android:id="@+id/GenderLabel"
-                    android:layout_width="match_parent"
-                    android:gravity="bottom"
-                    android:layout_height="30dp"
-                    android:layout_below="@+id/Age"
-                    android:text="Gender"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textSize="14sp" />
-
-                <!--<RelativeLayout-->
-                    <!--android:id="@+id/GenderLayout"-->
+                <!--<TextView-->
+                    <!--android:id="@+id/NameLabel"-->
                     <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_below="@+id/GenderLabel"-->
-                    <!--android:layout_marginRight="3dp"-->
-                    <!--android:layout_weight=".28"-->
-                    <!--android:background="@drawable/spinner_background"-->
-                    <!--android:orientation="horizontal">-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:gravity="bottom"-->
+                    <!---->
+                    <!--android:text="Name"-->
+                    <!--android:textAppearance="@style/TextAppearance.AppCompat.Caption"-->
+                    <!--android:textSize="14sp" />-->
 
-                    <!--<Spinner-->
-                <TextView
-                    android:id="@+id/Gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_below="@+id/GenderLabel"
-                    android:ems="10"
-                    android:textSize="20sp" />
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/ProfileHeader"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_below="@+id/pic"-->
+                    <!--android:orientation="vertical">-->
+
+                    <TextView
+                        android:id="@+id/Name"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/pic"
+                        android:layout_height="50dp"
+                        android:ems="10"
+                        android:layout_gravity="center"
+                        android:selectAllOnFocus="false"
+                        android:singleLine="false"
+                        android:textSize="20sp" />
+                        <!--android:inputType="textPersonName"-->
+
+
+                    <TextView
+                        android:id="@+id/AgeLabel"
+                        android:layout_width="match_parent"
+                        android:gravity="bottom"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/Name"
+                        android:layout_gravity="center"
+                        android:text="Age"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textSize="14sp"
+                        android:layout_alignParentStart="true" />
+
+                    <TextView
+                        android:id="@+id/Age"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_below="@+id/AgeLabel"
+                        android:layout_gravity="center"
+                        android:ems="10"
+                        android:textSize="20sp"
+                        android:layout_toEndOf="@+id/AgeLabel"
+                        android:layout_alignParentStart="true" />
+                        <!--android:inputType="number"-->
+
+
+                    <TextView
+                        android:id="@+id/GenderLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:gravity="bottom"
+                        android:text="Gender"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textSize="14sp"
+                        android:layout_below="@+id/Age"
+                        android:layout_alignParentStart="true" />
+
+                    <!--<RelativeLayout-->
+                        <!--android:id="@+id/GenderLayout"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_below="@+id/GenderLabel"-->
+                        <!--android:layout_marginRight="3dp"-->
+                        <!--android:layout_weight=".28"-->
+                        <!--android:background="@drawable/spinner_background"-->
+                        <!--android:orientation="horizontal">-->
+
+                        <!--<Spinner-->
+                    <TextView
+                        android:id="@+id/Gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_below="@+id/GenderLabel"
+                        android:layout_gravity="center"
+                        android:ems="10"
+                        android:textSize="20sp"
+                        android:layout_alignStart="@+id/GenderLabel" />
+
+                <!--</LinearLayout>-->
                         <!--android:layout_marginLeft="5dp"-->
                         <!--android:spinnerMode="dropdown" />-->
 
