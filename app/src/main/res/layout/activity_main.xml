@@ -221,32 +221,56 @@
                 android:paddingTop="8dp">
 
                     <TextView
-                    android:id="@+id/mainLabel2"
+                    android:id="@+id/mainLabel3"
                     android:layout_width="wrap_content"
                     android:textColor="#ff000000"
                     android:layout_gravity="center_horizontal"
                     android:layout_height="wrap_content"
-                    android:text="Distance" />
+                    android:text="Time of Day" />
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/weatherLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:layout_centerVertical="true"
+                            android:layout_centerHorizontal="true">
+
+                            <ImageButton
+                                android:id="@+id/weatherIcon"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@mipmap/weather_sun"/>
+                            <TextView
+                                android:id="@+id/temperature"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0 C" />
+
+                        </LinearLayout>
+
                         <com.triggertrap.seekarc.SeekArc
-                        android:id="@+id/mainseek2"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:padding="20dp"
-                        app:roundEdges="false"
-                        app:thumb="@color/colorAccent"
-                        app:rotation="180"
-                        app:max="42"
-                        app:progressColor="@color/colorAccent"
-                        app:arcWidth="1dp"
+                            android:id="@+id/mainseek3"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:padding="20dp"
+                            app:roundEdges="false"
+                            app:thumb="@color/colorAccent"
+                            app:rotation="180"
+                            app:max="240"
+                            app:progressColor="@color/colorAccent"
+                            app:arcWidth="1dp"
                             app:progressWidth="6dp"
-                        app:startAngle="30"
-                        app:sweepAngle="300"
-                        app:touchInside="true"/>
+                            app:startAngle="30"
+                            app:sweepAngle="300"
+                            app:touchInside="true"/>
+
                     </RelativeLayout>
 
 
@@ -261,15 +285,15 @@
                 android:paddingTop="8dp">
 
                     <TextView
-                    android:id="@+id/mainLabel3"
+                    android:id="@+id/mainLabel2"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#ff000000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Choose your run time" />
+                    android:text="Distance" />
 
                     <com.triggertrap.seekarc.SeekArc
-                    android:id="@+id/mainseek3"
+                    android:id="@+id/mainseek2"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="150dp"
                     android:layout_height="150dp"

@@ -195,16 +195,16 @@ public class ProfileActivity extends AppCompatActivity {
         //Time
         profileseek2 = (SeekBar) findViewById(R.id.TimeSeekProfile);
         profilelabel2 = (TextView) findViewById(R.id.TimeLabelProfile);
-        profileseek2.setMax(100);
+        profileseek2.setMax(240);
         int timeInt = prefs.getInt("time", 0);
         profileseek2.setProgress(timeInt);
-        if (timeInt <= 20) {
+        if (timeInt <= 48) {
             profilelabel2.setText("Dawn (6am - 9am)");
-        } else if (timeInt > 20 && timeInt <= 40) {
+        } else if (timeInt > 48 && timeInt <= 96) {
             profilelabel2.setText("Morning (9am - 12pm)");
-        } else if (timeInt > 40 && timeInt <= 60) {
+        } else if (timeInt > 96 && timeInt <= 144) {
             profilelabel2.setText("Afternoon (12am - 3pm)");
-        } else if (timeInt > 60 && timeInt <= 80) {
+        } else if (timeInt > 144 && timeInt <= 192) {
             profilelabel2.setText("Midday (3am - 6pm)");
         } else {
             profilelabel2.setText("Evening (6pm-9pm)");
