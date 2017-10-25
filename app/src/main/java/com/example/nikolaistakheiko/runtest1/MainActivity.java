@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,12 +61,25 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.triggertrap.seekarc.SeekArc;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -101,6 +116,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int iterationCount;
     private Set<GeoQuery> geoQueries = new HashSet<>();
 
+    //Weather stuff
+    public static TextView weather;
+    public static String weatherString;
+    public static JSONArray weatherJSONArray;
+    boolean weatherCalled = false;
+    int hourTenNext;
+    List<Double> temps = new ArrayList<>();
+    List<String> weathers = new ArrayList<>();
+    long dt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +157,62 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setUpButton();
         setUpRunButton();
         setUpSeekBars();
-        setUpTerrains();
+//        setUpTerrains();
+    }
+
+    private void setUpWeather() {
+        fetchData process = new fetchData(lat, lng);
+        process.execute();
+//        Toast.makeText(MainActivity.this, weatherString, Toast.LENGTH_SHORT).show();
+        //get hours from JSONArray
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Current Hour (24h)
+                Calendar rightNow = Calendar.getInstance();
+                int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+//                Toast.makeText(MainActivity.this, "" + currentHour, Toast.LENGTH_SHORT).show();
+                try {
+
+                    //Get first time from openweathermap
+                    LinearLayout linlay = (LinearLayout) findViewById(R.id.weatherLayout);
+                    linlay.setVisibility(View.VISIBLE);
+                    JSONObject JO = weatherJSONArray.getJSONObject(0);
+                    dt = JO.getLong("dt");
+                    Date df = new java.util.Date(dt*1000);
+                    String vv = new SimpleDateFormat("HH").format(df);
+                    hourTenNext = Integer.parseInt(vv);
+
+
+                    slider3.setProgress(hourTenNext*10);
+
+                    for (int i = 0; i < weatherJSONArray.length(); i++) {
+                        JSONObject Jobj = weatherJSONArray.getJSONObject(i);
+
+                        //Temperature
+                        JSONObject J2 = Jobj.getJSONObject("main");
+                        double kelvin = (Double) J2.get("temp");
+                        double celsius = kelvin-273.15;
+                        temps.add(i, celsius);
+
+                        //Weather Type
+                        JSONArray JA = Jobj.getJSONArray("weather");
+                        JSONObject JAO = JA.getJSONObject(0);
+                        String wea = (String) JAO.get("description");
+                        weathers.add(i, wea);
+
+                        //Initiate ArcSeek temperature change action
+                        weatherCalled = true;
+                    }
+//                    Toast.makeText(MainActivity.this, weathers.toString(), Toast.LENGTH_SHORT).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 1000);
+
     }
 
     @Override
@@ -207,45 +287,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void setUpTerrains() {
-        ImageView terrain1 = (ImageView) findViewById(R.id.activity1);
-        ImageView terrain2 = (ImageView) findViewById(R.id.activity2);
-        ImageView terrain3 = (ImageView) findViewById(R.id.activity3);
-        ImageView terrain4 = (ImageView) findViewById(R.id.activity4);
-        ImageView terrain5 = (ImageView) findViewById(R.id.activity5);
-        terrain1.setImageAlpha(90);
-        terrain2.setImageAlpha(90);
-        terrain3.setImageAlpha(90);
-        terrain4.setImageAlpha(90);
-        terrain5.setImageAlpha(90);
+//        ImageView terrain1 = (ImageView) findViewById(R.id.activity1);
+//        ImageView terrain2 = (ImageView) findViewById(R.id.activity2);
+//        ImageView terrain3 = (ImageView) findViewById(R.id.activity3);
+//        ImageView terrain4 = (ImageView) findViewById(R.id.activity4);
+//        ImageView terrain5 = (ImageView) findViewById(R.id.activity5);
+//        terrain1.setImageAlpha(90);
+//        terrain2.setImageAlpha(90);
+//        terrain3.setImageAlpha(90);
+//        terrain4.setImageAlpha(90);
+//        terrain5.setImageAlpha(90);
     }
 
     private void setName() {
         profilename = prefs.getString("name", "nothing");
+        ImageView image = (ImageView) findViewById(R.id.userImage);
+        String pic_url = prefs.getString("fb_profile_pic", "");
+        if (pic_url !="") {
+            Picasso.with(this)
+                    .load(pic_url)
+                    .into(image);
+        }
+
+        weather = (TextView) findViewById(R.id.userName);
+
+        ImageView imageAdd = (ImageView) findViewById(R.id.userAddImage);
+        imageAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Invite friends form Facebook", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setUpSeekBars() {
         paceInt = prefs.getInt("pace", 0);
-//        slider1 = (SeekArc) findViewById(R.id.mainseek1);
-//        label1 = (TextView) findViewById(R.id.mainLabel1);
-//        slider1.setArcColor(R.color.colorAccent);
-//        slider1.setProgress(paceInt);
-//        label1.setText("Run Pace: " + paceInt + " km/h");
-//        slider1.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
-//                label1.setText("Run Pace: " + i + " km/h");
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekArc seekArc) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekArc seekArc) {
-//
-//            }
-//        });
 
         slider2 = (SeekArc) findViewById(R.id.mainseek2);
         label2 = (TextView) findViewById(R.id.mainLabel2);
@@ -281,11 +357,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         slider3.setArcColor(R.color.colorAccent);
         timeInt = prefs.getInt("time", 0);
         slider3.setProgress(timeInt);
-        timeCheck(timeInt);
+//        timeCheck(timeInt);
         slider3.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
             @Override
             public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
-                timeCheck(i);
+                if(!weatherCalled) {
+//                    timeCheck(i);
+                }
+                else {
+                    timeWeather(i);
+                }
             }
 
             @Override
@@ -301,55 +382,74 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         groupSizeInt = prefs.getInt("group", 0);
-//        slider4 = (SeekArc) findViewById(R.id.mainseek4);
-//        label4 = (TextView) findViewById(R.id.mainLabel4);
-//        slider4.setArcColor(R.color.colorAccent);
-//        slider4.setProgress(groupSizeInt);
-//        if (groupSizeInt <= 20) {
-//            label4.setText("Running partner (2 people)");
-//        } else if (groupSizeInt > 20 && groupSizeInt <= 60) {
-//            label4.setText("Small group (2-4 people)");
-//        } else {
-//            label4.setText("Large group (5-10 people)");
-//        }
-//        slider4.setOnSeekArcChangeListener(new SeekArc.OnSeekArcChangeListener() {
-//            @Override
-//            public void onProgressChanged(SeekArc seekArc, int i, boolean b) {
-//                if (i <= 20) {
-//                    label4.setText("Running partner (2 people)");
-//                } else if (i > 20 && i <= 60) {
-//                    label4.setText("Small group (2-4 people)");
-//                } else {
-//                    label4.setText("Large group (5-10 people)");
-//                }
-//            }
-//
-//            @Override
-//            public void onStartTrackingTouch(SeekArc seekArc) {
-//
-//            }
-//
-//            @Override
-//            public void onStopTrackingTouch(SeekArc seekArc) {
-//
-//            }
-//        });
     }
 
     private void timeCheck(int i) {
-        if (i <= 20) {
+        if (i <= 48) {
             label3.setText("Dawn (6am - 9am)");
-        } else if (i > 20 && i <= 40) {
+        } else if (i > 48 && i <= 96) {
             label3.setText("Morning (9am - 12pm)");
-        } else if (i > 40 && i <= 60) {
+        } else if (i > 96 && i <= 144) {
             label3.setText("Afternoon (12am - 3pm)");
-        } else if (i > 60 && i <= 80) {
+        } else if (i > 144 && i <= 192) {
             label3.setText("Midday (3am - 6pm)");
         } else {
             label3.setText("Evening (6pm-9pm)");
         }
     }
 
+    private void timeWeather(int i) {
+        TextView temp = (TextView) findViewById(R.id.temperature);
+        ImageView icon = (ImageView) findViewById(R.id.weatherIcon);
+        int j;
+        if (i <= 30) {
+            j = 0;
+        } else if (i > 30 && i <= 60) {
+            j = 1;
+        } else if (i > 60 && i <= 90) {
+            j = 2;
+        } else if (i > 90 && i <= 120) {
+            j = 3;
+        } else if (i > 120 && i <= 150) {
+            j = 4;
+        } else if (i > 150 && i <= 180) {
+            j = 5;
+        } else if (i > 180 && i <= 210) {
+            j = 6;
+        } else {
+            j = 7;
+        }
+
+        Date df = new java.util.Date((j*10800 + dt) * 1000);
+        String vv = new SimpleDateFormat("MM/dd HH").format(df);
+
+        temps.get(j);
+        temp.setText(temps.get(j).intValue() + " C");
+        label3.setText(vv + ":00 UTC");
+
+        String s = weathers.get(j);
+        if (s.equals("scattered clouds")) {
+            icon.setBackgroundResource(R.mipmap.weather_cloud_sun);
+        } else if (s.equals("light rain")) {
+            icon.setBackgroundResource(R.mipmap.weather_rain);
+        } else if (s.equals("broken clouds")) {
+            icon.setBackgroundResource(R.mipmap.weather_cloud_one);
+        } else if (s.equals("few clouds")) {
+            icon.setBackgroundResource(R.mipmap.weather_cloud_sun);
+        } else if (s.equals("overcast clouds")) {
+            icon.setBackgroundResource(R.mipmap.weather_cloud_one);
+        } else if (s.equals("moderate rain")) {
+            icon.setBackgroundResource(R.mipmap.weather_rain);
+        } else if (s.equals("shower rain")) {
+            icon.setBackgroundResource(R.mipmap.weather_rain);
+        } else if (s.equals("drizzle")) {
+            icon.setBackgroundResource(R.mipmap.weather_rain);
+        } else if (s.equals("thunderstorm")) {
+            icon.setBackgroundResource(R.mipmap.weather_thunder);
+        } else {
+            icon.setBackgroundResource(R.mipmap.weather_sun);
+        }
+    }
 
     private void initMap() {
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapFragment);
@@ -374,7 +474,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivityForResult(profileIntent, 0);
         final Handler handler = new Handler();
-
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -413,80 +512,80 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    public void activityRunning(View vieww) {
-        ImageView view1 = (ImageView) vieww.findViewById(R.id.activity1);
-        if (view1.getImageAlpha()==90) {
-            setUpTerrains();
-            view1.setImageAlpha(255);
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
-                    //Choose map style:
-                    cool_map_thick
-            );
-            mGoogleMap.setMapStyle(style);
-        } else {
-            view1.setImageAlpha(90);
-        }
-    }
-
-    public void activityBiking(View vieww) {
-        ImageView view2 = (ImageView) vieww.findViewById(R.id.activity2);
-        if (view2.getImageAlpha()==90) {
-            setUpTerrains();
-            view2.setImageAlpha(255);
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
-                    //Choose map style:
-                    colorful1
-            );
-            mGoogleMap.setMapStyle(style);
-        } else {
-            view2.setImageAlpha(90);
-        }
-    }
-
-    public void activityGym(View vieww) {
-        ImageView view3 = (ImageView) vieww.findViewById(R.id.activity3);
-        if (view3.getImageAlpha()==90) {
-            setUpTerrains();
-            view3.setImageAlpha(255);
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
-                    //Choose map style:
-                    blue_hues
-            );
-            mGoogleMap.setMapStyle(style);
-        } else {
-            view3.setImageAlpha(90);
-        }
-    }
-
-    public void activityYoga(View vieww) {
-        ImageView view4 = (ImageView) vieww.findViewById(R.id.activity4);
-        if (view4.getImageAlpha()==90) {
-            setUpTerrains();
-            view4.setImageAlpha(255);
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
-                    //Choose map style:
-                    monotone
-            );
-            mGoogleMap.setMapStyle(style);
-        } else {
-            view4.setImageAlpha(90);
-        }
-    }
-
-    public void activityZuma(View vieww) {
-        ImageView view5 = (ImageView) vieww.findViewById(R.id.activity5);
-        if (view5.getImageAlpha() == 90) {
-            setUpTerrains();
-            view5.setImageAlpha(255);
-            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
-                    //Choose map style:
-                    miastra
-            );
-            mGoogleMap.setMapStyle(style);
-        } else {
-            view5.setImageAlpha(90);
-        }
-    }
+//    public void activityRunning(View vieww) {
+//        ImageView view1 = (ImageView) vieww.findViewById(R.id.activity1);
+//        if (view1.getImageAlpha()==90) {
+//            setUpTerrains();
+//            view1.setImageAlpha(255);
+//            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+//                    //Choose map style:
+//                    cool_map_thick
+//            );
+//            mGoogleMap.setMapStyle(style);
+//        } else {
+//            view1.setImageAlpha(90);
+//        }
+//    }
+//
+//    public void activityBiking(View vieww) {
+//        ImageView view2 = (ImageView) vieww.findViewById(R.id.activity2);
+//        if (view2.getImageAlpha()==90) {
+//            setUpTerrains();
+//            view2.setImageAlpha(255);
+//            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+//                    //Choose map style:
+//                    colorful1
+//            );
+//            mGoogleMap.setMapStyle(style);
+//        } else {
+//            view2.setImageAlpha(90);
+//        }
+//    }
+//
+//    public void activityGym(View vieww) {
+//        ImageView view3 = (ImageView) vieww.findViewById(R.id.activity3);
+//        if (view3.getImageAlpha()==90) {
+//            setUpTerrains();
+//            view3.setImageAlpha(255);
+//            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+//                    //Choose map style:
+//                    blue_hues
+//            );
+//            mGoogleMap.setMapStyle(style);
+//        } else {
+//            view3.setImageAlpha(90);
+//        }
+//    }
+//
+//    public void activityYoga(View vieww) {
+//        ImageView view4 = (ImageView) vieww.findViewById(R.id.activity4);
+//        if (view4.getImageAlpha()==90) {
+//            setUpTerrains();
+//            view4.setImageAlpha(255);
+//            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+//                    //Choose map style:
+//                    monotone
+//            );
+//            mGoogleMap.setMapStyle(style);
+//        } else {
+//            view4.setImageAlpha(90);
+//        }
+//    }
+//
+//    public void activityZuma(View vieww) {
+//        ImageView view5 = (ImageView) vieww.findViewById(R.id.activity5);
+//        if (view5.getImageAlpha() == 90) {
+//            setUpTerrains();
+//            view5.setImageAlpha(255);
+//            MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.
+//                    //Choose map style:
+//                    miastra
+//            );
+//            mGoogleMap.setMapStyle(style);
+//        } else {
+//            view5.setImageAlpha(90);
+//        }
+//    }
 
     private void setUpButton() {
         Button button = (Button) findViewById(R.id.mainMenuButton);
@@ -845,6 +944,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             .zoom(14)
                             .build()
                     ));
+                    setUpWeather();
                 } else {
                     Toast.makeText(MainActivity.this, "LatLng == null", Toast.LENGTH_SHORT).show();
                 }
