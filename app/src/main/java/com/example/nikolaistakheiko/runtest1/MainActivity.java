@@ -69,6 +69,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -78,6 +79,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     int hourTenNext;
     List<Double> temps = new ArrayList<>();
     List<String> weathers = new ArrayList<>();
+    long dt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,18 +171,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void run() {
                 //Current Hour (24h)
-//                Calendar rightNow = Calendar.getInstance();
-//                int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+                Calendar rightNow = Calendar.getInstance();
+                int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+//                Toast.makeText(MainActivity.this, "" + currentHour, Toast.LENGTH_SHORT).show();
                 try {
+
                     //Get first time from openweathermap
                     LinearLayout linlay = (LinearLayout) findViewById(R.id.weatherLayout);
                     linlay.setVisibility(View.VISIBLE);
                     JSONObject JO = weatherJSONArray.getJSONObject(0);
-                    long dt = JO.getLong("dt");
+                    dt = JO.getLong("dt");
                     Date df = new java.util.Date(dt*1000);
                     String vv = new SimpleDateFormat("HH").format(df);
                     hourTenNext = Integer.parseInt(vv);
+
+
                     slider3.setProgress(hourTenNext*10);
+
                     for (int i = 0; i < weatherJSONArray.length(); i++) {
                         JSONObject Jobj = weatherJSONArray.getJSONObject(i);
 
@@ -412,8 +420,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else {
             j = 7;
         }
+
+        Date df = new java.util.Date((j*10800 + dt) * 1000);
+        String vv = new SimpleDateFormat("MM/dd HH").format(df);
+
         temps.get(j);
         temp.setText(temps.get(j).intValue() + " C");
+        label3.setText(vv + ":00");
 
         String s = weathers.get(j);
         if (s.equals("scattered clouds")) {
