@@ -157,13 +157,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setUpButton();
         setUpRunButton();
         setUpSeekBars();
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-        setUpWeather();
-            }
-        }, 4000);
 //        setUpTerrains();
     }
 
@@ -951,6 +944,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             .zoom(14)
                             .build()
                     ));
+                    setUpWeather();
                 } else {
                     Toast.makeText(MainActivity.this, "LatLng == null", Toast.LENGTH_SHORT).show();
                 }
