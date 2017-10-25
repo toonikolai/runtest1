@@ -157,7 +157,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setUpButton();
         setUpRunButton();
         setUpSeekBars();
-//        setUpWeather();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+        setUpWeather();
+            }
+        }, 4000);
 //        setUpTerrains();
     }
 
@@ -316,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         imageAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setUpWeather();
+                Toast.makeText(MainActivity.this, "Invite friends form Facebook", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -426,7 +432,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         temps.get(j);
         temp.setText(temps.get(j).intValue() + " C");
-        label3.setText(vv + ":00");
+        label3.setText(vv + ":00 UTC");
 
         String s = weathers.get(j);
         if (s.equals("scattered clouds")) {
