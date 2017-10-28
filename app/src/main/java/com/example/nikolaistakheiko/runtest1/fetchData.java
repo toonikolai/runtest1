@@ -28,6 +28,7 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
     public fetchData() {
     }
 
+    //Function that receives lat lng values and sets them up in this class
     public fetchData(double lat, double lng) {
         this.lat = lat;
         this.lng = lng;
@@ -37,6 +38,7 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
         URL url = null;
         try {
+            //set up bufferedReader to read values from url
             url = new URL("http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lng + "&appid=76675786ff883ece6ad493272e2ace29");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = httpURLConnection.getInputStream();
@@ -49,12 +51,18 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
 //
 //                dataInt = bufferedReader.read();
 //            }
+
+            //On reading each line, put into data (string)
             String line = "";
             while(line != null) {
                 line = bufferedReader.readLine();
                 data += line;
             }
+
+            //create a JSONObject out of the string
             JSONObject JO = new JSONObject(data);
+
+            //find JSONArray in this object called "list"
             JA = JO.getJSONArray("list");
 //            list = JA.toString();
 
@@ -69,6 +77,7 @@ public class fetchData extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+    //Set the mainactivity variable weatherJSONArray to the extracted jasonarray ("list") from the url
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);

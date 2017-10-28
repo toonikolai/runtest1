@@ -53,11 +53,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 import com.triggertrap.seekarc.SeekArc;
 
@@ -101,7 +104,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private RecyclerView recV;
     boolean mainMenuView = true;
 
+    //Firebase
     DatabaseReference mRunnerData;
+    FirebaseAuth mAuth;
+    FirebaseUser user;
 
     //Geofire stuff
     DatabaseReference mGeo;
@@ -122,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static JSONArray weatherJSONArray;
     boolean weatherCalled = false;
     int hourTenNext;
+    int dayTenNext;
     List<Double> temps = new ArrayList<>();
     List<String> weathers = new ArrayList<>();
     long dt;
@@ -132,10 +139,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (googleServicesAvailable()) {
             setContentView(R.layout.activity_main);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
             //SharedPrefs
             prefs = this.getSharedPreferences("myPrefs", Activity.MODE_PRIVATE);
             editor = prefs.edit();
+
             initMap();
+
             //RecyclerView
             recV = (RecyclerView) findViewById(R.id.recyclerViewInsideBox);
             recV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -152,6 +162,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mRunnerData = FirebaseDatabase.getInstance().getReference("runners");
         mGeo = FirebaseDatabase.getInstance().getReference("runner_locations");
         geoFire = new GeoFire(mGeo);
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        //If dont have user in Auth, sign in again
+        if(user == null) {
+            Toast.makeText(this, "Log in again for Firebase", Toast.LENGTH_SHORT).show();
+            //Same code as in openLogout function
+            LoginManager.getInstance().logOut();
+
+            Intent profileIntent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivityForResult(profileIntent, 0);
+            finishAffinity();
+        }
+        //Notifications set up
+        OneSignal.startInit(this)
+                .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+                .unsubscribeWhenNotificationsAreDisabled(true)
+                .init();
+
+        //Send firebase UID as user identifier in OneSignal
+        OneSignal.sendTag("User_ID", user.getUid());
+
 //        setUpListeners();
         setName();
         setUpButton();
@@ -182,10 +213,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     dt = JO.getLong("dt");
                     Date df = new java.util.Date(dt*1000);
                     String vv = new SimpleDateFormat("HH").format(df);
+                    String dd = new SimpleDateFormat("dd").format(df);
                     hourTenNext = Integer.parseInt(vv);
+                    dayTenNext = Integer.parseInt(dd);
 
-
-                    slider3.setProgress(hourTenNext*10);
+                    slider3.setProgress(15);
 
                     for (int i = 0; i < weatherJSONArray.length(); i++) {
                         JSONObject Jobj = weatherJSONArray.getJSONObject(i);
@@ -213,6 +245,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }, 1000);
 
+        final Handler handler2 = new Handler();
+        handler2.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                timeWeather(0);
+            }
+        }, 2500);
     }
 
     @Override
@@ -420,12 +459,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             j = 7;
         }
 
-        Date df = new java.util.Date((j*10800 + dt) * 1000);
-        String vv = new SimpleDateFormat("MM/dd HH").format(df);
+        //Set up time according to seekArk position
+        Date df = new java.util.Date((j*10800+dt)*1000);
+        String justTheHour = new SimpleDateFormat("HH").format(df);
+        int justTheHourInt = Integer.parseInt(justTheHour);
+        String justTheDay = new SimpleDateFormat("dd").format(df);
+        int justTheDayInt = Integer.parseInt(justTheDay);
 
+        int hourPlus3Int = justTheHourInt+3;
+        String hourPlus3 = hourPlus3Int + ":00";
+        if(justTheHourInt >= 21) {
+            hourPlus3Int = hourPlus3Int-24;
+            hourPlus3 = hourPlus3Int + ":00 (tomorrow)";
+        } else if(dayTenNext != justTheDayInt) {
+            hourPlus3 = hourPlus3Int + ":00 (tomorrow)";
+        }
+        label3.setText(justTheHour + ":00 - " + hourPlus3);
+//        String vv = new SimpleDateFormat("MM/dd HH").format(df);
+//        label3.setText(vv + ":00");
+
+        //Set temperature according to selected time position
         temps.get(j);
         temp.setText(temps.get(j).intValue() + " C");
-        label3.setText(vv + ":00 UTC");
 
         String s = weathers.get(j);
         if (s.equals("scattered clouds")) {
@@ -447,7 +502,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else if (s.equals("thunderstorm")) {
             icon.setBackgroundResource(R.mipmap.weather_thunder);
         } else {
-            icon.setBackgroundResource(R.mipmap.weather_sun);
+            if (justTheHourInt >= 10 || justTheHourInt <=4)
+                icon.setBackgroundResource(R.mipmap.weather_moon);
+            else
+                icon.setBackgroundResource(R.mipmap.weather_sun);
         }
     }
 
@@ -852,7 +910,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void newEntryInFirebase() {
         String pic_url = prefs.getString("fb_profile_pic","");
         String id = mRunnerData.push().getKey();
-        RunnerClass runner = new RunnerClass(lat, lng, profilename, slider2.getProgress(), label3.getText().toString(), paceInt, groupSizeInt, pic_url, id);
+        RunnerClass runner = new RunnerClass(lat, lng, profilename, slider2.getProgress(), label3.getText().toString(), paceInt, groupSizeInt, pic_url, user.getUid(), id);
 
         //Update runners and runner_locations in Firebase
         mRunnerData.child(id).setValue(runner);

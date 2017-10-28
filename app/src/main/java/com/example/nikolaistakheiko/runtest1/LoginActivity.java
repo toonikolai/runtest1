@@ -3,6 +3,7 @@ package com.example.nikolaistakheiko.runtest1;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,13 @@ import com.facebook.HttpMethod;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -42,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     String birthday;
     String email;
     GraphRequest request;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +72,8 @@ public class LoginActivity extends AppCompatActivity {
 //        get permissions for these things
         loginButton.setReadPermissions(Arrays.asList(
                 "public_profile", "email", "user_birthday", "user_friends"));
+
+        mAuth = FirebaseAuth.getInstance();
 
         accessTokenTracker = new AccessTokenTracker() {
 
@@ -89,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onCompleted(JSONObject object, GraphResponse response) {
                                     Toast.makeText(LoginActivity.this, "OnCompleted", Toast.LENGTH_SHORT).show();
+
                                     Log.v("LoginActivity Response ", response.toString());
 
                                     try {
@@ -125,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                     request.setParameters(parameters);
                     request.executeAsync();
 
+                    handleFacebookAccessToken(loginResult.getAccessToken());
 
 
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
@@ -159,6 +172,29 @@ public class LoginActivity extends AppCompatActivity {
             this.finish();
 
         }
+    }
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Toast.makeText(LoginActivity.this, "signInWithCredential:success", Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            editor.putString("firebase_UID", user.getUid());
+                            Toast.makeText(LoginActivity.this, user.getUid(), Toast.LENGTH_SHORT).show();
+                            editor.commit();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "signInWithCredential:failure", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // ...
+                    }
+                });
     }
 
     @Override

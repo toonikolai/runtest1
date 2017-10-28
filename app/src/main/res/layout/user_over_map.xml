@@ -122,4 +122,17 @@
         android:gravity="center"
         android:layout_alignEnd="@+id/userSeek3" />
 
+    <Button
+        android:id="@+id/requestJoinButton"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/userLabel3"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/cast_expanded_controller_seek_bar_progress_background_tint_color"
+        android:elevation="0dp"
+        android:text="Join Run"/>
+
 </RelativeLayout>
