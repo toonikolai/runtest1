@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("fb_profile_pic", "https://graph.facebook.com/" + loginResult.getAccessToken().getUserId() + "/picture?type=large");
                     editor.commit();
 
-//                    batch = new GraphRequestBatch(
+                    batch = new GraphRequestBatch(
                             request1 = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                                 @Override
                                 public void onCompleted(JSONObject object, GraphResponse response) {
@@ -139,45 +139,45 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 }
                             }),
-//                            request2 = GraphRequest.newMyFriendsRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONArrayCallback() {
-//                                @Override
-//                                public void onCompleted(JSONArray array, GraphResponse response) {
-//                                    Log.v("LoginActivityResponse2 ", response.toString());
-//                                    // Application code for users friends
-//
-//                                    try {
-//
-//                                        for (int i= 0; i<array.length(); i++){
-//                                            JSONObject list = array.getJSONObject(i);
-//
-//
-//                                            JSONArray JA = list.getJSONArray("main");
-//                                            JSONObject JO = JA.getJSONObject(0);
-//                                            String friend = (String) JO.get("friend");
-//                                            friends.add(i,friend);
-//
-//                                        }
-//
-//                                        editor.putString(friends.toString(),"");
-//                                        editor.commit();
-//
-//                                        Toast.makeText(LoginActivity.this, friends.toString(), Toast.LENGTH_LONG).show();
-//
-//                                    }
-//
-//                                    catch(JSONException e){
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            })
+                            request2 = GraphRequest.newMyFriendsRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONArrayCallback() {
+                                @Override
+                                public void onCompleted(JSONArray array, GraphResponse response) {
+                                    Log.v("LoginActivityResponse2 ", response.toString());
+                                    // Application code for users friends
+
+                                    try {
+
+                                        for (int i= 0; i<array.length(); i++){
+                                            JSONObject list = array.getJSONObject(i);
+
+
+                                            JSONArray JA = list.getJSONArray("main");
+                                            JSONObject JO = JA.getJSONObject(0);
+                                            String friend = (String) JO.get("friend");
+                                            friends.add(i,friend);
+
+                                        }
+
+                                        editor.putString(friends.toString(),"");
+                                        editor.commit();
+
+                                        Toast.makeText(LoginActivity.this, friends.toString(), Toast.LENGTH_LONG).show();
+
+                                    }
+
+                                    catch(JSONException e){
+                                        e.printStackTrace();
+                                    }
+                                }
+                            })
                     );
 
-//                    batch.addCallback(new GraphRequestBatch.Callback() {
-//                        @Override
-//                        public void onBatchCompleted(GraphRequestBatch graphRequests) {
-//                            // Application code for when the batch finishes
-//                        }
-//                    });
+                    batch.addCallback(new GraphRequestBatch.Callback() {
+                        @Override
+                        public void onBatchCompleted(GraphRequestBatch graphRequests) {
+                            // Application code for when the batch finishes
+                        }
+                    });
 
                     Bundle parameters = new Bundle();
                     parameters.putString("fields", "name,email,birthday,gender");
