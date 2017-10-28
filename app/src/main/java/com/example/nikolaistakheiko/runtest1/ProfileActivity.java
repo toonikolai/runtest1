@@ -340,6 +340,13 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
     }
 
+    public void openGroup(MenuItem item) {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("Menu_Option", "group");
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
+    }
+
     public void openAbout(MenuItem item){
         Intent resultIntent = new Intent();
         resultIntent.putExtra("Menu_Option", "about");
@@ -352,8 +359,6 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
         finishAffinity();
-
-
     }
 
     private void buttonSetUp() {

@@ -48,8 +48,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity
             android:name=".ProfileActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -71,6 +70,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".GroupActivity"></activity>
     </application>
 
 </manifest>

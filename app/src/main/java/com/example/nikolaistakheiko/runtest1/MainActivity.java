@@ -535,16 +535,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Do something after 5s = 5000ms
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
             }
         }, 1000);
-
     }
 
     public void openHome(MenuItem item) {
 
         mDrawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
+    public void openGroup(MenuItem item) {
+        Intent groupIntent = new Intent(MainActivity.this, GroupActivity.class);
+        startActivityForResult(groupIntent, 0);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
+            }
+        }, 1000);
     }
 
     public void openAbout(MenuItem item) {
@@ -554,20 +564,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         handler2.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Do something after 5s = 5000ms
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
             }
         }, 1000);
     }
 
     public void openLogout(MenuItem item) {
-
         LoginManager.getInstance().logOut();
 
-        Intent profileIntent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivityForResult(profileIntent, 0);
+        Intent logoutIntent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivityForResult(logoutIntent, 0);
         finishAffinity();
-
     }
 
 //    public void activityRunning(View vieww) {
@@ -946,6 +953,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     if (newText.contentEquals("about")) {
                         Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
                         startActivity(aboutIntent);
+                    } else if (newText.contentEquals("profile")) {
+                        Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                        startActivityForResult(profileIntent, 0);
+                    } else if (newText.contentEquals("group")) {
+                        Intent groupIntent = new Intent(MainActivity.this, GroupActivity.class);
+                        startActivityForResult(groupIntent, 0);
                     }
                 }
                 break;

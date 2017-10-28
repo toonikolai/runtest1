@@ -124,7 +124,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Custom
                                 + "\"filters\": [{\"field\": \"tag\", \"key\": \"User_ID\", \"relation\": \"=\", \"value\": \"" + receivingUID + "\"}],"
 
                                 + "\"data\": {\"foo\": \"bar\"},"
-                                + "\"contents\": {\"en\": \" " + username + " wants to go for a run with you.\"}"
+                                + "\"contents\": {\"en\": \"" + username + " wants to go for a run with you.\"}"
                                 + "}";
 
                         System.out.println("strJsonBody:\n" + strJsonBody);
