@@ -16,6 +16,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
+import com.facebook.GraphRequestBatch;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.appevents.AppEventsLogger;
@@ -33,7 +34,9 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static java.net.Proxy.Type.HTTP;
 
@@ -49,7 +52,11 @@ public class LoginActivity extends AppCompatActivity {
     String gender;
     String birthday;
     String email;
-    GraphRequest request;
+    GraphRequest request1;
+    GraphRequest request2;
+    List<String> friends = new ArrayList<>();
+    GraphRequestBatch batch;
+
     private FirebaseAuth mAuth;
 
     @Override
@@ -96,12 +103,12 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("fb_profile_pic", "https://graph.facebook.com/" + loginResult.getAccessToken().getUserId() + "/picture?type=large");
                     editor.commit();
 
-                    request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+//                    batch = new GraphRequestBatch(
+                            request1 = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                                 @Override
                                 public void onCompleted(JSONObject object, GraphResponse response) {
-                                    Toast.makeText(LoginActivity.this, "OnCompleted", Toast.LENGTH_SHORT).show();
-
-                                    Log.v("LoginActivity Response ", response.toString());
+//                                    Toast.makeText(LoginActivity.this, "OnCompleted", Toast.LENGTH_SHORT).show();
+                                    Log.v("LoginActivityResponse1 ", response.toString());
 
                                     try {
 
@@ -131,11 +138,51 @@ public class LoginActivity extends AppCompatActivity {
 //                                        Toast.makeText(LoginActivity.this, "CATCH", Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                            });
+                            }),
+//                            request2 = GraphRequest.newMyFriendsRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONArrayCallback() {
+//                                @Override
+//                                public void onCompleted(JSONArray array, GraphResponse response) {
+//                                    Log.v("LoginActivityResponse2 ", response.toString());
+//                                    // Application code for users friends
+//
+//                                    try {
+//
+//                                        for (int i= 0; i<array.length(); i++){
+//                                            JSONObject list = array.getJSONObject(i);
+//
+//
+//                                            JSONArray JA = list.getJSONArray("main");
+//                                            JSONObject JO = JA.getJSONObject(0);
+//                                            String friend = (String) JO.get("friend");
+//                                            friends.add(i,friend);
+//
+//                                        }
+//
+//                                        editor.putString(friends.toString(),"");
+//                                        editor.commit();
+//
+//                                        Toast.makeText(LoginActivity.this, friends.toString(), Toast.LENGTH_LONG).show();
+//
+//                                    }
+//
+//                                    catch(JSONException e){
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            })
+                    );
+
+//                    batch.addCallback(new GraphRequestBatch.Callback() {
+//                        @Override
+//                        public void onBatchCompleted(GraphRequestBatch graphRequests) {
+//                            // Application code for when the batch finishes
+//                        }
+//                    });
+
                     Bundle parameters = new Bundle();
                     parameters.putString("fields", "name,email,birthday,gender");
-                    request.setParameters(parameters);
-                    request.executeAsync();
+                    request1.setParameters(parameters);
+                    batch.executeAsync();
 
                     handleFacebookAccessToken(loginResult.getAccessToken());
 
