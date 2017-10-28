@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -103,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("fb_profile_pic", "https://graph.facebook.com/" + loginResult.getAccessToken().getUserId() + "/picture?type=large");
                     editor.commit();
 
-                    batch = new GraphRequestBatch(
+//                    batch = new GraphRequestBatch(
                             request1 = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                                 @Override
                                 public void onCompleted(JSONObject object, GraphResponse response) {
@@ -138,51 +139,51 @@ public class LoginActivity extends AppCompatActivity {
 //                                        Toast.makeText(LoginActivity.this, "CATCH", Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                            }),
-                            request2 = GraphRequest.newMyFriendsRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONArrayCallback() {
-                                @Override
-                                public void onCompleted(JSONArray array, GraphResponse response) {
-                                    Log.v("LoginActivityResponse2 ", response.toString());
-                                    // Application code for users friends
-
-                                    try {
-
-                                        for (int i= 0; i<array.length(); i++){
-                                            JSONObject list = array.getJSONObject(i);
-
-
-                                            JSONArray JA = list.getJSONArray("main");
-                                            JSONObject JO = JA.getJSONObject(0);
-                                            String friend = (String) JO.get("friend");
-                                            friends.add(i,friend);
-
-                                        }
-
-                                        editor.putString(friends.toString(),"");
-                                        editor.commit();
-
-                                        Toast.makeText(LoginActivity.this, friends.toString(), Toast.LENGTH_LONG).show();
-
-                                    }
-
-                                    catch(JSONException e){
-                                        e.printStackTrace();
-                                    }
-                                }
-                            })
-                    );
-
-                    batch.addCallback(new GraphRequestBatch.Callback() {
-                        @Override
-                        public void onBatchCompleted(GraphRequestBatch graphRequests) {
-                            // Application code for when the batch finishes
-                        }
+//                            }),
+//                            request2 = GraphRequest.newMyFriendsRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONArrayCallback() {
+//                                @Override
+//                                public void onCompleted(JSONArray array, GraphResponse response) {
+//                                    Log.v("LoginActivityResponse2 ", response.toString());
+//                                    // Application code for users friends
+//
+//                                    try {
+//
+//                                        for (int i= 0; i<array.length(); i++){
+//                                            JSONObject list = array.getJSONObject(i);
+//
+//
+//                                            JSONArray JA = list.getJSONArray("main");
+//                                            JSONObject JO = JA.getJSONObject(0);
+//                                            String friend = (String) JO.get("friend");
+//                                            friends.add(i,friend);
+//
+//                                        }
+//
+//                                        editor.putString(friends.toString(),"");
+//                                        editor.commit();
+//
+//                                        Toast.makeText(LoginActivity.this, friends.toString(), Toast.LENGTH_LONG).show();
+//
+//                                    }
+//
+//                                    catch(JSONException e){
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            })
+//                    );
+//
+//                    batch.addCallback(new GraphRequestBatch.Callback() {
+//                        @Override
+//                        public void onBatchCompleted(GraphRequestBatch graphRequests) {
+//                            // Application code for when the batch finishes
+//                        }
                     });
 
                     Bundle parameters = new Bundle();
                     parameters.putString("fields", "name,email,birthday,gender");
                     request1.setParameters(parameters);
-                    batch.executeAsync();
+//                    batch.executeAsync();
 
                     handleFacebookAccessToken(loginResult.getAccessToken());
 
