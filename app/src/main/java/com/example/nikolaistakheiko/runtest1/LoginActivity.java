@@ -233,8 +233,8 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "signInWithCredential:success", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             editor.putString("firebase_UID", user.getUid());
-                            Toast.makeText(LoginActivity.this, user.getUid(), Toast.LENGTH_SHORT).show();
                             editor.commit();
+//                            Toast.makeText(LoginActivity.this, user.getUid(), Toast.LENGTH_SHORT).show();
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "signInWithCredential:failure", Toast.LENGTH_SHORT).show();

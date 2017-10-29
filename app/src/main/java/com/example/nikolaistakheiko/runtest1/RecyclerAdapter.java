@@ -94,7 +94,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Custom
 
     private void sendNotification(RunnerClass runner) {
         final String uid = runner.getUi_d();
-        final String username = runner.getUsername();
+//        final String username = runner.getUsername();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -103,7 +103,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Custom
                     StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                             .permitAll().build();
                     StrictMode.setThreadPolicy(policy);
-                    String receivingUID = uid;
 
                     try {
                         String jsonResponse;
@@ -118,13 +117,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Custom
                         con.setRequestProperty("Authorization", "Basic NTkxYWEwYTktNzI4MS00ZDZmLTg0ZWYtNWZmYzRhMmRlYzc4");
                         con.setRequestMethod("POST");
 
+                        //Notification composition
                         String strJsonBody = "{"
                                 + "\"app_id\": \"47d3e689-1483-4901-9665-e476c6079bbc\","
 
-                                + "\"filters\": [{\"field\": \"tag\", \"key\": \"User_ID\", \"relation\": \"=\", \"value\": \"" + receivingUID + "\"}],"
+                                + "\"filters\": [{\"field\": \"tag\", \"key\": \"User_ID\", \"relation\": \"=\", \"value\": \"" + uid + "\"}],"
 
                                 + "\"data\": {\"foo\": \"bar\"},"
-                                + "\"contents\": {\"en\": \"" + username + " wants to go for a run with you.\"}"
+                                + "\"contents\": {\"en\": \"" + MainActivity.profilename + " wants to go for a run with you.\"}"
                                 + "}";
 
                         System.out.println("strJsonBody:\n" + strJsonBody);

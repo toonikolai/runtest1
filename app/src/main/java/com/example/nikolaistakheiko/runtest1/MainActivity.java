@@ -90,12 +90,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mGoogleMap;
     GoogleApiClient mGoogleApiClient;
     Marker mPositionMarker;
-    LatLng ll;
+    LatLng ll = null;
     Double lat;
     Double lng;
     SeekArc slider1, slider2, slider3, slider4;
     TextView label1, label2, label3, label4;
-    String profilename;
+    public static String profilename;
     int paceInt, timeInt, distanceInt, groupSizeInt;
 
     SharedPreferences prefs;
@@ -224,7 +224,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         //Temperature
                         JSONObject J2 = Jobj.getJSONObject("main");
-                        double kelvin = (Double) J2.get("temp");
+                        String kelvinString = J2.get("temp").toString();
+                        double kelvin = Double.parseDouble(kelvinString);
+//                        double kelvin = (Double) J2.get("temp");
                         double celsius = kelvin-273.15;
                         temps.add(i, celsius);
 
@@ -1015,13 +1017,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             .zoom(14)
                             .build()
                     ));
+                    final Handler handler4 = new Handler();
+                    handler4.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            View box = findViewById(R.id.boxOverMap);
+                            box.setVisibility(View.VISIBLE);
+                            Button runButton = (Button) findViewById(R.id.runButton);
+                            runButton.setVisibility(View.VISIBLE);
+                        }
+                    }, 1000);
                     setUpWeather();
                 } else {
+                    handler3.postDelayed(this, 2000);
                     Toast.makeText(MainActivity.this, "LatLng == null", Toast.LENGTH_SHORT).show();
                 }
             }
-        }, 3000);
-
+        }, 1500);
     }
 
     @Override
