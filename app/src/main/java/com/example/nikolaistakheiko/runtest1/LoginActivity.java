@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 }
 //                            }),
-//                            request2 = GraphRequest.newMyFriendsRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONArrayCallback() {
+//                            request2 = GraphRequest.newriendsRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONArrayCallback() {
 //                                @Override
 //                                public void onCompleted(JSONArray array, GraphResponse response) {
 //                                    Log.v("LoginActivityResponse2 ", response.toString());

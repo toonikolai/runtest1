@@ -29,13 +29,13 @@ public class GroupActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     private String layoutCurrent = "upcoming";
 
-    private RecyclerView recVUpcoming;
-    private RecyclerView recVHistory;
+//    private RecyclerView recVUpcoming;
+//    private RecyclerView recVHistory;
 
-    private AdapterUpcoming adapterUpcoming;
-    private AdapterHistory adapterHistory;
-    private List<RunRequestClass> runRequests = new ArrayList<>();
-    private List<RunHistoryClass> runsHistory = new ArrayList<>();
+//    private AdapterUpcoming adapterUpcoming;
+//    private AdapterHistory adapterHistory;
+//    private List<RunRequestClass> runRequests = new ArrayList<>();
+//    private List<RunHistoryClass> runsHistory = new ArrayList<>();
 
 
     @Override
@@ -49,10 +49,10 @@ public class GroupActivity extends AppCompatActivity {
         editor = prefs.edit();
 
         //RecyclerView
-        recVUpcoming = (RecyclerView) findViewById(R.id.recyclerViewRequests);
-        recVUpcoming.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recVHistory = (RecyclerView) findViewById(R.id.recyclerViewHistory);
-        recVHistory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+//        recVUpcoming = (RecyclerView) findViewById(R.id.recyclerViewRequests);
+//        recVUpcoming.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+//        recVHistory = (RecyclerView) findViewById(R.id.recyclerViewHistory);
+//        recVHistory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
     @Override
@@ -60,17 +60,17 @@ public class GroupActivity extends AppCompatActivity {
         super.onStart();
         setUpMenuButton();
         setUpButtons();
-        setUpRecyclers();
+//        setUpRecyclers();
     }
 
     private void setUpRecyclers() {
         //Upcoming Runs Recycler
-        adapterUpcoming = new AdapterUpcoming(GroupActivity.this, runRequests);
-        recVUpcoming.setAdapter(adapterUpcoming);
-
-        //History Runs Recycler
-        adapterHistory = new AdapterHistory(GroupActivity.this, runsHistory);
-        recVHistory.setAdapter(adapterHistory);
+//        adapterUpcoming = new AdapterUpcoming(GroupActivity.this, runRequests);
+//        recVUpcoming.setAdapter(adapterUpcoming);
+//
+//        //History Runs Recycler
+//        adapterHistory = new AdapterHistory(GroupActivity.this, runsHistory);
+//        recVHistory.setAdapter(adapterHistory);
     }
 
     private void setUpButtons() {
