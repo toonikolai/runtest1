@@ -1,10 +1,19 @@
 package com.example.nikolaistakheiko.runtest1;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -16,10 +25,17 @@ import java.util.List;
 public class AdapterUpcoming extends RecyclerView.Adapter<AdapterUpcoming.CustomViewHolder>{
     private List<RunRequestClass> runRequests;
     private Context mContext;
+    private DatabaseReference mRequests;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
 
     public AdapterUpcoming(Context context, List<RunRequestClass> runRequests) {
         this.runRequests = runRequests;
         this.mContext = context;
+
+        //SharedPrefs
+        prefs = mContext.getSharedPreferences("myPrefs", Activity.MODE_PRIVATE);
+        editor = prefs.edit();
     }
 
     @Override
@@ -34,6 +50,35 @@ public class AdapterUpcoming extends RecyclerView.Adapter<AdapterUpcoming.Custom
         View mView4 = customViewHolder.mView4;
         RunRequestClass runRequest = runRequests.get(i);
 
+        //Username set up
+        TextView text = (TextView) mView4.findViewById(R.id.userTextName);
+        text.setText(runRequest.getUsername());
+
+
+        //choose runner button set up
+        TextView choose = (TextView) mView4.findViewById(R.id.chooseRequestButton);
+        choose.setText("Run with " + runRequest.getUsername());
+
+        //picture set up
+        ImageView image = (ImageView) mView4.findViewById(R.id.userImage);
+        String pic_url = runRequest.getPic_url();
+        if (pic_url !="") {
+            Picasso.with(mContext)
+                    .load(pic_url)
+                    .into(image);
+        }
+
+        //Ignore button
+        Button ingore = (Button) mView4.findViewById(R.id.optOutButton);
+        final String deleteThis = runRequest.getId();
+        ingore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mRequests = FirebaseDatabase.getInstance().getReference("runner_requests");
+                String myI_d = prefs.getString("myI_d", "");
+                mRequests.child(myI_d).child(deleteThis).removeValue();
+            }
+        });
 
     }
 

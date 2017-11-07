@@ -1,8 +1,11 @@
 package com.example.nikolaistakheiko.runtest1;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.StrictMode;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,26 +14,65 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 import com.triggertrap.seekarc.SeekArc;
 
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Created by nikolaistakheiko on 2017-10-20.
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.CustomViewHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.CustomViewHolder> implements SharedPreferences{
     private List<RunnerClass> runnersInAdapter;
     private Context mContext;
+
+    //SharedPreferences
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
+
+    //My location
+    private Double myLat;
+    private Double myLng;
+    private String myUsername;
+    private int myDistance;
+    private String myTimeofday;
+    private int myPace;
+    private int myGroup;
+    private String myPic_url;
+    private String myUi_d;
+    private String myI_d;
+
+
 
     public RecyclerAdapter(Context context, List<RunnerClass> runnerList) {
         this.runnersInAdapter = runnerList;
         this.mContext = context;
+
+        //SharedPreferences
+        prefs = mContext.getSharedPreferences("myPrefs", Activity.MODE_PRIVATE);
+        editor = prefs.edit();
+
+        //my location
+        myLat = getDouble(prefs, "myLat", 69);
+        myLng = getDouble(prefs, "myLng", -69);
+        myUsername = prefs.getString("myUsername", "");
+        myDistance = prefs.getInt("myDistance", 0);
+        myTimeofday = prefs.getString("myTimeofday", "");
+        myPace = prefs.getInt("myPace", 0);
+        myGroup = prefs.getInt("myGroup", 0);
+        myPic_url = prefs.getString("myPic_url", "");
+        myUi_d = prefs.getString("myUi_d", "");
+        myI_d = prefs.getString("myI_d", "");
     }
 
     public void setRunners(List<RunnerClass> list) {
@@ -56,7 +98,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Custom
 
         //User Pic
         ImageView image = (ImageView) mView3.findViewById(R.id.userImage);
-        String pic_url = (String) runner.getPic_url();
+        String pic_url = runner.getPic_url();
         if (pic_url !="") {
             Picasso.with(mContext)
                     .load(pic_url)
@@ -84,12 +126,34 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Custom
 
         //Request run
         Button requestButton = (Button) mView3.findViewById(R.id.requestJoinButton);
+
+        if(myLat == 69 || myLat == null) {
+            requestButton.setVisibility(View.GONE);
+        } else {
+            requestButton.setVisibility(View.VISIBLE);
+        }
+
+        final DatabaseReference mRequestUser = FirebaseDatabase.getInstance().getReference("runner_requests/" + runner.getI_d());
+
         requestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendNotification(runner);
-            }
+                addToUserDatabase(runner, mRequestUser);
+                }
         });
+    }
+
+    private double getDouble(final SharedPreferences prefs, final String key, final double defaultValue) {
+        return Double.longBitsToDouble(prefs.getLong(key, Double.doubleToLongBits(defaultValue)));
+    }
+
+    private void addToUserDatabase(RunnerClass runner, DatabaseReference mRequestUser) {
+        //Adding runner profile instance to request category of Firebase
+        RunRequestClass request = new RunRequestClass(myLat, myLng, myUsername, myDistance, myTimeofday, myPace, myGroup, myPic_url, myUi_d, myI_d);
+        Map<String, Object> requestUpdate = new HashMap<>();
+        requestUpdate.put(myI_d, request);
+        mRequestUser.updateChildren(requestUpdate);
     }
 
     private void sendNotification(RunnerClass runner) {
@@ -162,6 +226,63 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Custom
     @Override
     public int getItemCount() {
         return (null != runnersInAdapter ? runnersInAdapter.size() : 0);
+    }
+
+    @Override
+    public Map<String, ?> getAll() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String getString(String key, @Nullable String defValue) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Set<String> getStringSet(String key, @Nullable Set<String> defValues) {
+        return null;
+    }
+
+    @Override
+    public int getInt(String key, int defValue) {
+        return 0;
+    }
+
+    @Override
+    public long getLong(String key, long defValue) {
+        return 0;
+    }
+
+    @Override
+    public float getFloat(String key, float defValue) {
+        return 0;
+    }
+
+    @Override
+    public boolean getBoolean(String key, boolean defValue) {
+        return false;
+    }
+
+    @Override
+    public boolean contains(String key) {
+        return false;
+    }
+
+    @Override
+    public Editor edit() {
+        return null;
+    }
+
+    @Override
+    public void registerOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
+
+    }
+
+    @Override
+    public void unregisterOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
+
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {

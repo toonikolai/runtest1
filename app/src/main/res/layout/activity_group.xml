@@ -22,20 +22,30 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/menu_symbol" />
 
+        <TextView
+            android:id="@+id/textBanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="13dp"
+            android:text="Requests to run with you"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/upcomingLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/linearLayout"
             android:orientation="vertical"
-            android:layout_above="@+id/linearLayout">
+            android:visibility="visible">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewRequests"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:visibility="gone">
-            </android.support.v7.widget.RecyclerView>
+                android:layout_marginTop="50dp"
+                android:visibility="visible"></android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 
@@ -52,8 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:visibility="gone">
-            </android.support.v7.widget.RecyclerView>
+                android:visibility="visible"></android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 

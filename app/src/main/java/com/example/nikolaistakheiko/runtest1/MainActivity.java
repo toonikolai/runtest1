@@ -60,6 +60,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.onesignal.OSNotificationOpenResult;
 import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 import com.triggertrap.seekarc.SeekArc;
@@ -84,7 +85,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnCameraMoveListener, GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraMoveStartedListener, GoogleMap.OnCameraIdleListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener, SharedPreferences, NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
     private GoogleMap mGoogleMap;
@@ -106,21 +107,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //Firebase
     DatabaseReference mRunnerData;
+    DatabaseReference mRequestData;
     FirebaseAuth mAuth;
     FirebaseUser user;
+    private List<RunnerClass> runners = new ArrayList<>();
+    private RecyclerAdapter adapter;
+    RunnerClass myself;
+    String myId;
 
     //Geofire stuff
     DatabaseReference mGeo;
     GeoFire geoFire;
+    private Set<GeoQuery> geoQueries = new HashSet<>();
     private int initialListSize;
     private boolean queReadyCalledOnce = false;
     private Map<String, Location> userIdsToLocations = new HashMap<>();
     private Set<String> userIdsWithListeners = new HashSet<>();
-    private List<RunnerClass> runners = new ArrayList<>();
     private ValueEventListener userValueListener;
-    private RecyclerAdapter adapter;
     private int iterationCount;
-    private Set<GeoQuery> geoQueries = new HashSet<>();
 
     //Weather stuff
     public static TextView weather;
@@ -160,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onStart();
         //Database
         mRunnerData = FirebaseDatabase.getInstance().getReference("runners");
+        mRequestData = FirebaseDatabase.getInstance().getReference("runner_requests");
         mGeo = FirebaseDatabase.getInstance().getReference("runner_locations");
         geoFire = new GeoFire(mGeo);
         mAuth = FirebaseAuth.getInstance();
@@ -176,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         //Notifications set up
         OneSignal.startInit(this)
+                .setNotificationOpenedHandler(new ExampleNotificationOpenedHandler())
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                 .unsubscribeWhenNotificationsAreDisabled(true)
                 .init();
@@ -184,12 +190,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         OneSignal.sendTag("User_ID", user.getUid());
 
 //        setUpListeners();
+        setUpMyId();
         setName();
         setUpButton();
         setUpRunButton();
         setUpSeekBars();
 //        setUpTerrains();
     }
+
+    private void setUpMyId() {
+        myId = prefs.getString("myId", "");
+    }
+
 
     private void setUpWeather() {
         fetchData process = new fetchData(lat, lng);
@@ -504,7 +516,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } else if (s.equals("thunderstorm")) {
             icon.setBackgroundResource(R.mipmap.weather_thunder);
         } else {
-            if (justTheHourInt >= 10 || justTheHourInt <=4)
+            if (justTheHourInt >= 22 || justTheHourInt <= 4)
                 icon.setBackgroundResource(R.mipmap.weather_moon);
             else
                 icon.setBackgroundResource(R.mipmap.weather_sun);
@@ -754,6 +766,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     }
                                     //When user changes data
                                     else {
+                                        Toast.makeText(MainActivity.this, "onKeyEntered:post1", Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
@@ -777,6 +790,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     }
                                     //When user changes data
                                     else {
+                                        Toast.makeText(MainActivity.this, "onDataChange:post2", Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
@@ -833,7 +847,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             }, 500);
                         } else {
-                            Toast.makeText(MainActivity.this, "queready2", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "onGeoQueReady:post", Toast.LENGTH_SHORT).show();
                         }
 //                        initialListSize = userIdsToLocations.size();
 //                        if (initialListSize == 0) {
@@ -912,8 +926,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return false;
             }
         });
-
-
     }
 
     private void newEntryInFirebase() {
@@ -921,9 +933,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String id = mRunnerData.push().getKey();
         RunnerClass runner = new RunnerClass(lat, lng, profilename, slider2.getProgress(), label3.getText().toString(), paceInt, groupSizeInt, pic_url, user.getUid(), id);
 
+        //Save my ids locally (overwrite last save is new one is made)
+        putDouble(editor, "myLat", lat).commit();
+        putDouble(editor, "myLng", lng).commit();
+        editor.putString("myUsername", profilename);
+        editor.commit();
+        editor.putInt("myDistance", slider2.getProgress());
+        editor.commit();
+        editor.putString("myTimeofday", label3.getText().toString());
+        editor.commit();
+        editor.putInt("myPace", paceInt);
+        editor.commit();
+        editor.putInt("myGroup", groupSizeInt);
+        editor.commit();
+        editor.putString("myPic_url", pic_url);
+        editor.commit();
+        editor.putString("myUi_d", user.getUid());
+        editor.commit();
+        editor.putString("myI_d", id);
+        editor.commit();
+
+
         //Update runners and runner_locations in Firebase
         mRunnerData.child(id).setValue(runner);
         geoFire.setLocation(id, new GeoLocation(lat, lng));
+    }
+
+    SharedPreferences.Editor putDouble(final SharedPreferences.Editor edit, final String key, final double value) {
+        return edit.putLong(key, Double.doubleToRawLongBits(value));
     }
 
     private void clickBack() {
@@ -1030,7 +1067,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     setUpWeather();
                 } else {
                     handler3.postDelayed(this, 2000);
-                    Toast.makeText(MainActivity.this, "LatLng == null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "No location received", Toast.LENGTH_SHORT).show();
                 }
             }
         }, 1500);
@@ -1247,6 +1284,77 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
+    }
+
+    @Override
+    public Map<String, ?> getAll() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public String getString(String key, @Nullable String defValue) {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public Set<String> getStringSet(String key, @Nullable Set<String> defValues) {
+        return null;
+    }
+
+    @Override
+    public int getInt(String key, int defValue) {
+        return 0;
+    }
+
+    @Override
+    public long getLong(String key, long defValue) {
+        return 0;
+    }
+
+    @Override
+    public float getFloat(String key, float defValue) {
+        return 0;
+    }
+
+    @Override
+    public boolean getBoolean(String key, boolean defValue) {
+        return false;
+    }
+
+    @Override
+    public boolean contains(String key) {
+        return false;
+    }
+
+    @Override
+    public Editor edit() {
+        return null;
+    }
+
+    @Override
+    public void registerOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
+
+    }
+
+    @Override
+    public void unregisterOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener listener) {
+
+    }
+
+    private class ExampleNotificationOpenedHandler implements OneSignal.NotificationOpenedHandler {
+        @Override
+        public void notificationOpened(OSNotificationOpenResult result) {
+            Intent groupIntent = new Intent(MainActivity.this, GroupActivity.class);
+            startActivityForResult(groupIntent, 0);
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                }
+            }, 1000);        }
     }
 }
 
