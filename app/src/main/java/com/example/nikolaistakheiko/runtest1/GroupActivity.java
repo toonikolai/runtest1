@@ -3,6 +3,7 @@ package com.example.nikolaistakheiko.runtest1;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,17 +38,22 @@ public class GroupActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     private String myI_d;
 
+    private RecyclerView recVRequests;
     private RecyclerView recVUpcoming;
     private RecyclerView recVHistory;
 
-    DatabaseReference mRequestData;
+    private DatabaseReference mRequestData;
+    private DatabaseReference mMyChats;
+
+    private AdapterRequests adapterRequests;
     private AdapterUpcoming adapterUpcoming;
     private AdapterHistory adapterHistory;
+
     private List<RunRequestClass> runRequests = new ArrayList<>();
+    private List<String> runsUpcoming = new ArrayList<>();
     private List<RunHistoryClass> runsHistory = new ArrayList<>();
 
     boolean requestDataExists = false;
-    boolean historyDataExists = false;
 
 
     @Override
@@ -60,11 +66,12 @@ public class GroupActivity extends AppCompatActivity {
         prefs = this.getSharedPreferences("myPrefs", Activity.MODE_PRIVATE);
         editor = prefs.edit();
 
-        //RecyclerView
-        recVUpcoming = (RecyclerView) findViewById(R.id.recyclerViewRequests);
+        //RecyclerViews
+        recVRequests = (RecyclerView) findViewById(R.id.recyclerViewRequests);
+        recVRequests.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recVUpcoming = (RecyclerView) findViewById(R.id.recyclerViewUpcoming);
         recVUpcoming.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recVUpcoming.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-
         recVHistory = (RecyclerView) findViewById(R.id.recyclerViewHistory);
         recVHistory.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
@@ -78,12 +85,37 @@ public class GroupActivity extends AppCompatActivity {
         //Firebase
         myI_d = prefs.getString("myI_d", "");
         mRequestData = FirebaseDatabase.getInstance().getReference("runner_requests");
+        mMyChats = FirebaseDatabase.getInstance().getReference("user_data/" + myI_d);
         if(!myI_d.equals("")) {
             setUpRecyclers();
         }
     }
 
     private void setUpRecyclers() {
+        //Recycler for upcoming runs
+        mMyChats.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //If at least one upcoming run exists
+                if(dataSnapshot.hasChild("chats_upcoming")) {
+                    recVUpcoming.setVisibility(View.VISIBLE);
+                    for(DataSnapshot upcomingRunSnapshot : dataSnapshot.child("chats_upcoming").getChildren()) {
+                        String chatRoomKey = upcomingRunSnapshot.getKey();
+                        runsUpcoming.add(chatRoomKey);
+                    }
+                    adapterUpcoming = new AdapterUpcoming(GroupActivity.this, runsUpcoming);
+                    recVUpcoming.setAdapter(adapterUpcoming);
+                } else { //If no upcoming runs exist
+                    recVUpcoming.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         //Recycler for run requests to user
         mRequestData.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -96,9 +128,9 @@ public class GroupActivity extends AppCompatActivity {
                     text.setVisibility(View.VISIBLE);
                 } else { //If no requests exist
                     requestDataExists = true;
-                    Toast.makeText(GroupActivity.this, "Sorry, no one wants to run with you", Toast.LENGTH_LONG).show();
                     TextView text = (TextView) findViewById(R.id.textBanner);
-                    text.setVisibility(View.GONE);
+                    text.setText("No requests");
+                    text.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -122,8 +154,8 @@ public class GroupActivity extends AppCompatActivity {
                     RunRequestClass request = requestSnapshot.getValue(RunRequestClass.class);
                     runRequests.add(request);
                 }
-                adapterUpcoming = new AdapterUpcoming(GroupActivity.this, runRequests);
-                recVUpcoming.setAdapter(adapterUpcoming);
+                adapterRequests = new AdapterRequests(GroupActivity.this, runRequests);
+                recVRequests.setAdapter(adapterRequests);
 //                Toast.makeText(GroupActivity.this, "" + runRequests.size(), Toast.LENGTH_SHORT).show();
             }
 
@@ -150,9 +182,9 @@ public class GroupActivity extends AppCompatActivity {
                     }
 
                     but1.setBackgroundResource(R.color.colorAccent);
-//                    but1.setTypeface(null, Typeface.BOLD);
+                    but1.setTypeface(null, Typeface.BOLD);
                     but2.setBackgroundResource(R.color.progress_gray_dark);
-//                    but2.setTypeface(null, Typeface.NORMAL);
+                    but2.setTypeface(null, Typeface.NORMAL);
 
                     View view1 = findViewById(R.id.upcomingLayout);
                     View view2 = findViewById(R.id.historyLayout);
@@ -176,9 +208,9 @@ public class GroupActivity extends AppCompatActivity {
                 }
 
                     but1.setBackgroundResource(R.color.progress_gray_dark);
-//                    but1.setTypeface(null, Typeface.NORMAL);
+                    but1.setTypeface(null, Typeface.NORMAL);
                     but2.setBackgroundResource(R.color.colorAccent);
-//                    but2.setTypeface(null, Typeface.BOLD);
+                    but2.setTypeface(null, Typeface.BOLD);
 
                     View view1 = findViewById(R.id.upcomingLayout);
                     View view2 = findViewById(R.id.historyLayout);
