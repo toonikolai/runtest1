@@ -8,9 +8,10 @@
         android:id="@+id/bottomView"
         android:layout_width="match_parent"
         android:layout_height="130dp"
+        android:background="@drawable/landscape_fade"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/landscape_fade" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/optOutButton" />
 
     <TextView
         android:id="@+id/userTextName"
