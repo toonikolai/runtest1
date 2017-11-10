@@ -2,6 +2,7 @@ package com.example.nikolaistakheiko.runtest1;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -62,7 +63,7 @@ public class AdapterUpcoming extends RecyclerView.Adapter<AdapterUpcoming.Custom
         View mView = customViewHolder.mView5;
 
         //Find the chat room
-        String chatRoomKey = runsUpcoming.get(i);
+        final String chatRoomKey = runsUpcoming.get(i);
         mChatRoom = FirebaseDatabase.getInstance().getReference("message_rooms/" + chatRoomKey + "/users");
 
         //Find view elements
@@ -158,6 +159,16 @@ public class AdapterUpcoming extends RecyclerView.Adapter<AdapterUpcoming.Custom
             }
         });
 
+        //Open new chat intent when user clicks on enter chat text
+        TextView chtRmTxt = (TextView) mView.findViewById(R.id.chtRmTxt);
+        chtRmTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ChatRoom.class);
+                intent.putExtra("chat_key", chatRoomKey);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
 

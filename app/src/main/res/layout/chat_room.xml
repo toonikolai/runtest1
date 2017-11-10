@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout2">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="30dp"
+            android:text="In this chat:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/mediumGrey" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/initiatorPic"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="4dp"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/hostPic"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:visibility="gone"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="4dp"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/addedUserPic"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:visibility="gone"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="4dp"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/more"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@mipmap/plus"
+            android:visibility="gone"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="4dp"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/sendText"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/blue_thin_2" />
+
+    <EditText
+        android:id="@+id/enterText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/sendText"
+        android:layout_marginLeft="3dp"
+        android:layout_toStartOf="@+id/sendText"
+        android:contentDescription="Enter Text"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textStyle="italic" />
+
+    <Button
+        android:id="@+id/greyLine"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="@color/mediumGrey"
+        android:text="Button" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/sendText"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/scrollView2"
+        android:layout_below="@+id/greyLine">
+
+        <TextView
+            android:id="@+id/tempChatText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="8dp"
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.Holo.Large"
+            android:textColor="@color/com_facebook_blue" />
+    </ScrollView>
+</RelativeLayout>

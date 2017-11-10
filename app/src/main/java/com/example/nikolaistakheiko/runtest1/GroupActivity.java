@@ -53,7 +53,7 @@ public class GroupActivity extends AppCompatActivity {
     private List<RunHistoryClass> runsHistory = new ArrayList<>();
 
     boolean requestDataExists = false;
-    public static TextView textUpcomingBanner;
+    public TextView textUpcomingBanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

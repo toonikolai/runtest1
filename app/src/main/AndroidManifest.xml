@@ -89,6 +89,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".GroupActivity"></activity>
+        <activity android:name=".ChatRoom"></activity>
     </application>
 
 </manifest>
