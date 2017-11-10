@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.database.DataSnapshot;
@@ -54,7 +53,7 @@ public class GroupActivity extends AppCompatActivity {
     private List<RunHistoryClass> runsHistory = new ArrayList<>();
 
     boolean requestDataExists = false;
-
+    public static TextView textUpcomingBanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,12 +92,13 @@ public class GroupActivity extends AppCompatActivity {
 
     private void setUpRecyclers() {
         //Recycler for upcoming runs
-        mMyChats.addListenerForSingleValueEvent(new ValueEventListener() {
+        mMyChats.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //If at least one upcoming run exists
                 if(dataSnapshot.hasChild("chats_upcoming")) {
                     recVUpcoming.setVisibility(View.VISIBLE);
+                    runsUpcoming.clear();
                     for(DataSnapshot upcomingRunSnapshot : dataSnapshot.child("chats_upcoming").getChildren()) {
                         String chatRoomKey = upcomingRunSnapshot.getKey();
                         runsUpcoming.add(chatRoomKey);
@@ -124,13 +124,13 @@ public class GroupActivity extends AppCompatActivity {
                 if(dataSnapshot.hasChild(myI_d)) {
                     requestDataExists = true;
                     setUpRequestAdapter();
-                    TextView text = (TextView) findViewById(R.id.textBanner);
-                    text.setVisibility(View.VISIBLE);
+                    textUpcomingBanner = (TextView) findViewById(R.id.textBanner);
+                    textUpcomingBanner.setVisibility(View.VISIBLE);
                 } else { //If no requests exist
                     requestDataExists = true;
-                    TextView text = (TextView) findViewById(R.id.textBanner);
-                    text.setText("No requests");
-                    text.setVisibility(View.VISIBLE);
+                    textUpcomingBanner = (TextView) findViewById(R.id.textBanner);
+                    textUpcomingBanner.setText("No requests");
+                    textUpcomingBanner.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -156,7 +156,6 @@ public class GroupActivity extends AppCompatActivity {
                 }
                 adapterRequests = new AdapterRequests(GroupActivity.this, runRequests);
                 recVRequests.setAdapter(adapterRequests);
-//                Toast.makeText(GroupActivity.this, "" + runRequests.size(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

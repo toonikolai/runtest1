@@ -1,16 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:background="@color/wallet_holo_blue_light">
+    android:layout_height="220dp"
+    android:background="@color/chatOrange">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/initiatorPic"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/hostPic"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignTop="@+id/initiatorPic"
+        android:layout_toEndOf="@+id/initiatorPic"
+        android:visibility="gone"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/addedUserPic"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignTop="@+id/hostPic"
+        android:layout_toEndOf="@+id/hostPic"
+        android:visibility="gone"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/more"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignTop="@+id/addedUserPic"
+        android:layout_toEndOf="@+id/addedUserPic"
+        android:background="@mipmap/plus"
+        android:visibility="gone"/>
 
     <TextView
-        android:id="@+id/sampleChatText"
+        android:id="@+id/chtRmTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_marginBottom="4dp"
+        android:layout_alignStart="@+id/initiatorPic"
+        android:text="Enter Chat Room"
+        android:textAppearance="@style/TextAppearance.AppCompat.Notification.Media" />
+
+    <TextView
+        android:id="@+id/leaveChtRmTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/chtRmTxt"
+        android:layout_alignBottom="@+id/chtRmTxt"
+        android:layout_alignEnd="@+id/button2"
+        android:layout_marginEnd="11dp"
+        android:text="Cancel Run"
+        android:textAppearance="@style/TextAppearance.AppCompat.Notification.Media" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/chatOrangeDeep"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/chatOrangeDeep"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/chatName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="This is a chat"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@android:color/white" />
+        android:layout_toEndOf="@+id/initiatorPic"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
 </RelativeLayout>
